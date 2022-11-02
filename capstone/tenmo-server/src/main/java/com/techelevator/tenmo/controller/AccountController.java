@@ -32,7 +32,6 @@ public class AccountController {
     @RequestMapping(path = "/account/{accountId}", method = RequestMethod.GET)
     //could rename method below in AccountDao to make it clearer to: findAccountByAccountId
     public Account findAccountById(@PathVariable int accountId) {
-
         return accountDao.findAccountById(accountId);
     }
 
