@@ -1,16 +1,16 @@
 package com.techelevator.tenmo.controller;
 
+import com.techelevator.tenmo.dao.TransferDao;
 import com.techelevator.tenmo.dao.UserDao;
 import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.dao.AccountDao;
 import com.techelevator.tenmo.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
@@ -19,36 +19,34 @@ import java.util.List;
 @PreAuthorize("isAuthenticated()")
 public class TenmoController {
 
-    @Autowired
-    AccountDao accountDao;
-    @Autowired
-    UserDao userDao;
-//    @Autowired
-//    TransferDao transferDao;
+    private AccountDao accountDao;
+    private UserDao userDao;
+    private TransferDao transferDao;
 
     Account account;
 
     //AccountDao
-@RequestMapping(path = "/account/user/{id}", method = RequestMethod.GET)
+@RequestMapping(path = "/account/user/{userId}", method = RequestMethod.GET)
     public Account findByUserId(@PathVariable int id) {
         return accountDao.findUserById(id);
     }
 
-@RequestMapping(path = "/account/{id}", method = RequestMethod.GET)
+@RequestMapping(path = "/account/{accountId}", method = RequestMethod.GET)
     public Account findAccountById(@PathVariable int id) {
     return accountDao.findAccountById(id);
     }
 
-//@RequestMapping(path = "/account/balance", method = RequestMethod.GET)
-//    public BigDecimal getBalance(@PathVariable Principal principal) {
-//    System.out.println(principal.getName());
-//    BigDecimal balance = new BigDecimal(String.valueOf(accountDao.getBalance((principal.getName())));
-//    return balance;
-//}
+//methods for adding/subtracting from balance may not be necessary
 
-    //UserDao
+@RequestMapping(path = "/account/balance/{userId}", method = RequestMethod.GET)
+//wondering if we should use @PathVariable Principle principle
+    public BigDecimal getBalance(@PathVariable int id) {
+    return accountDao.getBalance(id);
+}
+
+//UserDao
 @RequestMapping(path = "/users", method = RequestMethod.GET)
-    public List<User> getUsers() {
+    public List<User> findAll() {
     return userDao.findAll();
 }
 
@@ -57,6 +55,16 @@ public class TenmoController {
     return userDao.getUserById(id);
 }
 
+@RequestMapping (path = "/users/{username}", method = RequestMethod.GET)
+    public User findByUsername(String username) {
+    return userDao.findByUsername(username);
+}
+
+@RequestMapping (path = "/userId/{username}", method = RequestMethod.GET)
+    public int findIdByUsername(String username) {
+    return userDao.findIdByUsername(username);
+}
+//UserDao methods completed
 
 
 
