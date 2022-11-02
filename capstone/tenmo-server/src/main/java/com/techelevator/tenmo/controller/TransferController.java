@@ -36,8 +36,7 @@ public class TransferController {
         return transferDao.getAllTransfers(userId);
     }
 
-
-    //FOR BELOW: I think the transferDao method below should use transfer instead of amount
+    //FOR BELOW: I think the transferDao method below should use Transfers transfer instead of BigDecimal amount
 
 //    @PreAuthorize("hasRole('ROLE_USER')")
 //    @ResponseStatus(HttpStatus.CREATED)
@@ -69,8 +68,6 @@ public class TransferController {
 //    public String getTransferStatusName(@PathVariable int transactionId) {
 //        return transferDao.getTransferStatus(transactionId);
 //    }
-
-
 
 
 
