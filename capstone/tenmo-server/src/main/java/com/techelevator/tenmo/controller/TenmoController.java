@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -37,8 +39,12 @@ public class TenmoController {
     return accountDao.findAccountById(id);
     }
 
-//@RequestMapping(path = "/balance", method = RequestMethod.GET)
-//    public Account account
+//@RequestMapping(path = "/account/balance", method = RequestMethod.GET)
+//    public BigDecimal getBalance(@PathVariable Principal principal) {
+//    System.out.println(principal.getName());
+//    BigDecimal balance = new BigDecimal(String.valueOf(accountDao.getBalance((principal.getName())));
+//    return balance;
+//}
 
     //UserDao
 @RequestMapping(path = "/users", method = RequestMethod.GET)
