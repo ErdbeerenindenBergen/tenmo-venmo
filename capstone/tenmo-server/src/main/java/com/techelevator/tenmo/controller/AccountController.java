@@ -1,6 +1,5 @@
 package com.techelevator.tenmo.controller;
 
-import com.techelevator.tenmo.dao.UserDao;
 import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.dao.AccountDao;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,7 +36,7 @@ public class AccountController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(path = "/account/balance/{userId}", method = RequestMethod.GET)
-    //wondering if we should use @PathVariable Principle principle
+    //wondering if we should use @PathVariable Principal principal
     public BigDecimal getBalance(@PathVariable int userId) {
         return accountDao.getBalance(userId);
     }
