@@ -21,21 +21,21 @@ public class AccountController {
     //methods for adding/subtracting from balance may not be necessary in the controller
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @RequestMapping(path = "account/user/{userId}", method = RequestMethod.GET)
+    @RequestMapping(path = "/user/{userId}", method = RequestMethod.GET)
     public Account findAccountByUserId(@PathVariable int userId) {
         //need to rename method below in AccountDao so that it is clear we are searching for account and not user
         return accountDao.findUserById(userId);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @RequestMapping(path = "account/{accountId}", method = RequestMethod.GET)
+    @RequestMapping(path = "/{accountId}", method = RequestMethod.GET)
     //could rename method below in AccountDao to make it clearer to: findAccountByAccountId
     public Account findAccountById(@PathVariable int accountId) {
         return accountDao.findAccountById(accountId);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @RequestMapping(path = "account/balance/{userId}", method = RequestMethod.GET)
+    @RequestMapping(path = "/balance/{userId}", method = RequestMethod.GET)
     //wondering if we should use @PathVariable Principal principal?
     public BigDecimal getBalance(@PathVariable int userId) {
         return accountDao.getBalance(userId);

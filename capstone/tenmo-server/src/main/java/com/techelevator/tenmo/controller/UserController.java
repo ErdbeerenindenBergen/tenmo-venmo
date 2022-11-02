@@ -19,7 +19,7 @@ public class UserController {
         this.userDao = userDao;
     }
 
-    //make sure "/user" is added to BASE_API_URL
+    //make sure "user" is added to BASE_API_URL
 
     //UserDao
     //completed
@@ -31,7 +31,7 @@ public class UserController {
 
     //the following methods may be overkill with the "if null" statements if they have already been coded in the JdbcUserDao with exceptions
     @PreAuthorize("hasRole('ROLE_USER')")
-    @RequestMapping (path = "user/{userId}", method = RequestMethod.GET)
+    @RequestMapping (path = "/{userId}", method = RequestMethod.GET)
     public User getUserByUserId(@PathVariable int userId) {
         User user = userDao.getUserById(userId);
         if (user == null) {
@@ -42,7 +42,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @RequestMapping (path = "user/{username}", method = RequestMethod.GET)
+    @RequestMapping (path = "/{username}", method = RequestMethod.GET)
     public User findByUsername(String username) {
         User user = userDao.findByUsername(username);
         if (user == null) {
@@ -53,24 +53,24 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @RequestMapping (path = "user/userId/{username}", method = RequestMethod.GET)
+    @RequestMapping (path = "/userId/{username}", method = RequestMethod.GET)
     public int findIdByUsername(String username) {
         return userDao.findIdByUsername(username);
     }
 
         //simplified methods without "if statements" below
 
-//    @RequestMapping(path = "/users", method = RequestMethod.GET)
+//    @RequestMapping(path = "s", method = RequestMethod.GET)
 //    public List<User> findAll() {
 //        return userDao.findAll();
 //    }
 //
-//    @RequestMapping(path = "/users/{id}", method = RequestMethod.GET)
+//    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
 //    public User getUserById(@PathVariable int id) {
 //        return userDao.getUserById(id);
 //    }
 //
-//    @RequestMapping(path = "/users/{username}", method = RequestMethod.GET)
+//    @RequestMapping(path = "/{username}", method = RequestMethod.GET)
 //    public User findByUsername(String username) {
 //        return userDao.findByUsername(username);
 //    }

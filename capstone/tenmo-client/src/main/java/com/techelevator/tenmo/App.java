@@ -2,17 +2,22 @@ package com.techelevator.tenmo;
 
 import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.UserCredentials;
-import com.techelevator.tenmo.services.AuthenticationService;
-import com.techelevator.tenmo.services.ConsoleService;
+import com.techelevator.tenmo.services.*;
 
 public class App {
 
     private static final String API_BASE_URL = "http://localhost:8080/";
+    private static final String API_ACCOUNT_BASE_URL = API_BASE_URL + "account";
+    private static final String API_USER_BASE_URL = API_BASE_URL + "user";
+    private static final String API_TRANSFER_BASE_URL = API_BASE_URL + "transfer";
+
+    private AuthenticatedUser currentUser;
 
     private final ConsoleService consoleService = new ConsoleService();
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
-
-    private AuthenticatedUser currentUser;
+    public AccountService accountService = new AccountService(API_ACCOUNT_BASE_URL, currentUser);
+    public UserService userService = new UserService(API_USER_BASE_URL, currentUser);
+    public TransferService transferService = new TransferService(API_TRANSFER_BASE_URL, currentUser);
 
     public static void main(String[] args) {
         App app = new App();
