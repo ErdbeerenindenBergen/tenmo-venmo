@@ -36,7 +36,7 @@ public class AccountController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(path = "/account/balance/{userId}", method = RequestMethod.GET)
-    //wondering if we should use @PathVariable Principal principal
+    //wondering if we should use @PathVariable Principal principal?
     public BigDecimal getBalance(@PathVariable int userId) {
         return accountDao.getBalance(userId);
     }

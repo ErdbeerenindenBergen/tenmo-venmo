@@ -10,6 +10,8 @@ import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.List;
 
+@RestController
+@PreAuthorize("isAuthenticated()")
 public class TransferController {
 
     //make sure base API_URL includes "/transfer"
@@ -21,17 +23,26 @@ public class TransferController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @RequestMapping(path = "/{userId}", method = RequestMethod.GET)
-    public List<Transfers> getAllTransfers(int userId) {
-        return transferDao.getAllTransfers(userId);
-    }
-
-    @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping (path = "/{transactionId}", method = RequestMethod.GET)
 //To follow naming convention, we should rename Transfers as Transfer -- singular
     public Transfers getTransferById(int transactionId) {
         return transferDao.getTransferById(transactionId);
     }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @RequestMapping(path = "/user/{userId}", method = RequestMethod.GET)
+    public List<Transfers> getAllTransfersByUserId(int userId) {
+// Should change method below to getTransfersByUserId(userId)
+        return transferDao.getAllTransfers(userId);
+    }
+
+    //FOR BELOW: NEED transferDao.getAllTransfers() METHOD IN DAO
+
+//    @RequestMapping(path="s", method = RequestMethod.GET)
+//    public List<Transfers> getAllTransfers() {
+//        return transferDao.getAllTransfers();
+//    }
+
 
     //FOR BELOW: NEED transferDao.sendMoney(fromId, toId, transfer) METHOD IN DAO
 
