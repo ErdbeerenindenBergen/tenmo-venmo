@@ -2,7 +2,7 @@ package com.techelevator.tenmo.controller;
 
 import javax.validation.Valid;
 
-import com.techelevator.tenmo.model.LoginResponseDto;
+import com.techelevator.tenmo.model.LoginResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -38,7 +38,7 @@ public class AuthenticationController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public LoginResponseDto login(@Valid @RequestBody LoginDTO loginDto) {
+    public LoginResponseDTO login(@Valid @RequestBody LoginDTO loginDto) {
 
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
@@ -49,7 +49,7 @@ public class AuthenticationController {
         
         User user = userDao.findByUsername(loginDto.getUsername());
 
-        return new LoginResponseDto(jwt, user);
+        return new LoginResponseDTO(jwt, user);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
