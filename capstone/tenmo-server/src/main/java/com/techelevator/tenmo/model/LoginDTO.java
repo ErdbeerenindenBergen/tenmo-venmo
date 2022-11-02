@@ -5,7 +5,7 @@ package com.techelevator.tenmo.model;
     must pass to the server for a login endpoint, and LoginResponseDto represents the object that's returned from the server
     to the client from a login endpoint.
  */
-public class LoginDto {
+public class LoginDTO {
 
    private String username;
    private String password;
