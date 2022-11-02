@@ -14,7 +14,7 @@ import java.util.List;
 @PreAuthorize("isAuthenticated()")
 public class TransferController {
 
-    //make sure base API_URL includes "/transfer"
+    //make sure base API_URL includes "transfer"
 
     TransferDao transferDao;
 
@@ -23,14 +23,14 @@ public class TransferController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @RequestMapping (path = "/{transactionId}", method = RequestMethod.GET)
+    @RequestMapping (path = "transfer/{transactionId}", method = RequestMethod.GET)
 //To follow naming convention, we should rename Transfers as Transfer -- singular
     public Transfers getTransferByTransactionId(int transactionId) {
         return transferDao.getTransferById(transactionId);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @RequestMapping(path = "/user/{userId}", method = RequestMethod.GET)
+    @RequestMapping(path = "transfer/user/{userId}", method = RequestMethod.GET)
     public List<Transfers> getAllTransfersByUserId(int userId) {
 // Should change method below in TransferDao to getTransfersByUserId(userId)
         return transferDao.getAllTransfers(userId);
@@ -40,7 +40,7 @@ public class TransferController {
 
 //    @PreAuthorize("hasRole('ROLE_USER')")
 //    @ResponseStatus(HttpStatus.CREATED)
-//    @RequestMapping(path = "/send/{fromId}/{toId}", method = RequestMethod.POST)
+//    @RequestMapping(path = "transfer/send/{fromId}/{toId}", method = RequestMethod.POST)
 //    public boolean sendMoney(@PathVariable int fromId, @PathVariable int toId, @Valid @RequestBody Transfers transfer) {
 //        return transferDao.sendTransfer(fromId, toId, transfer);
 //    }
@@ -48,7 +48,7 @@ public class TransferController {
 
     //FOR BELOW: NEED transferDao.getAllTransfers() METHOD IN DAO
 
-//    @RequestMapping(path="s", method = RequestMethod.GET)
+//    @RequestMapping(path="transfers", method = RequestMethod.GET)
 //    public List<Transfers> getAllTransfers() {
 //        return transferDao.getAllTransfers();
 //    }
@@ -56,7 +56,7 @@ public class TransferController {
     //FOR BELOW: NEED transferDao.updateTransfer(transferId, transfer) METHOD IN DAO
 
 //    @PreAuthorize("hasRole('ROLE_USER')")
-//    @RequestMapping(path = "/{transactionId}/update", method = RequestMethod.PUT)
+//    @RequestMapping(path = "transfer/{transactionId}/update", method = RequestMethod.PUT)
 //    public boolean updateTransfer(@PathVariable int transactionId, @RequestBody Transfers transfer) {
 //        return transferDao.updateTransfer(transactionId, transfer);
 //    }
@@ -64,7 +64,7 @@ public class TransferController {
     //FOR BELOW: NEED transferDao.getTransferStatus(transferId) METHOD IN DAO
 
 //    @PreAuthorize("hasRole('ROLE_USER')")
-//    @RequestMapping(path = "/status/{transactionId}", method = RequestMethod.GET)
+//    @RequestMapping(path = "transfer/status/{transactionId}", method = RequestMethod.GET)
 //    public String getTransferStatusName(@PathVariable int transactionId) {
 //        return transferDao.getTransferStatus(transactionId);
 //    }
