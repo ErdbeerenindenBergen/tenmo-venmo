@@ -4,7 +4,7 @@ import com.techelevator.tenmo.model.Account;
 
 import java.math.BigDecimal;
 
-public class JDBCAccountDao implements AccountDao{
+public class JdbcAccountDao implements AccountDao{
     @Override
     public BigDecimal getBalance(int userId) {
         return null;
