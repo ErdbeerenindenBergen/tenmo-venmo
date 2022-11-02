@@ -1,0 +1,1 @@
+2022-11-02T10:34:37.2286288 I/O error on POST request for "http://localhost:8080/register": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect
