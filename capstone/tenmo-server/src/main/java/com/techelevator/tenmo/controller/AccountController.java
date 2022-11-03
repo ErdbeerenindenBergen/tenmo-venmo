@@ -18,9 +18,12 @@ public class AccountController {
         this.accountDao = accountDao;
     }
 
-    //methods for adding/subtracting from balance may not be necessary in the controller
-
-    //ABOVE
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @RequestMapping(path = "/user/{userId}/balance", method = RequestMethod.GET)
+    //wondering if we should use @PathVariable Principal principal?
+    public BigDecimal getBalance(@PathVariable int userId) {
+        return accountDao.getBalance(userId);
+    }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(path = "/user/{userId}", method = RequestMethod.GET)
@@ -35,16 +38,9 @@ public class AccountController {
         return accountDao.findAccountByAccountId(accountId);
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @RequestMapping(path = "/user/{userId}/balance", method = RequestMethod.GET)
-    //wondering if we should use @PathVariable Principal principal?
-    public BigDecimal getBalance(@PathVariable int userId) {
-        return accountDao.getBalance(userId);
-    }
-
 
     //FOR BELOW: NEED accountDao.create/update/delete method to create account
-    //Not sure if we need those yet
+    //Not sure if we need these yet
 
 //    @ResponseStatus(HttpStatus.CREATED)
 //    @RequestMapping(path = "/", method = RequestMethod.POST)
@@ -53,13 +49,13 @@ public class AccountController {
 //    }
 
 //    @RequestMapping(path = "/{accountId}", method = RequestMethod.PUT)
-//    public boolean update(@Valid @PathVariable Long accountId, @RequestBody Account account) {
+//    public boolean update(@Valid @PathVariable int accountId, @RequestBody Account account) {
 //        return accountDao.update(accountId, account);
 //    }
 //
 //    @ResponseStatus(HttpStatus.NO_CONTENT)
 //    @RequestMapping(path = "/{accountId}", method = RequestMethod.DELETE)
-//    public boolean delete(@Valid @PathVariable Long id) {
+//    public boolean delete(@Valid @PathVariable int id) {
 //        return accountDao.delete(accountId);
 //    }
 
