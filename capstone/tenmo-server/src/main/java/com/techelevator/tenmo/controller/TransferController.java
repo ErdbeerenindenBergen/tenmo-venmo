@@ -29,7 +29,7 @@ public class TransferController {
     @RequestMapping(path = "transfer/user/{userId}", method = RequestMethod.GET)
     public List<Transfer> getAllTransfersByUserId(int userId) {
 // Should change method below in TransferDao to getTransfersByUserId(userId)
-        return transferDao.getAllTransfers(userId);
+        return transferDao.getAllTransfersByUserId(userId);
     }
 
     //FOR BELOW: I think the transferDao method below should use Transfers transfer instead of BigDecimal amount
