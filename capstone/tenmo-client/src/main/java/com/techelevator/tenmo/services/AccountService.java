@@ -23,10 +23,10 @@ public class AccountService {
         BASE_URL = url;
     }
 
-    public BigDecimal getBalance() {
+    public BigDecimal getBalance(AuthenticatedUser user) {
         BigDecimal balance = new BigDecimal(0);
         try {
-            balance = restTemplate.exchange(BASE_URL + "balance/" + user.getUser().getId(), HttpMethod.GET, makeAuthEntity(), BigDecimal.class).getBody();
+            balance = restTemplate.exchange(BASE_URL + "/balance/" + user.getUser().getId(), HttpMethod.GET, makeAuthEntity(), BigDecimal.class).getBody();
             System.out.println("Your current account balance is: $" + balance);
         } catch (RestClientException e) {
             System.out.println("Your balance could not be retrieved.");
@@ -34,30 +34,31 @@ public class AccountService {
         return balance;
     }
 
-    public void addToBalance(int userId, BigDecimal amount) {
-        Account account = new Account();
-        int accountId = restTemplate.exchange(BASE_URL + "account/user/" + userId, HttpMethod.GET, makeAuthEntity(), int.class).getBody();
-        account.setaccountId(accountId);
-        BigDecimal balance;
-        balance = restTemplate.exchange(BASE_URL + "account/balance" + userId, HttpMethod.GET, makeAuthEntity(), BigDecimal.class).getBody();
-        account.setBalance(balance.subtract(amount));
-        account.setUserId(userId);
-        restTemplate.exchange(BASE_URL + "account/" + userId, HttpMethod.PUT, makeAccountEntity(account), Account.class);
-    }
-
-
-    public HttpEntity makeAuthEntity() {
+    public HttpEntity<Void> makeAuthEntity() {
         HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(UserService.AUTH_TOKEN);
+        headers.setBearerAuth(user.getToken());
         return new HttpEntity<>(headers);
     }
 
     public HttpEntity<Account> makeAccountEntity(Account account) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setBearerAuth(UserService.AUTH_TOKEN);
+        headers.setBearerAuth(user.getToken());
         return new HttpEntity<>(account, headers);
     }
 }
 
+//_____________________________________________________________________________________________________________________
+
+
+//    public void addToBalance(int userId, BigDecimal amount) {
+//        Account account = new Account();
+//        int accountId = restTemplate.exchange(BASE_URL + "account/user/" + userId, HttpMethod.GET, makeAuthEntity(), int.class).getBody();
+//        account.setAccountId(accountId);
+//        BigDecimal balance;
+//        balance = restTemplate.exchange(BASE_URL + "account/balance" + userId, HttpMethod.GET, makeAuthEntity(), BigDecimal.class).getBody();
+//        account.setBalance(balance.subtract(amount));
+//        account.setUserId(userId);
+//        restTemplate.exchange(BASE_URL + "account/" + userId, HttpMethod.PUT, makeAccountEntity(account), Account.class);
+//    }
 

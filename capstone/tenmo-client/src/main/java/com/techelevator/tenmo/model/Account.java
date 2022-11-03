@@ -8,7 +8,7 @@ public class Account {
     private int userId;
 
 
-    public void setaccountId(int accountId) {
+    public void setAccountId(int accountId) {
     }
 
     public void setBalance(BigDecimal balance) {
