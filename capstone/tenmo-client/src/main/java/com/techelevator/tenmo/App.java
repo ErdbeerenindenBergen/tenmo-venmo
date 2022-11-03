@@ -16,9 +16,11 @@ public class App {
 
     private final ConsoleService consoleService = new ConsoleService();
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
-    public AccountService accountService = new AccountService(API_ACCOUNT_BASE_URL, currentUser);
-    public UserService userService = new UserService(API_USER_BASE_URL, currentUser);
-    public TransferService transferService = new TransferService(API_TRANSFER_BASE_URL, currentUser);
+    private AccountService accountService = new AccountService(API_ACCOUNT_BASE_URL, currentUser);
+    private UserService userService = new UserService(API_USER_BASE_URL, currentUser);
+    private TransferService transferService = new TransferService(API_TRANSFER_BASE_URL, currentUser);
+
+    private String token;
 
     public static void main(String[] args) {
         App app = new App();
@@ -61,6 +63,9 @@ public class App {
     private void handleLogin() {
         UserCredentials credentials = consoleService.promptForCredentials();
         currentUser = authenticationService.login(credentials);
+        token = currentUser.getToken();
+        accountService.setToken(token);
+        accountService.setUser(currentUser);
         if (currentUser == null) {
             consoleService.printErrorMessage();
         }
