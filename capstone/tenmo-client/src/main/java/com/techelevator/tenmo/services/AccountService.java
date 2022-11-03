@@ -17,6 +17,7 @@ public class AccountService {
 
     private final String BASE_URL;
     private final RestTemplate restTemplate = new RestTemplate();
+//    private String token;
     public AuthenticatedUser user;
     public Transfer transfer;
 
@@ -25,11 +26,19 @@ public class AccountService {
         BASE_URL = url;
     }
 
+//    public void setToken(String token) {
+//        this.token = token;
+//    }
+//
+    public void setUser(AuthenticatedUser user) {
+        this.user = user;
+    }
+
     public BigDecimal getBalance(AuthenticatedUser user) {
         BigDecimal balance = new BigDecimal(0);
         try {
             balance = restTemplate.exchange(BASE_URL + "/user/" + user.getUser().getId() + "/balance", HttpMethod.GET, makeAuthEntity(), BigDecimal.class).getBody();
-            System.out.println("Your current account balance is: $" + transfer.displayAsCurrency(balance));
+            System.out.println("Your current account balance is: $" + balance);
         } catch (RestClientException e) {
             System.out.println("Your balance could not be retrieved.");
         }

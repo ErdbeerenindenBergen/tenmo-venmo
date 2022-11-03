@@ -32,6 +32,8 @@ public class TransferController {
         return transferDao.getAllTransfersByUserId(userId);
     }
 
+    //ABOVE
+
     //FOR BELOW: I think the transferDao method below should use Transfers transfer instead of BigDecimal amount
 
 //    @PreAuthorize("hasRole('ROLE_USER')")
