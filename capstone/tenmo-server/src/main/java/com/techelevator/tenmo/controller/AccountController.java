@@ -2,11 +2,9 @@ package com.techelevator.tenmo.controller;
 
 import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.dao.AccountDao;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.math.BigDecimal;
 
 @RestController
@@ -22,18 +20,19 @@ public class AccountController {
 
     //methods for adding/subtracting from balance may not be necessary in the controller
 
+    //ABOVE
+
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(path = "/user/{userId}", method = RequestMethod.GET)
     public Account findAccountByUserId(@PathVariable int userId) {
-        //need to rename method below in AccountDao so that it is clear we are searching for account and not user
-        return accountDao.findUserById(userId);
+        return accountDao.findAccountByUserId(userId);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(path = "/{accountId}", method = RequestMethod.GET)
     //could rename method below in AccountDao to make it clearer to: findAccountByAccountId
     public Account findAccountById(@PathVariable int accountId) {
-        return accountDao.findAccountById(accountId);
+        return accountDao.findAccountByAccountId(accountId);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
