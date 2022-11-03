@@ -108,7 +108,7 @@ public class JdbcTransferDao implements TransferDao {
             accountDao.subtractFromBalance(transfer.getAmount(), transfer.getAccountFrom());
             return "Update successful!";
         } else {
-            return "You don't have enough money for this transfer.";
+            return "You don't have enough funds for this transfer.";
         }
 
     }

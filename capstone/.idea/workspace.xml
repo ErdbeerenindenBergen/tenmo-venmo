@@ -36,23 +36,10 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../kevin-apolinario-student-code/module-2/08_DAO_Testing" />
   </component>
-  <component name="RunManager" selected="JUnit.AccountTest">
-    <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.techelevator.tenmo.App" />
-      <module name="m02-capstone-client" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.techelevator.tenmo.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="AccountTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.JdbcAccountDaoTest.subtractFromBalance_subtracts_from_correct_account">
+    <configuration name="JdbcAccountDaoTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="m02-capstone-server" />
       <extension name="coverage">
         <pattern>
@@ -61,13 +48,13 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.techelevator.dao" />
-      <option name="MAIN_CLASS_NAME" value="com.techelevator.dao.AccountTest" />
+      <option name="MAIN_CLASS_NAME" value="com.techelevator.dao.JdbcAccountDaoTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="JdbcUserDaoTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="JdbcAccountDaoTest.getAccountByAccountId_returns_correct_account_id" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="m02-capstone-server" />
       <extension name="coverage">
         <pattern>
@@ -76,18 +63,68 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.techelevator.dao" />
-      <option name="MAIN_CLASS_NAME" value="com.techelevator.dao.JdbcUserDaoTests" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="MAIN_CLASS_NAME" value="com.techelevator.dao.JdbcAccountDaoTest" />
+      <option name="METHOD_NAME" value="getAccountByAccountId_returns_correct_account_id" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="JdbcAccountDaoTest.getAccountByUserId_returns_correct_account_id" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="m02-capstone-server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.techelevator.dao.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.techelevator.dao" />
+      <option name="MAIN_CLASS_NAME" value="com.techelevator.dao.JdbcAccountDaoTest" />
+      <option name="METHOD_NAME" value="getAccountByUserId_returns_correct_account_id" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="JdbcAccountDaoTest.getBalance_returns_correct_balance" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="m02-capstone-server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.techelevator.dao.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.techelevator.dao" />
+      <option name="MAIN_CLASS_NAME" value="com.techelevator.dao.JdbcAccountDaoTest" />
+      <option name="METHOD_NAME" value="getBalance_returns_correct_balance" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="JdbcAccountDaoTest.subtractFromBalance_subtracts_from_correct_account" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="m02-capstone-server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.techelevator.dao.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.techelevator.dao" />
+      <option name="MAIN_CLASS_NAME" value="com.techelevator.dao.JdbcAccountDaoTest" />
+      <option name="METHOD_NAME" value="subtractFromBalance_subtracts_from_correct_account" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.AccountTest" />
-        <item itemvalue="Application.App" />
-        <item itemvalue="JUnit.JdbcUserDaoTests" />
-        <item itemvalue="JUnit.JdbcUserDaoTests" />
+        <item itemvalue="JUnit.JdbcAccountDaoTest.subtractFromBalance_subtracts_from_correct_account" />
+        <item itemvalue="JUnit.JdbcAccountDaoTest" />
+        <item itemvalue="JUnit.JdbcAccountDaoTest.getBalance_returns_correct_balance" />
+        <item itemvalue="JUnit.JdbcAccountDaoTest.getAccountByAccountId_returns_correct_account_id" />
+        <item itemvalue="JUnit.JdbcAccountDaoTest.getAccountByUserId_returns_correct_account_id" />
       </list>
     </recent_temporary>
   </component>
@@ -101,5 +138,10 @@
       <updated>1667396623332</updated>
     </task>
     <servers />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/capstone$JdbcAccountDaoTest_getAccountByAccountId_returns_correct_account_id.ic" NAME="JdbcAccountDaoTest.getAccountByAccountId_returns_correct_account_id Coverage Results" MODIFIED="1667503581301" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.techelevator.dao.*</FILTER>
+    </SUITE>
   </component>
 </project>
