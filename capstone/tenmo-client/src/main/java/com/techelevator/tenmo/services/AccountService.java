@@ -17,7 +17,7 @@ public class AccountService {
 
     private final String BASE_URL;
     private final RestTemplate restTemplate = new RestTemplate();
-    private String token;
+//    private String token;
     public AuthenticatedUser user;
     public Transfer transfer;
 
@@ -26,10 +26,10 @@ public class AccountService {
         BASE_URL = url;
     }
 
-    public void setToken(String token) {
-        this.token = token;
-    }
-
+//    public void setToken(String token) {
+//        this.token = token;
+//    }
+//
     public void setUser(AuthenticatedUser user) {
         this.user = user;
     }
@@ -47,14 +47,14 @@ public class AccountService {
 
     public HttpEntity<Void> makeAuthEntity() {
         HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(token);
+        headers.setBearerAuth(user.getToken());
         return new HttpEntity<>(headers);
     }
 
     public HttpEntity<Account> makeAccountEntity(Account account) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setBearerAuth(token);
+        headers.setBearerAuth(user.getToken());
         return new HttpEntity<>(account, headers);
     }
 }
