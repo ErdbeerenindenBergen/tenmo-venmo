@@ -3,6 +3,7 @@ package com.techelevator.tenmo.services;
 import com.techelevator.tenmo.App;
 import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.AuthenticatedUser;
+import com.techelevator.tenmo.model.Transfer;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -17,6 +18,7 @@ public class AccountService {
     private final String BASE_URL;
     private final RestTemplate restTemplate = new RestTemplate();
     public AuthenticatedUser user;
+    public Transfer transfer;
 
     public AccountService(String url, AuthenticatedUser user) {
         this.user = user;
@@ -26,8 +28,8 @@ public class AccountService {
     public BigDecimal getBalance(AuthenticatedUser user) {
         BigDecimal balance = new BigDecimal(0);
         try {
-            balance = restTemplate.exchange(BASE_URL + "/balance/" + user.getUser().getId(), HttpMethod.GET, makeAuthEntity(), BigDecimal.class).getBody();
-            System.out.println("Your current account balance is: $" + balance);
+            balance = restTemplate.exchange(BASE_URL + "/user/" + user.getUser().getId() + "/balance", HttpMethod.GET, makeAuthEntity(), BigDecimal.class).getBody();
+            System.out.println("Your current account balance is: $" + transfer.displayAsCurrency(balance));
         } catch (RestClientException e) {
             System.out.println("Your balance could not be retrieved.");
         }

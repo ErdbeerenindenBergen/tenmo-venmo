@@ -13,7 +13,7 @@ import java.util.List;
 @PreAuthorize("isAuthenticated()")
 public class UserController {
 
-    private UserDao userDao;
+    UserDao userDao;
 
     public UserController(UserDao userDao) {
         this.userDao = userDao;

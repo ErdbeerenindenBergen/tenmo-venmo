@@ -20,14 +20,13 @@ public class TransferController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @RequestMapping (path = "/{transactionId}", method = RequestMethod.GET)
-//To follow naming convention, we should rename Transfers as Transfer -- singular
+    @RequestMapping (path = "transfer/{transactionId}", method = RequestMethod.GET)
     public Transfer getTransferByTransactionId(int transactionId) {
         return transferDao.getTransferById(transactionId);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @RequestMapping(path = "/user/{userId}", method = RequestMethod.GET)
+    @RequestMapping(path = "transfer/user/{userId}", method = RequestMethod.GET)
     public List<Transfer> getAllTransfersByUserId(int userId) {
 // Should change method below in TransferDao to getTransfersByUserId(userId)
         return transferDao.getAllTransfers(userId);
