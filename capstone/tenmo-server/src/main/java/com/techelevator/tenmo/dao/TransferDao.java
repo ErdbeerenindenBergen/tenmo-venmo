@@ -7,8 +7,8 @@ import com.techelevator.tenmo.model.Transfer;
 
 public interface TransferDao {
 
-    public List <Transfer> getAllTransfers(int userId);
-    public Transfer getTransferById(int transactionId);
+    public List <Transfer> getAllTransfersByUserId(int userId);
+    public Transfer getTransferById(int transferId);
     public String sendTransfer(int userFromId, int userToId, BigDecimal amount);
     public String requestTransfer(int userFrom, int userTo, BigDecimal amount);
     public List<Transfer> getPendingRequests(int userId);
