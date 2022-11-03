@@ -13,13 +13,13 @@ import java.util.List;
 @PreAuthorize("isAuthenticated()")
 public class UserController {
 
-    private UserDao userDao;
+    UserDao userDao;
 
     public UserController(UserDao userDao) {
         this.userDao = userDao;
     }
 
-    //make sure "/user" is added to BASE_API_URL
+    //make sure "user" is added to BASE_API_URL
 
     //UserDao
     //completed
@@ -60,17 +60,17 @@ public class UserController {
 
         //simplified methods without "if statements" below
 
-//    @RequestMapping(path = "/users", method = RequestMethod.GET)
+//    @RequestMapping(path = "s", method = RequestMethod.GET)
 //    public List<User> findAll() {
 //        return userDao.findAll();
 //    }
 //
-//    @RequestMapping(path = "/users/{id}", method = RequestMethod.GET)
+//    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
 //    public User getUserById(@PathVariable int id) {
 //        return userDao.getUserById(id);
 //    }
 //
-//    @RequestMapping(path = "/users/{username}", method = RequestMethod.GET)
+//    @RequestMapping(path = "/{username}", method = RequestMethod.GET)
 //    public User findByUsername(String username) {
 //        return userDao.findByUsername(username);
 //    }
