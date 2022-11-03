@@ -24,14 +24,14 @@ public class UserController {
     //UserDao
     //completed
     @PreAuthorize("hasRole('ROLE_USER')")
-    @RequestMapping(path = "s", method = RequestMethod.GET)
+    @RequestMapping(path = "users", method = RequestMethod.GET)
     public List<User> listAllUsers() {
         return userDao.findAll();
     }
 
     //the following methods may be overkill with the "if null" statements if they have already been coded in the JdbcUserDao with exceptions
     @PreAuthorize("hasRole('ROLE_USER')")
-    @RequestMapping (path = "/{userId}", method = RequestMethod.GET)
+    @RequestMapping (path = "user/{userId}", method = RequestMethod.GET)
     public User getUserByUserId(@PathVariable int userId) {
         User user = userDao.getUserById(userId);
         if (user == null) {
@@ -42,7 +42,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @RequestMapping (path = "/{username}", method = RequestMethod.GET)
+    @RequestMapping (path = "user/{username}", method = RequestMethod.GET)
     public User findByUsername(String username) {
         User user = userDao.findByUsername(username);
         if (user == null) {
@@ -53,7 +53,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @RequestMapping (path = "/userId/{username}", method = RequestMethod.GET)
+    @RequestMapping (path = "user/userId/{username}", method = RequestMethod.GET)
     public int findIdByUsername(String username) {
         return userDao.findIdByUsername(username);
     }
