@@ -1,7 +1,7 @@
 package com.techelevator.tenmo.model;
 import java.math.BigDecimal;
 
-public class Transfers {
+public class Transfer {
     private int transferId;
     private int transferTypeId;
     private int transferStatusId;

@@ -1,13 +1,10 @@
 package com.techelevator.tenmo.controller;
 
 import com.techelevator.tenmo.dao.TransferDao;
-import com.techelevator.tenmo.model.Transfers;
-import org.springframework.http.HttpStatus;
+import com.techelevator.tenmo.model.Transfer;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -25,13 +22,13 @@ public class TransferController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping (path = "/{transactionId}", method = RequestMethod.GET)
 //To follow naming convention, we should rename Transfers as Transfer -- singular
-    public Transfers getTransferByTransactionId(int transactionId) {
+    public Transfer getTransferByTransactionId(int transactionId) {
         return transferDao.getTransferById(transactionId);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(path = "/user/{userId}", method = RequestMethod.GET)
-    public List<Transfers> getAllTransfersByUserId(int userId) {
+    public List<Transfer> getAllTransfersByUserId(int userId) {
 // Should change method below in TransferDao to getTransfersByUserId(userId)
         return transferDao.getAllTransfers(userId);
     }
