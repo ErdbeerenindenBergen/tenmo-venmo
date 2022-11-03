@@ -20,24 +20,11 @@ public class AccountController {
 
     //methods for adding/subtracting from balance may not be necessary in the controller
 
-//    @PreAuthorize("hasRole('ROLE_USER')")
-//    @RequestMapping(path = "/user/{userId}", method = RequestMethod.GET)
-//    public Account findAccountByUserId(@PathVariable int userId) {
-////        return accountDao.findAccountByUserId(userId);
-//    }
-//
-//    @PreAuthorize("hasRole('ROLE_USER')")
-//    @RequestMapping(path = "/{accountId}", method = RequestMethod.GET)
-//    public Account findAccountByAccountId(@PathVariable int accountId) {
-////        return accountDao.findAccountByAccountId(accountId);
-//    }
-
     //ABOVE
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(path = "/user/{userId}", method = RequestMethod.GET)
     public Account findAccountByUserId(@PathVariable int userId) {
-        //need to rename method below in AccountDao so that it is clear we are searching for account and not user
         return accountDao.findAccountByUserId(userId);
     }
 
