@@ -19,15 +19,17 @@ public class JdbcTransferDao implements TransferDao {
 
     @Override
     public List<Transfer> getAllTransfers(int userId) {
+        return null;
     }
 
     @Override
     public Transfer getTransferById(int transactionId) {
-
+        return null;
     }
 
     @Override
     public String sendTransfer(int userFromId, int userToId, BigDecimal amount) {
+        return null;
     }
 
 
