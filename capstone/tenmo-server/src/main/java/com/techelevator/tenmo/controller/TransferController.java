@@ -1,38 +1,119 @@
 package com.techelevator.tenmo.controller;
 
+import com.techelevator.tenmo.dao.AccountDao;
 import com.techelevator.tenmo.dao.TransferDao;
+import com.techelevator.tenmo.dao.UserDao;
+import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Transfer;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.security.Principal;
 import java.util.List;
 
 @RestController
 @PreAuthorize("isAuthenticated()")
+@RequestMapping("transfer")
 public class TransferController {
 
     //make sure base API_URL includes "transfer"
 
     TransferDao transferDao;
+    AccountDao accountDao;
+    UserDao userDao;
 
     public TransferController(TransferDao transferDao) {
         this.transferDao = transferDao;
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @RequestMapping (path = "transfer/{transactionId}", method = RequestMethod.GET)
-    public Transfer getTransferByTransactionId(int transactionId) {
-        return transferDao.getTransferById(transactionId);
+    @RequestMapping (path = "/{transferId}", method = RequestMethod.GET)
+    public Transfer getTransferByTransferId(int transferId) {
+        return transferDao.getTransferById(transferId);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @RequestMapping(path = "transfer/user/{userId}", method = RequestMethod.GET)
+    @RequestMapping(path = "/user/{userId}", method = RequestMethod.GET)
     public List<Transfer> getAllTransfersByUserId(int userId) {
-// Should change method below in TransferDao to getTransfersByUserId(userId)
         return transferDao.getAllTransfersByUserId(userId);
     }
 
-    //ABOVE
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @RequestMapping(path = "/1", method = RequestMethod.GET)
+    public List<Transfer> getPendingTransfers(int userId) {
+        return transferDao.getPendingRequests(userId);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @RequestMapping(path = "/send", method = RequestMethod.GET)
+    public String sendTransfer(int userFromId, int userToId, BigDecimal amount) {
+        return transferDao.sendTransfer(userFromId, userToId, amount);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @RequestMapping(path = "/request", method = RequestMethod.GET)
+    public String requestTransfer(int userFrom, int userTo, BigDecimal amount) {
+        return transferDao.requestTransfer(userFrom, userTo, amount);
+    }
+
+    ///BEGINNING
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(path = "", method = RequestMethod.POST)
+    public String create(@RequestBody Transfer transfer) throws TransferException {
+        Account fromAccount = accountDao.findAccountByAccountId(transfer.getAccountFrom());
+        Account toAccount = accountDao.findAccountByAccountId(transfer.getAccountTo());
+        BigDecimal amount = transfer.getAmount();
+
+        //if-statements below verify that accounts exist and there are sufficient funds to make transfer
+        if (fromAccount == null || toAccount == null) {
+            throw new TransferException("These accounts could not be retrieved.");
+        } else if (amount.compareTo(fromAccount.getBalance()) > 0) {
+            throw new TransferException("You do not have enough funds in your account to make this transfer.");
+        }
+
+        // Transfer is created below.
+        String transferSuccessReport = transferDao.sendTransfer(fromAccount.getAccountId(), toAccount.getAccountId(), amount);
+        // Before sending transfer, the status of the transfer must be checked.
+        // For status 1 (pending), do not proceed, 3 (rejected) should only possible in updating method
+        // We are looking for status 2 (approved).
+        // Transfer is created and logged.
+        if (transfer.getTransferStatusId() == 2) {
+            accountDao.subtractFromBalance(amount, transfer.getAccountFrom());
+            accountDao.addToBalance(amount, transfer.getAccountTo());
+        }
+        return transferSuccessReport;
+    }
+
+    @RequestMapping(path = "/{transferId}/update", method = RequestMethod.PUT)
+    public String updateTransferRequest(@PathVariable int transferId, @RequestBody Transfer transfer) throws TransferException {
+        String transferSuccessReport;
+
+        Account accountFrom = accountDao.findAccountByAccountId(transfer.getAccountFrom());
+        Account accountTo = accountDao.findAccountByAccountId(transfer.getAccountTo());
+        BigDecimal amount = transfer.getAmount();
+
+        if (accountFrom == null || accountTo == null) {
+            throw new TransferException("These accounts could not be retrieved.");
+        } else if (amount.compareTo(accountFrom.getBalance()) > 0) {
+            throw new TransferException("You do not have enough funds in your account to make this transfer.");
+        }
+
+        // If the transferStatusId already 2 (approved), update the transfer but do not update account balances.
+        if (transferDao.getTransferById(transferId).getTransferStatusId() == 2) {
+            return transferDao.updateTransferRequest(transfer, transferId);
+        }
+        transferSuccessReport = transferDao.updateTransferRequest(transfer, transferId);
+
+        // If transferStatusId = 2 (Approved), sendTransfer
+        if (transferDao.getTransferById(transferId).getTransferStatusId() == 2) {
+            accountDao.subtractFromBalance(amount, transfer.getAccountFrom());
+            accountDao.addToBalance(amount, transfer.getAccountTo());
+        }
+        return transferSuccessReport;
+    }
+
 
     //FOR BELOW: I think the transferDao method below should use Transfers transfer instead of BigDecimal amount
 
@@ -67,8 +148,6 @@ public class TransferController {
 //        return transferDao.getTransferStatus(transactionId);
 //    }
 
-
-
 //---------------------------------------------------------------------------------------------------------------------
 
     //probably not a helpful method below but saving for later just in case
@@ -78,5 +157,11 @@ public class TransferController {
 //    public String sendTransfer(int userFromId, int userToId, BigDecimal amount);
 //        return transferDao.getTransferById();
 
+//    @RequestMapping(path = "my-transfers", method = RequestMethod.GET)
+//    public List<Transfer> viewAllTransfersByUserId(Principal user) {
+//        String username = user.getName();
+//        int userId = userDao.findIdByUsername(username);
+//        return transferDao.getAllTransfersByUserId(userId);
+//    }
 
 }
