@@ -7,6 +7,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
@@ -20,6 +21,17 @@ public class AccountService {
     public AccountService(String url, AuthenticatedUser user) {
         this.user = user;
         BASE_URL = url;
+    }
+
+    public BigDecimal getBalance() {
+        BigDecimal balance = new BigDecimal(0);
+        try {
+            balance = restTemplate.exchange(BASE_URL + "balance/" + user.getUser().getId(), HttpMethod.GET, makeAuthEntity(), BigDecimal.class).getBody();
+            System.out.println("Your current account balance is: $" + balance);
+        } catch (RestClientException e) {
+            System.out.println("Your balance could not be retrieved.");
+        }
+        return balance;
     }
 
     public void addToBalance(int userId, BigDecimal amount) {
@@ -37,16 +49,14 @@ public class AccountService {
     public HttpEntity makeAuthEntity() {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(UserService.AUTH_TOKEN);
-        HttpEntity entity = new HttpEntity<>(headers);
-        return entity;
+        return new HttpEntity<>(headers);
     }
 
     public HttpEntity<Account> makeAccountEntity(Account account) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(UserService.AUTH_TOKEN);
-        HttpEntity<Account> entity = new HttpEntity<>(account, headers);
-        return entity;
+        return new HttpEntity<>(account, headers);
     }
 }
 
