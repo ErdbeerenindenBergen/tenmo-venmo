@@ -25,15 +25,13 @@ public class AccountController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(path = "/user/{userId}", method = RequestMethod.GET)
     public Account findAccountByUserId(@PathVariable int userId) {
-        //need to rename method below in AccountDao so that it is clear we are searching for account and not user
-        return accountDao.findUserById(userId);
+        return accountDao.findAccountByUserId(userId);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(path = "/{accountId}", method = RequestMethod.GET)
-    //could rename method below in AccountDao to make it clearer to: findAccountByAccountId
-    public Account findAccountById(@PathVariable int accountId) {
-        return accountDao.findAccountById(accountId);
+    public Account findAccountByAccountId(@PathVariable int accountId) {
+        return accountDao.findAccountByAccountId(accountId);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
