@@ -16,4 +16,8 @@ public class UserService {
         this.user = user;
         BASE_URL = url;
     }
+
+    public void setUser(AuthenticatedUser currentUser) {
+        this.user = user;
+    }
 }

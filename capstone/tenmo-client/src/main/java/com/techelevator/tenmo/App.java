@@ -63,9 +63,11 @@ public class App {
     private void handleLogin() {
         UserCredentials credentials = consoleService.promptForCredentials();
         currentUser = authenticationService.login(credentials);
-        token = currentUser.getToken();
-        accountService.setToken(token);
+//        token = currentUser.getToken();
+//        accountService.setToken(token);
         accountService.setUser(currentUser);
+        transferService.setUser(currentUser);
+        userService.setUser(currentUser);
         if (currentUser == null) {
             consoleService.printErrorMessage();
         }
@@ -106,17 +108,14 @@ public class App {
 
 	private void viewPendingRequests() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	private void sendBucks() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	private void requestBucks() {
 		// TODO Auto-generated method stub
-		
 	}
 
 

@@ -50,6 +50,10 @@ public class TransferService {
         return new HttpEntity<>(transfer, headers);
     }
 
+    public void setUser(AuthenticatedUser user) {
+        this.user = user;
+    }
+
 
     //__________________________________________________________________________________________________________________
 
