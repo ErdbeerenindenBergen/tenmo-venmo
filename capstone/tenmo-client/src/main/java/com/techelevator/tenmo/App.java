@@ -7,20 +7,20 @@ import com.techelevator.tenmo.services.*;
 
 public class App {
 
+    //Base API urls are listed below for each of the services.
     private static final String API_BASE_URL = "http://localhost:8080/";
     private static final String API_ACCOUNT_BASE_URL = API_BASE_URL + "account";
     private static final String API_USER_BASE_URL = API_BASE_URL + "user";
     private static final String API_TRANSFER_BASE_URL = API_BASE_URL + "transfer";
 
-    private AuthenticatedUser currentUser;
-
+    //variables
     private final ConsoleService consoleService = new ConsoleService();
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
     private AccountService accountService = new AccountService(API_ACCOUNT_BASE_URL);
     private UserService userService = new UserService(API_USER_BASE_URL);
     private TransferService transferService = new TransferService(API_TRANSFER_BASE_URL);
+    private AuthenticatedUser currentUser;
 
-    private String token;
 
     public static void main(String[] args) {
         App app = new App();
@@ -112,7 +112,7 @@ public class App {
 	private void sendBucks() {
         transferService.sendBucks(currentUser);
 
-//      Started writing some things we don't need.
+//      Started writing some things we don't need...I believe...
 //      Transfer transfer = new Transfer();
 //		transferService.createTransfer(transfer);
 
@@ -120,6 +120,7 @@ public class App {
 	}
 
 	private void requestBucks() {
+        //ONE MORE METHOD TO GO!
 		// TODO Auto-generated method stub
 	}
 

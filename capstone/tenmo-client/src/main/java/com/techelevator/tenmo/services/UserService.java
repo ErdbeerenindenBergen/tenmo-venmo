@@ -5,7 +5,6 @@ import com.techelevator.tenmo.model.User;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
@@ -23,7 +22,7 @@ public class UserService {
     public User findUserById(int id) {
         User user = null;
         try {
-            user = restTemplate.exchange(BASE_URL + "/user/" + id, HttpMethod.GET, makeAuthEntity(), User.class).getBody();
+            user = restTemplate.exchange(BASE_URL + "/" + id, HttpMethod.GET, makeAuthEntity(), User.class).getBody();
         } catch (RestClientResponseException | ResourceAccessException e) {
             System.out.println("User not found.");
         }
