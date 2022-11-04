@@ -43,7 +43,15 @@ public class AccountService {
         return balance;
     }
 
-
+    public Account findAccountByUserId(int accountId) {
+        Account account = new Account();
+        try {
+            account = restTemplate.exchange(BASE_URL + "/user" + accountId, HttpMethod.GET, makeAuthEntity(), Account.class).getBody();
+        } catch (RestClientException e) {
+            System.out.println("This account could not be found.");
+        }
+        return account;
+    }
 
     public HttpEntity<Void> makeAuthEntity() {
         HttpHeaders headers = new HttpHeaders();

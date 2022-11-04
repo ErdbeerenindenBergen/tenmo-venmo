@@ -6,7 +6,11 @@ public class Account {
 
     private BigDecimal balance;
     private int userId;
+    private int accountId;
 
+    public int getAccountId() {
+        return accountId;
+    }
 
     public void setAccountId(int accountId) {
     }

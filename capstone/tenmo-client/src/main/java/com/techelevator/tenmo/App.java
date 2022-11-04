@@ -110,7 +110,13 @@ public class App {
 	}
 
 	private void sendBucks() {
-		// TODO Auto-generated method stub
+        transferService.sendBucks(currentUser);
+
+//      Started writing some things we don't need.
+//      Transfer transfer = new Transfer();
+//		transferService.createTransfer(transfer);
+
+//      userService.listAllUsers(currentUser);
 	}
 
 	private void requestBucks() {

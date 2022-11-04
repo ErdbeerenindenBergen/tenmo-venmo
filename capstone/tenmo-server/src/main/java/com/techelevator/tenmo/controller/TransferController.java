@@ -18,8 +18,6 @@ import java.util.List;
 @RequestMapping("transfer")
 public class TransferController {
 
-    //make sure base API_URL includes "transfer"
-
     TransferDao transferDao;
     AccountDao accountDao;
 
