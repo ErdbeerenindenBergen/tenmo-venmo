@@ -4,7 +4,7 @@ import com.techelevator.tenmo.model.Account;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import java.math.BigDecimal;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
@@ -77,7 +77,7 @@ public class JdbcAccountDao implements AccountDao{
 
     @Override
     public Account findAccountByAccountId(int id) {
-        Account account = new Account();
+        Account account = null;
         String sql = "SELECT * FROM account WHERE account_id = ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
         if (results.next()){

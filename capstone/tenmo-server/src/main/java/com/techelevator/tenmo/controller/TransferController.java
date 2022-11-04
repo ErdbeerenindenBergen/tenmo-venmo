@@ -21,8 +21,9 @@ public class TransferController {
     TransferDao transferDao;
     AccountDao accountDao;
 
-    public TransferController(TransferDao transferDao) {
+    public TransferController(TransferDao transferDao, AccountDao accountDao) {
         this.transferDao = transferDao;
+        this.accountDao = accountDao;
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -44,7 +45,7 @@ public class TransferController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @RequestMapping(path = "/send", method = RequestMethod.GET)
+    @RequestMapping(path = "/send", method = RequestMethod.POST)
     public String sendTransfer(int userFromId, int userToId, BigDecimal amount) {
         return transferDao.sendTransfer(userFromId, userToId, amount);
     }
@@ -59,6 +60,7 @@ public class TransferController {
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "", method = RequestMethod.POST)
     public String create(@RequestBody Transfer transfer) throws TransferException {
+
         Account fromAccount = accountDao.findAccountByAccountId(transfer.getAccountFrom());
         Account toAccount = accountDao.findAccountByAccountId(transfer.getAccountTo());
         BigDecimal amount = transfer.getAmount();
