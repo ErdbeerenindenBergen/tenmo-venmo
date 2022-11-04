@@ -58,8 +58,7 @@ public class JdbcTransferDao implements TransferDao {
         String successMessage;
         if (userFromId == userToId) {
             successMessage = "You can't send yourself money!";
-        }
-        if (amount.compareTo(accountDao.getBalance(userFromId)) == -1 && amount.compareTo(new BigDecimal(0)) == 1) {
+        } else if (amount.compareTo(accountDao.getBalance(userFromId)) == -1 && amount.compareTo(new BigDecimal(0)) == 1) {
             String sql = "INSERT INTO transfer (transfer_type_id, transfer_status_id, account_from, account_to, amount) " +
                          "VALUES (2,2,?,?,?)";
             jdbcTemplate.update(sql, userFromId, userToId);
