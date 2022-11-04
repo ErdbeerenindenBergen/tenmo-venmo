@@ -15,10 +15,6 @@ public class Transfer {
     private String userFrom;
     private String userTo;
 
-    public Transfer(){
-
-    }
-
         public int getTransferId() {
             return transferId;
         }

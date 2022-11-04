@@ -23,10 +23,14 @@ public class TransferService {
     public ConsoleService consoleService;
     public UserService userService;
     public AccountService accountService;
-
+    Scanner scanner = new Scanner(System.in);
 
     public TransferService(String url) {
         BASE_URL = url;
+    }
+
+    public void setUser(AuthenticatedUser user) {
+        this.user = user;
     }
 
     public Transfer[] findAllTransfersForCurrentUser(AuthenticatedUser user) {
@@ -86,44 +90,28 @@ public class TransferService {
         return isSuccessful;
     }
 
-    public void sendBucks() {
-        User[] users = null;
-        Transfer transfer = new Transfer();
-        try {
-            Scanner scanner = new Scanner(System.in);
-            users = restTemplate.exchange( "http://localhost:8080/users", HttpMethod.GET, makeAuthEntity(), User[].class).getBody();
-            System.out.println("-------------------------------------------\r\n" +
-                    "Users\r\n" +
-                    "ID\t\tName\r\n" +
-                    "-------------------------------------------");
-            for (User u : users) {
-                if (u.getId() != user.getUser().getId()) {
-                    System.out.println(u.getId() + "\t\t" + u.getUsername());
-                }
-            }
-            System.out.print("-------------------------------------------\r\n" +
-                    "Enter ID of user you are sending to (0 to cancel): ");
-            transfer.setAccountTo(Integer.parseInt(scanner.nextLine()));
+    public void sendBucks(AuthenticatedUser user) {
+            Transfer transfer = new Transfer();
             transfer.setAccountFrom(user.getUser().getId());
-            if (transfer.getAccountTo() != 0) {
-                System.out.print("Enter the amount you would like to send: ");
-                try {
-                    transfer.setAmount(new BigDecimal(Double.parseDouble(scanner.nextLine())));
-                } catch (NumberFormatException e) {
-                    System.out.println("An error occurred as you were entering the amount to transfer.");
-                }
-                String output = restTemplate.exchange(BASE_URL + "transfer", HttpMethod.POST, makeTransferEntity(transfer), String.class).getBody();
-                System.out.println(output);
-            }
-        } catch (Exception e) {
-            System.out.println("We're sorry. The input was bad.");
-        }
-    }
 
+            System.out.print("-------------------------------------------\r\n" + "Enter ID of user you are sending to (or enter 0 to cancel): ");
+            transfer.setAccountTo(Integer.parseInt(scanner.nextLine()));
+
+            if (transfer.getAccountTo() != 0) {
+                try {
+                    transfer.setAmount(consoleService.promptForBigDecimal("Enter the amount you would like to transfer: "));
+                } catch (NumberFormatException e) {
+                    System.out.println("An error occurred when amount was input.");
+                }
+                //will print out String returned from sendTransfer method
+                String stringOutput = restTemplate.exchange(BASE_URL + "/send", HttpMethod.POST, makeTransferEntity(transfer), String.class).getBody();
+                System.out.println(stringOutput);
+            }
+    }
 
 ////    BELOW
 //    public void sendBucks(AuthenticatedUser user) {
-//        userService.findAllUsers();
+//
 //        int toUserId;
 //        boolean isUserIdValid = false;
 //
@@ -202,10 +190,6 @@ public class TransferService {
         return new HttpEntity<>(transfer, headers);
     }
 
-    public void setUser(AuthenticatedUser user) {
-        this.user = user;
-    }
-
     //__________________________________________________________________________________________________________________
 
 
@@ -248,5 +232,4 @@ public class TransferService {
 //        }
 //        return transfers;
 //    }
-
 }

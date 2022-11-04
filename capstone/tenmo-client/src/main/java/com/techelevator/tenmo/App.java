@@ -34,6 +34,7 @@ public class App {
             mainMenu();
         }
     }
+
     private void loginMenu() {
         int menuSelection = -1;
         while (menuSelection != 0 && currentUser == null) {
@@ -110,7 +111,8 @@ public class App {
 	}
 
 	private void sendBucks() {
-        transferService.sendBucks();
+        userService.listAllUsers();
+        transferService.sendBucks(currentUser);
 
 //      Started writing some things we don't need...I believe...
 //      Transfer transfer = new Transfer();
@@ -123,7 +125,5 @@ public class App {
         //ONE MORE METHOD TO GO!
 		// TODO Auto-generated method stub
 	}
-
-
 
 }

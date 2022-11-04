@@ -55,20 +55,38 @@ public class JdbcTransferDao implements TransferDao {
 
     @Override
     public String sendTransfer(int userFromId, int userToId, BigDecimal amount) {
+        String successMessage;
         if (userFromId == userToId) {
-            return "You can't send yourself money!";
+            successMessage = "You can't send yourself money!";
         }
-        if (amount.compareTo(accountDao.getBalance(userFromId)) <= 0) {
-            return "There was a problem processing your transfer.";
-        } else {
+        if (amount.compareTo(accountDao.getBalance(userFromId)) == -1 && amount.compareTo(new BigDecimal(0)) == 1) {
             String sql = "INSERT INTO transfer (transfer_type_id, transfer_status_id, account_from, account_to, amount) " +
                          "VALUES (2,2,?,?,?)";
             jdbcTemplate.update(sql, userFromId, userToId);
             accountDao.addToBalance(amount, userToId);
             accountDao.subtractFromBalance(amount, userFromId);
-            return "Transfer processed successfully!";
-        }
+            successMessage = "Transfer processed successfully!";
+        } else {
+            successMessage = "There was an error during transfer because of a lack of funds or invalid user choice.";
+        } return successMessage;
     }
+
+//    @Override
+//    public String sendTransfer(int userFromId, int userToId, BigDecimal amount) {
+//        if (userFromId == userToId) {
+//            return "You can't send yourself money!";
+//        }
+//        if (amount.compareTo(accountDao.getBalance(userFromId)) <= 0) {
+//            return "There was a problem processing your transfer.";
+//        } else {
+//            String sql = "INSERT INTO transfer (transfer_type_id, transfer_status_id, account_from, account_to, amount) " +
+//                         "VALUES (2,2,?,?,?)";
+//            jdbcTemplate.update(sql, userFromId, userToId);
+//            accountDao.addToBalance(amount, userToId);
+//            accountDao.subtractFromBalance(amount, userFromId);
+//            return "Transfer processed successfully!";
+//        }
+//    }
 
     @Override
     public String requestTransfer(int userFromId, int userToId, BigDecimal amount) {

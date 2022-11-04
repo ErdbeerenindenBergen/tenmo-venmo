@@ -25,7 +25,7 @@ public class UserController {
     //UserDao
     //completed
     @PreAuthorize("hasRole('ROLE_USER')")
-    @RequestMapping(path = "s", method = RequestMethod.GET)
+    @RequestMapping(path = "", method = RequestMethod.GET)
     public List<User> listAllUsers() {
         return userDao.findAll();
     }

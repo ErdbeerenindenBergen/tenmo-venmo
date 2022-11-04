@@ -20,7 +20,6 @@ public class AccountController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(path = "/user/{userId}/balance", method = RequestMethod.GET)
-    //wondering if we should use @PathVariable Principal principal?
     public BigDecimal getBalance(@PathVariable int userId) {
         return accountDao.getBalance(userId);
     }
@@ -33,11 +32,9 @@ public class AccountController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(path = "/{accountId}", method = RequestMethod.GET)
-    //could rename method below in AccountDao to make it clearer to: findAccountByAccountId
     public Account findAccountById(@PathVariable int accountId) {
         return accountDao.findAccountByAccountId(accountId);
     }
-
 
     //FOR BELOW: NEED accountDao.create/update/delete method to create account
     //Not sure if we need these yet
