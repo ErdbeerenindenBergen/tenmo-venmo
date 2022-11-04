@@ -21,8 +21,9 @@ public class TransferController {
     TransferDao transferDao;
     AccountDao accountDao;
 
-    public TransferController(TransferDao transferDao) {
+    public TransferController(TransferDao transferDao, AccountDao accountDao) {
         this.transferDao = transferDao;
+        this.accountDao = accountDao;
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -59,6 +60,8 @@ public class TransferController {
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "", method = RequestMethod.POST)
     public String create(@RequestBody Transfer transfer) throws TransferException {
+
+        //fix accountDao is empty.
         Account fromAccount = accountDao.findAccountByAccountId(transfer.getAccountFrom());
         Account toAccount = accountDao.findAccountByAccountId(transfer.getAccountTo());
         BigDecimal amount = transfer.getAmount();
