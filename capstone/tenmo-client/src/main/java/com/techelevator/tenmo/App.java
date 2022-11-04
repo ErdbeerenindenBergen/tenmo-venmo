@@ -110,7 +110,7 @@ public class App {
 	}
 
 	private void sendBucks() {
-        transferService.sendBucks(currentUser);
+        transferService.sendBucks();
 
 //      Started writing some things we don't need...I believe...
 //      Transfer transfer = new Transfer();

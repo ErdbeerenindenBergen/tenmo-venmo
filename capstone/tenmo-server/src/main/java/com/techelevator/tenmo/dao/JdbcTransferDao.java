@@ -20,7 +20,6 @@ public class JdbcTransferDao implements TransferDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-
     public void createTransfer(Transfer transfer) {
         String sql = "INSERT INTO transfer (transfer_type_id, transfer_status_id, account_from, account_to, amount) VALUES (?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql, transfer.getTransferTypeId(), transfer.getTransferStatusId(), transfer.getAccountFrom(), transfer.getAccountTo(), transfer.getAmount());
@@ -70,6 +69,7 @@ public class JdbcTransferDao implements TransferDao {
             return "Transfer processed successfully!";
         }
     }
+
     @Override
     public String requestTransfer(int userFromId, int userToId, BigDecimal amount) {
         if (userFromId == userToId) {
