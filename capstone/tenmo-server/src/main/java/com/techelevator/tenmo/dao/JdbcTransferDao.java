@@ -14,7 +14,7 @@ import com.techelevator.tenmo.model.Transfer;
 
 @Component
 public class JdbcTransferDao implements TransferDao {
-
+    AccountDao accountDao;
     private JdbcTemplate jdbcTemplate;
     public JdbcTransferDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;

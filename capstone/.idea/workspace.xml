@@ -38,22 +38,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../kevin-apolinario-student-code/module-2/08_DAO_Testing" />
   </component>
-  <component name="RunManager" selected="JUnit.JdbcAccountDaoTest.subtractFromBalance_subtracts_from_correct_account">
-    <configuration name="JdbcAccountDaoTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="m02-capstone-server" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.techelevator.dao.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.techelevator.dao" />
-      <option name="MAIN_CLASS_NAME" value="com.techelevator.dao.JdbcAccountDaoTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="JUnit.JdbcTransferDaoTest">
     <configuration name="JdbcAccountDaoTest.getAccountByAccountId_returns_null_when_id_not_found" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="m02-capstone-server" />
       <extension name="coverage">
@@ -86,22 +71,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="JdbcAccountDaoTest.getAccountByUserId_returns_null_when_id_not_found" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="m02-capstone-server" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.techelevator.dao.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.techelevator.dao" />
-      <option name="MAIN_CLASS_NAME" value="com.techelevator.dao.JdbcAccountDaoTest" />
-      <option name="METHOD_NAME" value="getAccountByUserId_returns_null_when_id_not_found" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="JdbcAccountDaoTest.subtractFromBalance_subtracts_from_correct_account" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="m02-capstone-server" />
       <extension name="coverage">
@@ -118,13 +87,44 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="JdbcTransferDaoTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="m02-capstone-server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.techelevator.dao.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.techelevator.dao" />
+      <option name="MAIN_CLASS_NAME" value="com.techelevator.dao.JdbcTransferDaoTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="JdbcTransferDaoTest.getAllTransfersById_returns_correct_transfers" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="m02-capstone-server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.techelevator.dao.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.techelevator.dao" />
+      <option name="MAIN_CLASS_NAME" value="com.techelevator.dao.JdbcTransferDaoTest" />
+      <option name="METHOD_NAME" value="getAllTransfersById_returns_correct_transfers" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.JdbcTransferDaoTest" />
+        <item itemvalue="JUnit.JdbcTransferDaoTest.getAllTransfersById_returns_correct_transfers" />
         <item itemvalue="JUnit.JdbcAccountDaoTest.subtractFromBalance_subtracts_from_correct_account" />
         <item itemvalue="JUnit.JdbcAccountDaoTest.getAccountByUserId_returns_correct_account_id" />
         <item itemvalue="JUnit.JdbcAccountDaoTest.getAccountByAccountId_returns_null_when_id_not_found" />
-        <item itemvalue="JUnit.JdbcAccountDaoTest.getAccountByUserId_returns_null_when_id_not_found" />
-        <item itemvalue="JUnit.JdbcAccountDaoTest" />
       </list>
     </recent_temporary>
   </component>
