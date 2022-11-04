@@ -7,15 +7,19 @@ import java.math.BigDecimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.sql.DataSource;
+
 @Component
 public class JdbcAccountDao implements AccountDao{
 
-    @Autowired
+    //@Autowired
     private JdbcTemplate jdbcTemplate;
-    public JdbcAccountDao(){}
-    public JdbcAccountDao (JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public JdbcAccountDao(DataSource ds){
+        this.jdbcTemplate = new JdbcTemplate(ds);
     }
+   // public JdbcAccountDao (JdbcTemplate jdbcTemplate) {
+      // this.jdbcTemplate = jdbcTemplate;
+   // }
     @Override
     public BigDecimal getBalance(int userId) {
         String sql = "SELECT balance FROM account WHERE user_id = ?";
@@ -73,7 +77,7 @@ public class JdbcAccountDao implements AccountDao{
 
     @Override
     public Account findAccountByAccountId(int id) {
-        Account account = null;
+        Account account = new Account();
         String sql = "SELECT * FROM account WHERE account_id = ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
         if (results.next()){
