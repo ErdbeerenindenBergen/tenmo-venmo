@@ -23,9 +23,9 @@ public class JdbcTransferDao implements TransferDao {
     @Override
     public List<Transfer> getAllTransfersByUserId(int userId) {
         List<Transfer> transferList = new ArrayList<>();
-        String sql = "SELECT transfer.*, tenmo_user.username FROM transfer" +
-                     "JOIN account ON transfer.account_from = account.account_id OR transfer.account_to = account.account_id" +
-                     "JOIN tenmo_user ON account.user_id = tenmo_user.user_id" +
+        String sql = "SELECT transfer.*, tenmo_user.username FROM transfer " +
+                     "JOIN account ON transfer.account_from = account.account_id OR transfer.account_to = account.account_id " +
+                     "JOIN tenmo_user ON account.user_id = tenmo_user.user_id " +
                      "WHERE account.user_id = ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
         while (results.next()) {
@@ -82,8 +82,8 @@ public class JdbcTransferDao implements TransferDao {
         public List<Transfer> getPendingRequests ( int userId){
             List<Transfer> pendingRequests = new ArrayList<>();
             String sql = "SELECT transfer.* FROM transfer " +
-                    "JOIN account ON transfer.account_from = account.account_id OR transfer.account_to = account.account_id" +
-                    "JOIN tenmo_user ON account.user_id = tenmo_user.user_id" +
+                    "JOIN account ON transfer.account_from = account.account_id OR transfer.account_to = account.account_id " +
+                    "JOIN tenmo_user ON account.user_id = tenmo_user.user_id " +
                     "WHERE transfer_status_id = 1 AND (account_from = ? OR account_to = ?)";
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId, userId);
             while (results.next()) {
