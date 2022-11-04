@@ -16,9 +16,9 @@ public class App {
 
     private final ConsoleService consoleService = new ConsoleService();
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
-    private AccountService accountService = new AccountService(API_ACCOUNT_BASE_URL, currentUser);
-    private UserService userService = new UserService(API_USER_BASE_URL, currentUser);
-    private TransferService transferService = new TransferService(API_TRANSFER_BASE_URL, currentUser);
+    private AccountService accountService = new AccountService(API_ACCOUNT_BASE_URL);
+    private UserService userService = new UserService(API_USER_BASE_URL);
+    private TransferService transferService = new TransferService(API_TRANSFER_BASE_URL);
 
     private String token;
 
@@ -63,8 +63,6 @@ public class App {
     private void handleLogin() {
         UserCredentials credentials = consoleService.promptForCredentials();
         currentUser = authenticationService.login(credentials);
-//        token = currentUser.getToken();
-//        accountService.setToken(token);
         accountService.setUser(currentUser);
         transferService.setUser(currentUser);
         userService.setUser(currentUser);
@@ -107,7 +105,8 @@ public class App {
 	}
 
 	private void viewPendingRequests() {
-		// TODO Auto-generated method stub
+        Transfer[] transfers = transferService.getPendingRequests(currentUser);
+        transferService.printTransactions(transfers);
 	}
 
 	private void sendBucks() {

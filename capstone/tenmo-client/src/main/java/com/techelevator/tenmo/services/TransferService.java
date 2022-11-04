@@ -16,8 +16,7 @@ public class TransferService {
     private final RestTemplate restTemplate = new RestTemplate();
     public AuthenticatedUser user;
 
-    public TransferService(String url, AuthenticatedUser user) {
-        this.user = user;
+    public TransferService(String url) {
         BASE_URL = url;
     }
 
@@ -31,11 +30,55 @@ public class TransferService {
         return transferHistory;
     }
 
+    public Transfer findTransferByTransferId(int transferId) {
+        Transfer transfer = null;
+        try {
+            transfer = restTemplate.exchange(BASE_URL + "/" + transferId, HttpMethod.GET, makeAuthEntity(), Transfer.class).getBody();
+        } catch (RestClientResponseException | ResourceAccessException e) {
+            System.out.println("Your transfer could not be found.");
+        }
+        return transfer;
+    }
+
+    public String createTransfer(Transfer transfer) {
+        String transferSuccessReport = "";
+        try {
+            transferSuccessReport = restTemplate.exchange(BASE_URL + "", HttpMethod.POST, makeTransferEntity(transfer), String.class).getBody();
+        } catch (RestClientResponseException | ResourceAccessException e) {
+            System.out.println("Transfer failed. Try again.");
+        } return transferSuccessReport;
+    }
+
     public void printTransactions(Transfer[] transfers){
         for (Transfer transfer : transfers) {
             transfer.transferDetailsPrintOut();
         }
     }
+
+    public Transfer[] getPendingRequests(AuthenticatedUser user) {
+        Transfer[] transfers = null;
+        try {
+            transfers = restTemplate.exchange(BASE_URL + "/pending/" + user.getUser().getId(), HttpMethod.GET, makeAuthEntity(), Transfer[].class).getBody();
+        } catch (RestClientResponseException e) {
+            e.printStackTrace();
+        }
+        return transfers;
+    }
+
+    public boolean updateTransfer(Transfer transfer) {
+        HttpEntity<Transfer> entity = makeTransferEntity(transfer);
+        boolean isSuccessful = false;
+        try {
+            restTemplate.put(BASE_URL + "/update" + transfer.getTransferId(), entity);
+            isSuccessful = true;
+        } catch (RestClientResponseException | ResourceAccessException e) {
+            System.out.println("Your transfer could not be updated.");
+        }
+        return isSuccessful;
+    }
+
+
+    //SECURITY METHODS BELOW - do not alter
 
     public HttpEntity<Void> makeAuthEntity() {
         HttpHeaders headers = new HttpHeaders();
@@ -53,7 +96,6 @@ public class TransferService {
     public void setUser(AuthenticatedUser user) {
         this.user = user;
     }
-
 
     //__________________________________________________________________________________________________________________
 

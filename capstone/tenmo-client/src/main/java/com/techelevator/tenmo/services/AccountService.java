@@ -19,10 +19,8 @@ public class AccountService {
     private final RestTemplate restTemplate = new RestTemplate();
 //    private String token;
     public AuthenticatedUser user;
-    public Transfer transfer;
 
-    public AccountService(String url, AuthenticatedUser user) {
-        this.user = user;
+    public AccountService(String url) {
         BASE_URL = url;
     }
 
@@ -44,6 +42,8 @@ public class AccountService {
         }
         return balance;
     }
+
+
 
     public HttpEntity<Void> makeAuthEntity() {
         HttpHeaders headers = new HttpHeaders();

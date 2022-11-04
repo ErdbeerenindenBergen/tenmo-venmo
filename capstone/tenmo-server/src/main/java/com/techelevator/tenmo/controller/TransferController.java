@@ -22,7 +22,6 @@ public class TransferController {
 
     TransferDao transferDao;
     AccountDao accountDao;
-    UserDao userDao;
 
     public TransferController(TransferDao transferDao) {
         this.transferDao = transferDao;
@@ -41,7 +40,7 @@ public class TransferController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @RequestMapping(path = "/1", method = RequestMethod.GET)
+    @RequestMapping(path = "/pending/{userId}", method = RequestMethod.GET)
     public List<Transfer> getPendingTransfers(int userId) {
         return transferDao.getPendingRequests(userId);
     }
@@ -74,6 +73,7 @@ public class TransferController {
         }
 
         // Transfer is created below.
+        //wondering whether we need to set transfer status to 1 or if that's automatic...maybe that should go in transfer class?
         String transferSuccessReport = transferDao.sendTransfer(fromAccount.getAccountId(), toAccount.getAccountId(), amount);
         // Before sending transfer, the status of the transfer must be checked.
         // For status 1 (pending), do not proceed, 3 (rejected) should only possible in updating method
@@ -86,7 +86,7 @@ public class TransferController {
         return transferSuccessReport;
     }
 
-    @RequestMapping(path = "/{transferId}/update", method = RequestMethod.PUT)
+    @RequestMapping(path = "/update", method = RequestMethod.PUT)
     public String updateTransferRequest(@PathVariable int transferId, @RequestBody Transfer transfer) throws TransferException {
         String transferSuccessReport;
 

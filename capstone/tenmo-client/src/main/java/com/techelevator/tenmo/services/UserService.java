@@ -12,8 +12,7 @@ public class UserService {
     private final RestTemplate restTemplate = new RestTemplate();
     public AuthenticatedUser user;
 
-    public UserService(String url, AuthenticatedUser user) {
-        this.user = user;
+    public UserService(String url) {
         BASE_URL = url;
     }
 
