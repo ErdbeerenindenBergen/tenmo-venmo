@@ -15,10 +15,10 @@ import com.techelevator.tenmo.model.Transfer;
 @Component
 public class JdbcTransferDao implements TransferDao {
 
-    @Autowired
     private JdbcTemplate jdbcTemplate;
-    @Autowired
-    private AccountDao accountDao;
+    public JdbcTransferDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     public List<Transfer> getAllTransfersByUserId(int userId) {
