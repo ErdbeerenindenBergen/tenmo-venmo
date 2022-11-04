@@ -38,38 +38,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../kevin-apolinario-student-code/module-2/08_DAO_Testing" />
   </component>
-  <component name="RunManager" selected="JUnit.JdbcAccountDaoTest.subtractFromBalance_subtracts_from_correct_account">
-    <configuration name="JdbcAccountDaoTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="m02-capstone-server" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.techelevator.dao.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.techelevator.dao" />
-      <option name="MAIN_CLASS_NAME" value="com.techelevator.dao.JdbcAccountDaoTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="JdbcAccountDaoTest.getAccountByAccountId_returns_correct_account_id" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="m02-capstone-server" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.techelevator.dao.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.techelevator.dao" />
-      <option name="MAIN_CLASS_NAME" value="com.techelevator.dao.JdbcAccountDaoTest" />
-      <option name="METHOD_NAME" value="getAccountByAccountId_returns_correct_account_id" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="JUnit.JdbcTransferDaoTest.getAllTransfersById_returns_correct_transfers">
     <configuration name="JdbcAccountDaoTest.getAccountByUserId_returns_correct_account_id" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="m02-capstone-server" />
       <extension name="coverage">
@@ -81,22 +50,6 @@
       <option name="PACKAGE_NAME" value="com.techelevator.dao" />
       <option name="MAIN_CLASS_NAME" value="com.techelevator.dao.JdbcAccountDaoTest" />
       <option name="METHOD_NAME" value="getAccountByUserId_returns_correct_account_id" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="JdbcAccountDaoTest.getBalance_returns_correct_balance" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="m02-capstone-server" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.techelevator.dao.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.techelevator.dao" />
-      <option name="MAIN_CLASS_NAME" value="com.techelevator.dao.JdbcAccountDaoTest" />
-      <option name="METHOD_NAME" value="getBalance_returns_correct_balance" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -118,12 +71,59 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="JdbcTransferDaoTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="m02-capstone-server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.techelevator.dao.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.techelevator.dao" />
+      <option name="MAIN_CLASS_NAME" value="com.techelevator.dao.JdbcTransferDaoTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="JdbcTransferDaoTest.getAllTransfersById_returns_correct_transfers" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="m02-capstone-server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.techelevator.dao.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.techelevator.dao" />
+      <option name="MAIN_CLASS_NAME" value="com.techelevator.dao.JdbcTransferDaoTest" />
+      <option name="METHOD_NAME" value="getAllTransfersById_returns_correct_transfers" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="JdbcTransferDaoTest.getTransfersByUserId_returns_correct_number_of_transfers" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="m02-capstone-server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.techelevator.dao.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.techelevator.dao" />
+      <option name="MAIN_CLASS_NAME" value="com.techelevator.dao.JdbcTransferDaoTest" />
+      <option name="METHOD_NAME" value="getTransfersByUserId_returns_correct_number_of_transfers" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.JdbcTransferDaoTest.getAllTransfersById_returns_correct_transfers" />
+        <item itemvalue="JUnit.JdbcTransferDaoTest.getTransfersByUserId_returns_correct_number_of_transfers" />
+        <item itemvalue="JUnit.JdbcTransferDaoTest" />
         <item itemvalue="JUnit.JdbcAccountDaoTest.subtractFromBalance_subtracts_from_correct_account" />
-        <item itemvalue="JUnit.JdbcAccountDaoTest" />
-        <item itemvalue="JUnit.JdbcAccountDaoTest.getBalance_returns_correct_balance" />
-        <item itemvalue="JUnit.JdbcAccountDaoTest.getAccountByAccountId_returns_correct_account_id" />
         <item itemvalue="JUnit.JdbcAccountDaoTest.getAccountByUserId_returns_correct_account_id" />
       </list>
     </recent_temporary>
@@ -138,6 +138,39 @@
       <updated>1667396623332</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/tenmo-server/src/main/java/com/techelevator/tenmo/dao/JdbcAccountDao.java</url>
+          <line>54</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NullPointerException" package="java.lang" />
+          <option name="timeStamp" value="7" />
+        </breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/tenmo-server/src/test/java/com/techelevator/dao/JdbcAccountDaoTest.java</url>
+          <line>53</line>
+          <properties class="com.techelevator.dao.JdbcAccountDaoTest" method="subtractFromBalance_subtracts_from_correct_account">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/tenmo-server/src/test/java/com/techelevator/dao/JdbcTransferDaoTest.java</url>
+          <line>34</line>
+          <properties class="com.techelevator.dao.JdbcTransferDaoTest" method="getAllTransfersById_returns_correct_transfers">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/capstone$JdbcAccountDaoTest_getAccountByAccountId_returns_correct_account_id.ic" NAME="JdbcAccountDaoTest.getAccountByAccountId_returns_correct_account_id Coverage Results" MODIFIED="1667503581301" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

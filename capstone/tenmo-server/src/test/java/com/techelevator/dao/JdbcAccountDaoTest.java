@@ -1,32 +1,24 @@
 package com.techelevator.dao;
 
-import com.techelevator.tenmo.dao.AccountDao;
 import com.techelevator.tenmo.dao.JdbcAccountDao;
 import com.techelevator.tenmo.model.Account;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-
 import java.math.BigDecimal;
-import java.util.List;
 
 public class JdbcAccountDaoTest extends BaseDaoTests{
 
         private JdbcAccountDao sut;
         private Account testAccount;
-        private Account testAccountTwo;
 
         @Before
     public void setup() {
-            sut = new JdbcAccountDao();
+            sut = new JdbcAccountDao(dataSource);
             testAccount = new Account();
             testAccount.setUserId(5);
             testAccount.setAccountId(2);
             testAccount.setBalance(new BigDecimal("100.00"));
-//            testAccountTwo.setUserId(6);
-//            testAccountTwo.setAccountId(3);
-//            testAccountTwo.setBalance(new BigDecimal("200.00"));
         }
 
         @Test
@@ -37,9 +29,15 @@ public class JdbcAccountDaoTest extends BaseDaoTests{
         }
         @Test
         public void getAccountByUserId_returns_correct_account_id() {
-            int expected = testAccount.getUserId();
-            int actual = 5;
-            Assert.assertEquals(actual, expected);
+            int expectedId = testAccount.getUserId();
+            int actualId = 5;
+            Assert.assertEquals(expectedId, actualId);
+            //assertAccountsMatch(actual, testAccount);
+        }
+        @Test
+        public void getAccountByUserId_returns_null_when_id_not_found() {
+            Account account = sut.findAccountByUserId(1000);
+            Assert.assertNull(account);
         }
         @Test
     public void getAccountByAccountId_returns_correct_account_id() {
@@ -48,8 +46,20 @@ public class JdbcAccountDaoTest extends BaseDaoTests{
             Assert.assertEquals(expected, actual);
         }
         @Test
+    public void getAccountByAccountId_returns_null_when_id_not_found() {
+        Account account = sut.findAccountByAccountId(1000);
+        Assert.assertNull(account);
+    }
+        @Test
    public void subtractFromBalance_subtracts_from_correct_account() {
-            sut.subtractFromBalance(new BigDecimal("50.00"), testAccount.getUserId());
-            Assert.assertEquals(testAccount.getBalance(), new BigDecimal("50"));
+            BigDecimal amountToSubtract = new BigDecimal("50.00");
+            sut.subtractFromBalance(amountToSubtract, 2);
+            Assert.assertEquals(testAccount.getBalance(), 50);
+
         }
+    private void assertAccountsMatch(Account expected, Account actual) {
+        Assert.assertEquals(expected.getAccountId(), actual.getAccountId());
+        Assert.assertEquals(expected.getUserId(), actual.getUserId());
+        Assert.assertEquals(expected.getBalance(), actual.getBalance());
+    }
 }
