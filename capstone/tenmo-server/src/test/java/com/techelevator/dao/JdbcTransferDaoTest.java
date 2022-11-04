@@ -41,7 +41,7 @@ public class JdbcTransferDaoTest extends BaseDaoTests {
     @Test
     public void getTransfersByUserId_returns_correct_number_of_transfers() {
         //need mock data to test
-        List<Transfer> transferList = sut.getAllTransfersByUserId(1001);
+        List<Transfer> transferList = sut.getAllTransfersByUserId(2001);
         Assert.assertEquals(transferList.size(), 2);
         assertTransfersMatch(testTransfer, transferList.get(0));
         assertTransfersMatch(testTransfer2, transferList.get(1));
