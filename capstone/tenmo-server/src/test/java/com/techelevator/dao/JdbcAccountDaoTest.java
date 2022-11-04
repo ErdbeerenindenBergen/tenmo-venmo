@@ -31,8 +31,9 @@ public class JdbcAccountDaoTest extends BaseDaoTests{
         public void getAccountByUserId_returns_correct_account_id() {
             int expectedId = testAccount.getUserId();
             int actualId = 5;
+            Account actual = testAccount;
             Assert.assertEquals(expectedId, actualId);
-            //assertAccountsMatch(actual, testAccount);
+            assertAccountsMatch(actual, testAccount);
         }
         @Test
         public void getAccountByUserId_returns_null_when_id_not_found() {
@@ -47,7 +48,7 @@ public class JdbcAccountDaoTest extends BaseDaoTests{
         }
         @Test
     public void getAccountByAccountId_returns_null_when_id_not_found() {
-        Account account = sut.findAccountByAccountId(1000);
+        Account account = sut.findAccountByAccountId(0);
         Assert.assertNull(account);
     }
         @Test
