@@ -3,7 +3,6 @@ package com.techelevator.tenmo.services;
 import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.Transfer;
-import com.techelevator.tenmo.model.User;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -12,8 +11,6 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
-import java.math.BigDecimal;
-import java.util.Scanner;
 
 public class TransferService {
 
@@ -91,7 +88,69 @@ public class TransferService {
         return isSuccessful;
     }
 
-    //METHOD BELOW WORKS BUT DOESN'T ADJUST BALANCE
+    public void requestBucks() {
+        accountService.setUser(user);
+        Transfer transfer = new Transfer();
+        try {
+            Integer userSelection = consoleService.promptForInt("------------------------------------------------\r\n" +
+                    "Enter the user ID of the user you are requesting from (or enter 0 to cancel): ");
+            Account requestAccount = accountService.findAccountByUserId(userSelection);
+            transfer.setAccountFrom(requestAccount.getAccountId());
+            transfer.setAccountTo((accountService.findAccountByUserId(user.getUser().getId())).getAccountId());
+            if (transfer.getAccountTo() != 0) {
+                try {
+                    transfer.setAmount(consoleService.promptForBigDecimal("Enter amount you'd like to request: "));
+                } catch (NumberFormatException e) {
+                    System.out.println("There was an error processing the amount");
+                }
+                String transferSuccess = restTemplate.exchange(BASE_URL + "/request", HttpMethod.POST, makeAuthEntity(), String.class).getBody();
+                System.out.println(transferSuccess);
+            }
+        } catch (Exception e) {
+            System.out.println("Something went wrong with your input.");
+        }
+    }
+
+    public void sendBucks() {
+        accountService.setUser(user);
+        Transfer transfer = new Transfer();
+        try {
+            Integer userSelection = consoleService.promptForInt("------------------------------------------------\r\n" +
+                    "Enter the user ID of the user you are sending to (or enter 0 to cancel): ");
+            Account recipientAccount = accountService.findAccountByUserId(userSelection);
+            transfer.setAccountTo(recipientAccount.getAccountId());
+            transfer.setAccountFrom((accountService.findAccountByUserId(user.getUser().getId())).getAccountId());
+            if (transfer.getAccountTo() != 0) {
+                try {
+                    transfer.setAmount(consoleService.promptForBigDecimal("Enter amount you'd like to send: "));
+                } catch (NumberFormatException e) {
+                    System.out.println("There was an error processing the amount");
+                }
+                String transferSuccess = restTemplate.exchange(BASE_URL + "/send", HttpMethod.POST, makeAuthEntity(), String.class).getBody();
+                System.out.println(transferSuccess);
+            }
+        } catch (Exception e) {
+            System.out.println("Something went wrong with your input.");
+        }
+    }
+
+    public HttpEntity<Void> makeAuthEntity() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(user.getToken());
+        return new HttpEntity<>(headers);
+    }
+
+    public HttpEntity<Transfer> makeTransferEntity(Transfer transfer) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(user.getToken());
+        return new HttpEntity<>(transfer, headers);
+    }
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+
+    //METHOD BELOW WORKS
 //    public void sendBucks(AuthenticatedUser user) {
 //            accountService.setUser(user);
 //            Scanner scanner = new Scanner(System.in);
@@ -116,32 +175,8 @@ public class TransferService {
 //            }
 //    }
 
-    //METHOD BELOW WORKS BUT DOES NOT ADJUST BALANCE
-    public void sendBucks() {
-        accountService.setUser(user);
-        Transfer transfer = new Transfer();
-        try {
-            Integer userSelection = consoleService.promptForInt("-------------------------------------------\r\n" +
-                    "Enter the user ID of user you are sending to (or enter 0 to cancel): ");
-            Account recipientAccount = accountService.findAccountByUserId(userSelection);
-            transfer.setAccountTo(recipientAccount.getAccountId());
-            transfer.setAccountFrom((accountService.findAccountByUserId(user.getUser().getId())).getAccountId());
-            if (transfer.getAccountTo() != 0) {
-                try {
-                    transfer.setAmount(consoleService.promptForBigDecimal("Enter amount to send: "));
-                } catch (NumberFormatException e) {
-                    System.out.println("There was an error processing the amount");
-                }
-                String output = restTemplate.exchange(BASE_URL + "/send", HttpMethod.POST, makeTransferEntity(transfer), String.class).getBody();
-                System.out.println(output);
-            }
-        } catch (Exception e) {
-            System.out.println("Something went wrong with your input.");
-        }
-    }
-
 ////    BELOW
-    //METHOD BELOW WORKS BUT DOESN'T ADJUST BALANCE
+    //METHOD BELOW WORKS
 //    public void sendBucks(AuthenticatedUser user) {
 //        accountService.setUser(user);
 //        userService.setUser(user);
@@ -210,59 +245,4 @@ public class TransferService {
 
     //SECURITY METHODS BELOW - do not alter
 
-    public HttpEntity<Void> makeAuthEntity() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(user.getToken());
-        return new HttpEntity<>(headers);
-    }
 
-    public HttpEntity<Transfer> makeTransferEntity(Transfer transfer) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setBearerAuth(user.getToken());
-        return new HttpEntity<>(transfer, headers);
-    }
-
-    //__________________________________________________________________________________________________________________
-
-
-    //unused methods
-
-    //    public boolean createTransfer(Transfer transfer) {
-//        boolean wasCreated = false;
-//        try {
-//            ResponseEntity<Boolean> response = restTemplate.exchange(BASE_URL + "transfers/",
-//                    HttpMethod.POST,
-//                    makeTransferEntity(transfer),
-//                    Boolean.class);
-//            wasCreated = response.getBody();
-//            return wasCreated;
-//        } catch (RestClientResponseException | ResourceAccessException e) {
-//            System.out.println("Transfer failed. Try again.");
-//        }
-//        return false;
-//    }
-
-//    public Transfer[] listAllTransfers() {
-//        Transfer[] allTransfers = null;
-//        try {
-//            ResponseEntity<Transfer[]> response = restTemplate.exchange(BASE_URL + "transfers/",
-//                    HttpMethod.GET, makeAuthEntity(), Transfer[].class);
-//            allTransfers = response.getBody();
-//        } catch (RestClientResponseException | ResourceAccessException e) {
-//            System.out.println("Failed to retrieve transfers.");
-//        }
-//        return allTransfers;
-//    }
-
-//    public Transfer[] listAllTransfers() {
-//        Transfer[] transfers = null;
-//        try {
-//            ResponseEntity<Transfer[]> response = restTemplate.exchange(BASE_URL + "s/", HttpMethod.GET, makeAuthEntity(), Transfer[].class);
-//            transfers = response.getBody();
-//        } catch (RestClientResponseException | ResourceAccessException e) {
-//            System.out.println("Failed to retrieve transfers.");
-//        }
-//        return transfers;
-//    }
-}
