@@ -21,7 +21,7 @@ public class JdbcTransferDao implements TransferDao {
     }
 
     public void createTransfer(Transfer transfer) {
-        String sql = "INSERT INTO transfer (transfer_type_id, transfer_status_id, account_from, account_to, amount) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO transfer (transfer_type_id, transfer_status_id, account_from, account_to, amount) VALUES (?, ?, ?, ?, ?);";
         jdbcTemplate.update(sql, transfer.getTransferTypeId(), transfer.getTransferStatusId(), transfer.getAccountFrom(), transfer.getAccountTo(), transfer.getAmount());
     }
 
@@ -31,7 +31,7 @@ public class JdbcTransferDao implements TransferDao {
         String sql = "SELECT transfer.*, tenmo_user.username FROM transfer " +
                      "JOIN account ON transfer.account_from = account.account_id OR transfer.account_to = account.account_id " +
                      "JOIN tenmo_user ON account.user_id = tenmo_user.user_id " +
-                     "WHERE account.user_id = ?";
+                     "WHERE account.user_id = ?;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
         while (results.next()) {
             Transfer transfer = mapRowToTransfer(results);
@@ -43,7 +43,7 @@ public class JdbcTransferDao implements TransferDao {
     @Override
     public Transfer getTransferById(int transferId) {
         Transfer transfer = new Transfer();
-        String sql = "SELECT * FROM transfer WHERE transfer_id = ?";
+        String sql = "SELECT * FROM transfer WHERE transfer_id = ?;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, transferId);
         if (results.next()) {
             transfer = mapRowToTransfer(results);
@@ -53,39 +53,39 @@ public class JdbcTransferDao implements TransferDao {
         return transfer;
     }
 
-    @Override
-    public String sendTransfer(int userFromId, int userToId, BigDecimal amount) {
-        String successMessage;
-        if (userFromId == userToId) {
-            successMessage = "You can't send yourself money!";
-        } else if (amount.compareTo(accountDao.getBalance(userFromId)) == -1 && amount.compareTo(new BigDecimal(0)) == 1) {
-            String sql = "INSERT INTO transfer (transfer_type_id, transfer_status_id, account_from, account_to, amount) " +
-                         "VALUES (2,2,?,?,?)";
-            jdbcTemplate.update(sql, userFromId, userToId);
-            accountDao.addToBalance(amount, userToId);
-            accountDao.subtractFromBalance(amount, userFromId);
-            successMessage = "Transfer processed successfully!";
-        } else {
-            successMessage = "There was an error during transfer because of a lack of funds or invalid user choice.";
-        } return successMessage;
-    }
-
 //    @Override
 //    public String sendTransfer(int userFromId, int userToId, BigDecimal amount) {
+//        String successMessage;
 //        if (userFromId == userToId) {
-//            return "You can't send yourself money!";
-//        }
-//        if (amount.compareTo(accountDao.getBalance(userFromId)) <= 0) {
-//            return "There was a problem processing your transfer.";
-//        } else {
+//            successMessage = "You can't send yourself money!";
+//        } else if (amount.compareTo(accountDao.getBalance(userFromId)) == -1 && amount.compareTo(new BigDecimal(0)) == 1) {
 //            String sql = "INSERT INTO transfer (transfer_type_id, transfer_status_id, account_from, account_to, amount) " +
 //                         "VALUES (2,2,?,?,?)";
 //            jdbcTemplate.update(sql, userFromId, userToId);
 //            accountDao.addToBalance(amount, userToId);
 //            accountDao.subtractFromBalance(amount, userFromId);
-//            return "Transfer processed successfully!";
-//        }
+//            successMessage = "Transfer processed successfully!";
+//        } else {
+//            successMessage = "There was an error during transfer because of a lack of funds or invalid user choice.";
+//        } return successMessage;
 //    }
+
+    @Override
+    public String sendTransfer(int userFromId, int userToId, BigDecimal amount) {
+        if (userFromId == userToId) {
+            return "You can't send yourself money!";
+        }
+        if (amount.compareTo(accountDao.getBalance(userFromId)) <= 0) {
+            return "There was a problem processing your transfer.";
+        } else {
+            String sql = "INSERT INTO transfer (transfer_type_id, transfer_status_id, account_from, account_to, amount) " +
+                         "VALUES (2,2,?,?,?);";
+            jdbcTemplate.update(sql, userFromId, userToId);
+            accountDao.addToBalance(amount, userToId);
+            accountDao.subtractFromBalance(amount, userFromId);
+            return "Transfer processed successfully!";
+        }
+    }
 
     @Override
     public String requestTransfer(int userFromId, int userToId, BigDecimal amount) {
@@ -94,7 +94,7 @@ public class JdbcTransferDao implements TransferDao {
         }
         if (amount.compareTo(new BigDecimal(0)) == 1) {
             String sql = "INSERT INTO transfer (transfer_type_id, transfer_status_id, account_from, account_to, amount) " +
-                    "VALUES (1,1,?,?,?)";
+                    "VALUES (1,1,?,?,?);";
             jdbcTemplate.update(sql, userFromId, userToId, amount);
             return "Request has been sent!";
         } else {
@@ -107,7 +107,7 @@ public class JdbcTransferDao implements TransferDao {
             String sql = "SELECT transfer.* FROM transfer " +
                     "JOIN account ON transfer.account_from = account.account_id OR transfer.account_to = account.account_id " +
                     "JOIN tenmo_user ON account.user_id = tenmo_user.user_id " +
-                    "WHERE transfer_status_id = 1 AND (account_from = ? OR account_to = ?)";
+                    "WHERE transfer_status_id = 1 AND (account_from = ? OR account_to = ?);";
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId, userId);
             while (results.next()) {
                 Transfer transfer = mapRowToTransfer(results);

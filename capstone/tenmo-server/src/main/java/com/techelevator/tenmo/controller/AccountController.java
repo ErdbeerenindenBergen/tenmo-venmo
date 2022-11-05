@@ -24,7 +24,6 @@ public class AccountController {
         return accountDao.getBalance(userId);
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(path = "/user/{userId}", method = RequestMethod.GET)
     public Account findAccountByUserId(@PathVariable int userId) {
         return accountDao.findAccountByUserId(userId);

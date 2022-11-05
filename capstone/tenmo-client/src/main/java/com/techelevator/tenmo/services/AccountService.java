@@ -4,10 +4,7 @@ import com.techelevator.tenmo.App;
 import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.Transfer;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -43,10 +40,11 @@ public class AccountService {
         return balance;
     }
 
-    public Account findAccountByUserId(int accountId) {
+    public Account findAccountByUserId(int userId) {
         Account account = new Account();
         try {
-            account = restTemplate.exchange(BASE_URL + "/user" + accountId, HttpMethod.GET, makeAuthEntity(), Account.class).getBody();
+            ResponseEntity<Account> response = restTemplate.exchange(BASE_URL + "/user/" + userId, HttpMethod.GET, makeAccountEntity(account), Account.class);
+            account = response.getBody();
         } catch (RestClientException e) {
             System.out.println("This account could not be found.");
         }
