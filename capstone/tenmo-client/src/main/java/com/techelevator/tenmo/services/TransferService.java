@@ -101,6 +101,8 @@ public class TransferService {
             Account requestAccount = accountService.findAccountByUserId(userSelection);
             transfer.setAccountFrom(requestAccount.getAccountId());
             transfer.setAccountTo((accountService.findAccountByUserId(user.getUser().getId())).getAccountId());
+            transfer.setUserTo(user.getUser().getId() + "");
+            transfer.setUserFrom(userSelection + "");
             if (transfer.getAccountTo() != 0) {
                 try {
                     transfer.setAmount(consoleService.promptForBigDecimal("Enter amount you'd like to request: "));
@@ -121,6 +123,8 @@ public class TransferService {
         try {
             Integer userSelection = consoleService.promptForInt("-----------------------------------------------------\r\n" +
                     "Enter the user ID of the user you are sending to (or enter 0 to cancel): ");
+            transfer.setUserFrom(user.getUser().getId() + "");
+            transfer.setUserTo(userSelection + "");
             Account recipientAccount = accountService.findAccountByUserId(userSelection);
             transfer.setAccountTo(recipientAccount.getAccountId());
             transfer.setAccountFrom((accountService.findAccountByUserId(user.getUser().getId())).getAccountId());
