@@ -132,6 +132,8 @@ public class Transfer {
                 "\n Transfer ID:    " + transferId +
                 "\n From Account:   " + accountFrom +
                 "\n To Account:     " + accountTo +
+                "\n From User ID:   " + userFrom +
+                "\n To User ID:     " + userTo +
                 "\n Type:           " + displayTransferType(transferTypeId) +
                 "\n Status:         " + displayTransferStatus(transferStatusId) +
                 "\n Amount:         " + displayAsCurrency(amount) +

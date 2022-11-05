@@ -61,6 +61,7 @@ public class JdbcTransferDao implements TransferDao {
         if (userFromAccountId == userToAccountId) {
             return "You can't send yourself money!";
             //had to create new method in AccountDao that would search by accountId and implement below
+            //had to google .compareTo method below to make sure I'm using it correctly
         } else if (amount.compareTo(accountDao.getBalanceByAccountId(userFromAccountId)) == -1 && amount.compareTo(new BigDecimal(0)) == 1) {
             String sql = "INSERT INTO transfer (transfer_type_id, transfer_status_id, account_from, account_to, amount) " +
                          "VALUES (2,2,?,?,?);";
