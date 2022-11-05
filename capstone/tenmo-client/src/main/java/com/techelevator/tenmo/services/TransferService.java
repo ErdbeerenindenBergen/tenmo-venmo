@@ -103,7 +103,7 @@ public class TransferService {
                 } catch (NumberFormatException e) {
                     System.out.println("There was an error processing the amount");
                 }
-                String transferSuccess = restTemplate.exchange(BASE_URL + "/request", HttpMethod.POST, makeAuthEntity(), String.class).getBody();
+                String transferSuccess = restTemplate.exchange(BASE_URL + "/request", HttpMethod.POST, makeTransferEntity(transfer), String.class).getBody();
                 System.out.println(transferSuccess);
             }
         } catch (Exception e) {
@@ -115,7 +115,7 @@ public class TransferService {
         accountService.setUser(user);
         Transfer transfer = new Transfer();
         try {
-            Integer userSelection = consoleService.promptForInt("------------------------------------------------\r\n" +
+            Integer userSelection = consoleService.promptForInt("-----------------------------------------------------\r\n" +
                     "Enter the user ID of the user you are sending to (or enter 0 to cancel): ");
             Account recipientAccount = accountService.findAccountByUserId(userSelection);
             transfer.setAccountTo(recipientAccount.getAccountId());
@@ -126,7 +126,7 @@ public class TransferService {
                 } catch (NumberFormatException e) {
                     System.out.println("There was an error processing the amount");
                 }
-                String transferSuccess = restTemplate.exchange(BASE_URL + "/send", HttpMethod.POST, makeAuthEntity(), String.class).getBody();
+                String transferSuccess = restTemplate.exchange(BASE_URL + "/send", HttpMethod.POST, makeTransferEntity(transfer), String.class).getBody();
                 System.out.println(transferSuccess);
             }
         } catch (Exception e) {
