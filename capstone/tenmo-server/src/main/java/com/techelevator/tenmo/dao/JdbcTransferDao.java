@@ -28,10 +28,12 @@ public class JdbcTransferDao implements TransferDao {
     @Override
     public List<Transfer> getAllTransfersByUserId(int userId) {
         List<Transfer> transferList = new ArrayList<>();
-        String sql = "SELECT transfer.*, tenmo_user.username FROM transfer " +
-                     "JOIN account ON transfer.account_from = account.account_id OR transfer.account_to = account.account_id " +
-                     "JOIN tenmo_user ON account.user_id = tenmo_user.user_id " +
-                     "WHERE account.user_id = ?;";
+        String sql = "SELECT transfer.*, s.username AS userFrom, r.username AS userTo FROM transfer " +
+                     "JOIN account a ON transfer.account_from = account.account_id " +
+                     "JOIN account b ON transfer.account_to = account.account_id " +
+                     "JOIN tenmo_user s ON a.user_id = s.user_id " +
+                     "JOIN tenmo_user r ON b.user_id = r.user_id" +
+                     "WHERE a.user_id = ? OR b.user_id = ?;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
         while (results.next()) {
             Transfer transfer = mapRowToTransfer(results);

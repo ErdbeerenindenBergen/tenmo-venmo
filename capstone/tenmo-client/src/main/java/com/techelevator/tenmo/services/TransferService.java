@@ -56,11 +56,12 @@ public class TransferService {
     public String createTransfer(Transfer transfer) {
         String transferSuccessReport = "";
         try {
-            transferSuccessReport = restTemplate.exchange(BASE_URL + "", HttpMethod.POST, makeTransferEntity(transfer), String.class).getBody();
+            transferSuccessReport = restTemplate.exchange(BASE_URL + "/send", HttpMethod.POST, makeTransferEntity(transfer), String.class).getBody();
         } catch (RestClientResponseException | ResourceAccessException e) {
             System.out.println("Transfer failed. Try again.");
         } return transferSuccessReport;
     }
+
 
     public void printTransactions(Transfer[] transfers){
         for (Transfer transfer : transfers) {
