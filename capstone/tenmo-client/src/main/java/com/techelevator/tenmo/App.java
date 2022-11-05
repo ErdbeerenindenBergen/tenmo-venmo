@@ -5,6 +5,8 @@ import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.*;
 
+import java.util.List;
+
 public class App {
 
     //Base API urls are listed below for each of the services.
@@ -102,12 +104,12 @@ public class App {
 
 	private void viewTransferHistory() {
 		Transfer[] transfers = transferService.findAllTransfersForCurrentUser(currentUser);
-        transferService.printTransactions(transfers);
+        transferService.printTransfers(transfers);
 	}
 
 	private void viewPendingRequests() {
-        Transfer[] transfers = transferService.getPendingRequests(currentUser);
-        transferService.printTransactions(transfers);
+        Transfer[] pendingTransfersList = transferService.getPendingRequests();
+        transferService.printTransfers(pendingTransfersList);
 	}
 
 	private void sendBucks() {

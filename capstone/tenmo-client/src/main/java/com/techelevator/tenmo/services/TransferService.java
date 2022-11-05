@@ -11,6 +11,9 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class TransferService {
 
@@ -60,20 +63,20 @@ public class TransferService {
     }
 
 
-    public void printTransactions(Transfer[] transfers){
+    public void printTransfers(Transfer[] transfers){
         for (Transfer transfer : transfers) {
             transfer.transferDetailsPrintOut();
         }
     }
 
-    public Transfer[] getPendingRequests(AuthenticatedUser user) {
-        Transfer[] transfers = null;
+    public Transfer[] getPendingRequests() {
+        Transfer[] pendingTransfersList = null;
         try {
-            transfers = restTemplate.exchange(BASE_URL + "/pending/" + user.getUser().getId(), HttpMethod.GET, makeAuthEntity(), Transfer[].class).getBody();
+            pendingTransfersList = restTemplate.exchange(BASE_URL + "/user/" + user.getUser().getId() + "/pending", HttpMethod.GET, makeAuthEntity(), Transfer[].class).getBody();
         } catch (RestClientResponseException e) {
             e.printStackTrace();
         }
-        return transfers;
+        return pendingTransfersList;
     }
 
     public boolean updateTransfer(Transfer transfer) {
@@ -133,6 +136,8 @@ public class TransferService {
             System.out.println("Something went wrong with your input.");
         }
     }
+
+    //SECURITY METHODS BELOW - do not alter
 
     public HttpEntity<Void> makeAuthEntity() {
         HttpHeaders headers = new HttpHeaders();
@@ -240,9 +245,5 @@ public class TransferService {
 //            System.out.println(transferSuccessReport);
 //            accountService.getBalance(user);
 //        }
-
-        //ABOVE
-
-    //SECURITY METHODS BELOW - do not alter
 
 

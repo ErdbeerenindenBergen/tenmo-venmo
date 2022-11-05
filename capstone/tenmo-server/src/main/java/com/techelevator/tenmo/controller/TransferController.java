@@ -41,10 +41,21 @@ public class TransferController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @RequestMapping(path = "/pending/{userId}", method = RequestMethod.GET)
+    @RequestMapping(path = "/user/{userId}/pending", method = RequestMethod.GET)
     public List<Transfer> getPendingTransfers(@PathVariable int userId) {
-        return transferDao.getPendingRequests(userId);
+        List<Transfer> pendingTransfers = transferDao.getPendingRequests(userId);
+        if (pendingTransfers == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Transfers not found.");
+        } else {
+            return pendingTransfers;
+        }
     }
+
+//    @PreAuthorize("hasRole('ROLE_USER')")
+//    @RequestMapping(path = "/user/{userId}/pending", method = RequestMethod.GET)
+//    public List<Transfer> getPendingTransfers(@PathVariable int userId) {
+//        return transferDao.getPendingRequests(userId);
+//    }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @ResponseStatus(HttpStatus.CREATED)

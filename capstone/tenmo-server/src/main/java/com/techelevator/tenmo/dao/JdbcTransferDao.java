@@ -75,7 +75,7 @@ public class JdbcTransferDao implements TransferDao {
         }
     }
 
-//Kevin's method
+//ORIGINAL METHOD BELOW
 //    @Override
 //    public String sendTransfer(int userFromId, int userToId, BigDecimal amount) {
 //        if (userFromId == userToId) {
@@ -107,20 +107,52 @@ public class JdbcTransferDao implements TransferDao {
             return "There was a problem processing your request.";
         }
     }
-        @Override
-        public List<Transfer> getPendingRequests ( int userId){
-            List<Transfer> pendingRequests = new ArrayList<>();
-            String sql = "SELECT transfer.* FROM transfer " +
-                    "JOIN account ON transfer.account_from = account.account_id OR transfer.account_to = account.account_id " +
-                    "JOIN tenmo_user ON account.user_id = tenmo_user.user_id " +
-                    "WHERE transfer_status_id = 1 AND (account_from = ? OR account_to = ?);";
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId, userId);
-            while (results.next()) {
-                Transfer transfer = mapRowToTransfer(results);
-                pendingRequests.add(transfer);
-            }
-            return pendingRequests;
+
+    public List<Transfer> getPendingRequests (int userId){
+        List<Transfer> pendingRequests = new ArrayList<>();
+        String sql = "SELECT transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount\n" +
+                "FROM transfer JOIN account ON account_from = account_id OR account_to = account_id WHERE user_id = ? AND transfer_status_id = 1;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
+        while (results.next()) {
+            Transfer transfer = mapRowToTransfer(results);
+            pendingRequests.add(transfer);
         }
+        return pendingRequests;
+    }
+
+//    @Override
+//    public List<Transfer> getPendingRequests (int userId){
+//        List<Transfer> pendingRequests = new ArrayList<>();
+//        int userToId = userId;
+//        String sql = "SELECT transfer.*, s.username AS userFrom, r.username AS userTo FROM transfer " +
+//                "JOIN account a ON transfer.account_from = a.account_id " +
+//                "JOIN account b ON transfer.account_to = b.account_id " +
+//                "JOIN tenmo_user s ON a.user_id = s.user_id " +
+//                "JOIN tenmo_user r ON b.user_id = r.user_id" +
+//                "WHERE transfer_status_id = 1 AND (account_from = ? OR account_to = ?);";
+//        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId, userToId);
+//        while (results.next()) {
+//            Transfer transfer = mapRowToTransfer(results);
+//            pendingRequests.add(transfer);
+//        }
+//        return pendingRequests;
+//    }
+
+// ORIGINAL METHOD BELOW
+//        @Override
+//        public List<Transfer> getPendingRequests ( int userId){
+//            List<Transfer> pendingRequests = new ArrayList<>();
+//            String sql = "SELECT transfer.* FROM transfer " +
+//                    "JOIN account ON transfer.account_from = account.account_id OR transfer.account_to = account.account_id " +
+//                    "JOIN tenmo_user ON account.user_id = tenmo_user.user_id " +
+//                    "WHERE transfer_status_id = 1 AND (account_from = ? OR account_to = ?);";
+//            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId, userId);
+//            while (results.next()) {
+//                Transfer transfer = mapRowToTransfer(results);
+//                pendingRequests.add(transfer);
+//            }
+//            return pendingRequests;
+//        }
 
     @Override
     public String updateTransferRequest(Transfer transfer, int statusId) {
@@ -152,8 +184,8 @@ public class JdbcTransferDao implements TransferDao {
         transfer.setAccountTo(results.getInt("account_to"));
         transfer.setAmount(results.getBigDecimal("amount"));
         try {
-            transfer.setUserFrom(results.getString("userTo"));
-            transfer.setUserTo(results.getString("userFrom"));
+            transfer.setUserTo(results.getString("userTo"));
+            transfer.setUserFrom(results.getString("userFrom"));
         } catch (Exception e) {
             e.getMessage();
         }
