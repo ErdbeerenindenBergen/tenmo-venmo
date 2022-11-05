@@ -89,6 +89,8 @@ public class App {
                 sendBucks();
             } else if (menuSelection == 5) {
                 requestBucks();
+            } else if (menuSelection == 6) {
+                viewTransferByTransferId();
             } else if (menuSelection == 0) {
                 continue;
             } else {
@@ -101,6 +103,7 @@ public class App {
 	private void viewCurrentBalance() {
 		accountService.getBalance(currentUser);
 	}
+
 
 	private void viewTransferHistory() {
 		Transfer[] transfers = transferService.findAllTransfersForCurrentUser(currentUser);
@@ -121,5 +124,10 @@ public class App {
         userService.listAllUsers();
         transferService.requestBucks();
 	}
+
+    private void viewTransferByTransferId() {
+        Transfer transfer = transferService.findTransferByTransferId();
+        System.out.println(transfer.transferDetailsPrintOut()); 
+    }
 
 }

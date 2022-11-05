@@ -40,8 +40,9 @@ public class TransferService {
         return transferHistory;
     }
 
-    public Transfer findTransferByTransferId(int transferId) {
+    public Transfer findTransferByTransferId() {
         Transfer transfer = null;
+        int transferId = consoleService.promptForInt("Please enter the transfer ID for the transfer you'd like to view: ");
         try {
             transfer = restTemplate.exchange(BASE_URL + "/" + transferId, HttpMethod.GET, makeAuthEntity(), Transfer.class).getBody();
         } catch (RestClientResponseException | ResourceAccessException e) {
