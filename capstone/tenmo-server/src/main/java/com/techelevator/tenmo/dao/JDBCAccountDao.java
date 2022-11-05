@@ -56,7 +56,7 @@ public class JdbcAccountDao implements AccountDao{
     public BigDecimal addToBalance(BigDecimal amountToAdd, int id) {
         Account account = findAccountByAccountId(id);
         BigDecimal updatedBalance = account.getBalance().add(amountToAdd);
-        String sql = "UPDATE account SET balance = ? WHERE user_id = ?;";
+        String sql = "UPDATE account SET balance = ? WHERE account_id = ?;";
         try {
             jdbcTemplate.update(sql, updatedBalance, id);
         } catch (Exception e) {
@@ -69,7 +69,7 @@ public class JdbcAccountDao implements AccountDao{
     public BigDecimal subtractFromBalance(BigDecimal amountToSubtract, int id) {
         Account account = findAccountByAccountId(id);
         BigDecimal updatedBalance = account.getBalance().subtract(amountToSubtract);
-        String sql = "UPDATE account SET balance = ? WHERE user_id = ?;";
+        String sql = "UPDATE account SET balance = ? WHERE account_id = ?;";
         try {
             jdbcTemplate.update(sql, updatedBalance, id);
         } catch (Exception e) {

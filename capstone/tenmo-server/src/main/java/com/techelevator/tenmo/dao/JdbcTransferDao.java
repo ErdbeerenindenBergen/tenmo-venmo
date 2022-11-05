@@ -58,17 +58,17 @@ public class JdbcTransferDao implements TransferDao {
     }
 
     @Override
-    public String sendTransfer(int userFromId, int userToId, BigDecimal amount) {
-        if (userFromId == userToId) {
+    public String sendTransfer(int userFromAccountId, int userToAccountId, BigDecimal amount) {
+        if (userFromAccountId == userToAccountId) {
             return "You can't send yourself money!";
             //had to create new method in AccountDao that would search by accountId and implement below
-        } else if (amount.compareTo(accountDao.getBalanceByAccountId(userFromId)) == -1 && amount.compareTo(new BigDecimal(0)) == 1) {
+        } else if (amount.compareTo(accountDao.getBalanceByAccountId(userFromAccountId)) == -1 && amount.compareTo(new BigDecimal(0)) == 1) {
             String sql = "INSERT INTO transfer (transfer_type_id, transfer_status_id, account_from, account_to, amount) " +
                          "VALUES (2,2,?,?,?);";
             //amount was missing as an input variable below
-            jdbcTemplate.update(sql, userFromId, userToId, amount);
-            accountDao.addToBalance(amount, userToId);
-            accountDao.subtractFromBalance(amount, userFromId);
+            jdbcTemplate.update(sql, userFromAccountId, userToAccountId, amount);
+            accountDao.addToBalance(amount, userToAccountId);
+            accountDao.subtractFromBalance(amount, userFromAccountId);
             return "Transfer processed successfully!";
         } else {
             return "There was a problem processing your transfer.";
