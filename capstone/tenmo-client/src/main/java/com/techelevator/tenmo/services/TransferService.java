@@ -91,6 +91,7 @@ public class TransferService {
         return isSuccessful;
     }
 
+    //METHOD BELOW WORKS BUT DOESN'T ADJUST BALANCE
 //    public void sendBucks(AuthenticatedUser user) {
 //            accountService.setUser(user);
 //            Scanner scanner = new Scanner(System.in);
@@ -115,93 +116,95 @@ public class TransferService {
 //            }
 //    }
 
-//    public void sendBucks() {
-//        accountService.setUser(user);
-//        Transfer transfer = new Transfer();
-//        try {
-//            Integer userSelection = consoleService.promptForInt("-------------------------------------------\r\n" +
-//                    "Enter ID of user you are sending to (0 to cancel): ");
-//            Account recipientAccount = accountService.findAccountByUserId(userSelection);
-//            transfer.setAccountTo(recipientAccount.getAccountId());
-//            transfer.setAccountFrom((accountService.findAccountByUserId(user.getUser().getId())).getAccountId());
-//            if (transfer.getAccountTo() != 0) {
-//                try {
-//                    transfer.setAmount(consoleService.promptForBigDecimal("Enter amount: "));
-//                } catch (NumberFormatException e) {
-//                    System.out.println("Error when entering amount");
-//                }
-//                String output = restTemplate.exchange(BASE_URL + "/send", HttpMethod.POST, makeTransferEntity(transfer), String.class).getBody();
-//                System.out.println(output);
-//            }
-//        } catch (Exception e) {
-//            System.out.println("Bad input.");
-//        }
-//    }
+    //METHOD BELOW WORKS BUT DOES NOT ADJUST BALANCE
+    public void sendBucks() {
+        accountService.setUser(user);
+        Transfer transfer = new Transfer();
+        try {
+            Integer userSelection = consoleService.promptForInt("-------------------------------------------\r\n" +
+                    "Enter the user ID of user you are sending to (or enter 0 to cancel): ");
+            Account recipientAccount = accountService.findAccountByUserId(userSelection);
+            transfer.setAccountTo(recipientAccount.getAccountId());
+            transfer.setAccountFrom((accountService.findAccountByUserId(user.getUser().getId())).getAccountId());
+            if (transfer.getAccountTo() != 0) {
+                try {
+                    transfer.setAmount(consoleService.promptForBigDecimal("Enter amount to send: "));
+                } catch (NumberFormatException e) {
+                    System.out.println("There was an error processing the amount");
+                }
+                String output = restTemplate.exchange(BASE_URL + "/send", HttpMethod.POST, makeTransferEntity(transfer), String.class).getBody();
+                System.out.println(output);
+            }
+        } catch (Exception e) {
+            System.out.println("Something went wrong with your input.");
+        }
+    }
 
 ////    BELOW
-    public void sendBucks(AuthenticatedUser user) {
-        accountService.setUser(user);
-        userService.setUser(user);
-        int toUserId;
-        boolean isUserIdValid = false;
-
-        while (true) {
-            String userIdPrompt = "Enter the ID of the user you would like to send money to or enter '0' to cancel this transaction: ";
-            toUserId = consoleService.promptForInt(userIdPrompt);
-
-            if (toUserId == 0) {
-                return;
-            } else if (toUserId == user.getUser().getId()){
-                System.out.println("You can't send money to yourself!");
-                continue;
-            }
-
-            User[] allUsers = userService.findAllUsers();
-            for (User u : allUsers) {
-                if (u.getId() == (toUserId)) {
-                    isUserIdValid = true;
-                    break;
-                }
-            }
-
-            if (isUserIdValid) {
-                break;
-            } else {
-                System.out.println("You have entered an invalid user ID.");
-            }
-        }
-
-        Account fromAccount = new Account();
-        int fromAccountId;
-        Account toAccount;
-        int toAccountId;
-
-        try {
-            fromAccount = accountService.findAccountByUserId(user.getUser().getId());
-            fromAccountId = fromAccount.getAccountId();
-
-            toAccount = accountService.findAccountByUserId(toUserId);
-            toAccountId = toAccount.getAccountId();
-        } catch (Exception e) {
-            System.out.println("Unable to retrieve accounts for the transfer. Please try again.");
-            return;
-        }
-
-        String stringAskingUserForAmount = "Enter the amount you would like to transfer: ";
-        BigDecimal amount = consoleService.promptForBigDecimal(stringAskingUserForAmount);
-
-        Transfer transfer = new Transfer();
-        transfer.setAccountFrom(fromAccountId);
-        transfer.setAccountTo(toAccountId);
-        transfer.setAmount(amount);
-        transfer.setTransferTypeId(2); // send the transfer
-        transfer.setTransferStatusId(2); // approve the transfer
-
-        String transferSuccessReport = createTransfer(transfer);
-
-            System.out.println(transferSuccessReport);
-            accountService.getBalance(user);
-        }
+    //METHOD BELOW WORKS BUT DOESN'T ADJUST BALANCE
+//    public void sendBucks(AuthenticatedUser user) {
+//        accountService.setUser(user);
+//        userService.setUser(user);
+//        int toUserId;
+//        boolean isUserIdValid = false;
+//
+//        while (true) {
+//            String userIdPrompt = "Enter the ID of the user you would like to send money to or enter '0' to cancel this transaction: ";
+//            toUserId = consoleService.promptForInt(userIdPrompt);
+//
+//            if (toUserId == 0) {
+//                return;
+//            } else if (toUserId == user.getUser().getId()){
+//                System.out.println("You can't send money to yourself!");
+//                continue;
+//            }
+//
+//            User[] allUsers = userService.findAllUsers();
+//            for (User u : allUsers) {
+//                if (u.getId() == (toUserId)) {
+//                    isUserIdValid = true;
+//                    break;
+//                }
+//            }
+//
+//            if (isUserIdValid) {
+//                break;
+//            } else {
+//                System.out.println("You have entered an invalid user ID.");
+//            }
+//        }
+//
+//        Account fromAccount = new Account();
+//        int fromAccountId;
+//        Account toAccount;
+//        int toAccountId;
+//
+//        try {
+//            fromAccount = accountService.findAccountByUserId(user.getUser().getId());
+//            fromAccountId = fromAccount.getAccountId();
+//
+//            toAccount = accountService.findAccountByUserId(toUserId);
+//            toAccountId = toAccount.getAccountId();
+//        } catch (Exception e) {
+//            System.out.println("Unable to retrieve accounts for the transfer. Please try again.");
+//            return;
+//        }
+//
+//        String stringAskingUserForAmount = "Enter the amount you would like to transfer: ";
+//        BigDecimal amount = consoleService.promptForBigDecimal(stringAskingUserForAmount);
+//
+//        Transfer transfer = new Transfer();
+//        transfer.setAccountFrom(fromAccountId);
+//        transfer.setAccountTo(toAccountId);
+//        transfer.setAmount(amount);
+//        transfer.setTransferTypeId(2); // send the transfer
+//        transfer.setTransferStatusId(2); // approve the transfer
+//
+//        String transferSuccessReport = createTransfer(transfer);
+//
+//            System.out.println(transferSuccessReport);
+//            accountService.getBalance(user);
+//        }
 
         //ABOVE
 

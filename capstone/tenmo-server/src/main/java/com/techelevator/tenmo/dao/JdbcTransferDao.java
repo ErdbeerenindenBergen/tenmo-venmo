@@ -14,10 +14,12 @@ import com.techelevator.tenmo.model.Transfer;
 
 @Component
 public class JdbcTransferDao implements TransferDao {
+
     AccountDao accountDao;
     private JdbcTemplate jdbcTemplate;
-    public JdbcTransferDao(JdbcTemplate jdbcTemplate) {
+    public JdbcTransferDao(JdbcTemplate jdbcTemplate, AccountDao accountDao) {
         this.jdbcTemplate = jdbcTemplate;
+        this.accountDao = accountDao;
     }
 
     public void createTransfer(Transfer transfer) {
@@ -29,8 +31,8 @@ public class JdbcTransferDao implements TransferDao {
     public List<Transfer> getAllTransfersByUserId(int userId) {
         List<Transfer> transferList = new ArrayList<>();
         String sql = "SELECT transfer.*, s.username AS userFrom, r.username AS userTo FROM transfer " +
-                     "JOIN account a ON transfer.account_from = account.account_id " +
-                     "JOIN account b ON transfer.account_to = account.account_id " +
+                     "JOIN account a ON transfer.account_from = a.account_id " +
+                     "JOIN account b ON transfer.account_to = b.account_id " +
                      "JOIN tenmo_user s ON a.user_id = s.user_id " +
                      "JOIN tenmo_user r ON b.user_id = r.user_id" +
                      "WHERE a.user_id = ? OR b.user_id = ?;";
@@ -55,39 +57,41 @@ public class JdbcTransferDao implements TransferDao {
         return transfer;
     }
 
-//    @Override
-//    public String sendTransfer(int userFromId, int userToId, BigDecimal amount) {
-//        String successMessage;
-//        if (userFromId == userToId) {
-//            successMessage = "You can't send yourself money!";
-//        } else if (amount.compareTo(accountDao.getBalance(userFromId)) == -1 && amount.compareTo(new BigDecimal(0)) == 1) {
-//            String sql = "INSERT INTO transfer (transfer_type_id, transfer_status_id, account_from, account_to, amount) " +
-//                         "VALUES (2,2,?,?,?)";
-//            jdbcTemplate.update(sql, userFromId, userToId);
-//            accountDao.addToBalance(amount, userToId);
-//            accountDao.subtractFromBalance(amount, userFromId);
-//            successMessage = "Transfer processed successfully!";
-//        } else {
-//            successMessage = "There was an error during transfer because of a lack of funds or invalid user choice.";
-//        } return successMessage;
-//    }
-
     @Override
     public String sendTransfer(int userFromId, int userToId, BigDecimal amount) {
         if (userFromId == userToId) {
             return "You can't send yourself money!";
-        }
-        if (amount.compareTo(accountDao.getBalance(userFromId)) <= 0) {
-            return "There was a problem processing your transfer.";
-        } else {
+            //had to create new method in AccountDao that would search by accountId and implement below
+        } else if (amount.compareTo(accountDao.getBalanceByAccountId(userFromId)) == -1 && amount.compareTo(new BigDecimal(0)) == 1) {
             String sql = "INSERT INTO transfer (transfer_type_id, transfer_status_id, account_from, account_to, amount) " +
                          "VALUES (2,2,?,?,?);";
-            jdbcTemplate.update(sql, userFromId, userToId);
+            //amount was missing as an input variable below
+            jdbcTemplate.update(sql, userFromId, userToId, amount);
             accountDao.addToBalance(amount, userToId);
             accountDao.subtractFromBalance(amount, userFromId);
             return "Transfer processed successfully!";
+        } else {
+            return "There was a problem processing your transfer.";
         }
     }
+
+//Kevin's method
+//    @Override
+//    public String sendTransfer(int userFromId, int userToId, BigDecimal amount) {
+//        if (userFromId == userToId) {
+//            return "You can't send yourself money!";
+//        }
+//        if (amount.compareTo(accountDao.getBalance(userFromId)) <= 0) {
+//            return "There was a problem processing your transfer.";
+//        } else {
+//            String sql = "INSERT INTO transfer (transfer_type_id, transfer_status_id, account_from, account_to, amount) " +
+//                         "VALUES (2,2,?,?,?);";
+//            jdbcTemplate.update(sql, userFromId, userToId);
+//            accountDao.addToBalance(amount, userToId);
+//            accountDao.subtractFromBalance(amount, userFromId);
+//            return "Transfer processed successfully!";
+//        }
+//    }
 
     @Override
     public String requestTransfer(int userFromId, int userToId, BigDecimal amount) {
