@@ -28,7 +28,12 @@ public class TransferController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping (path = "/{transferId}", method = RequestMethod.GET)
     public Transfer getTransferByTransferId(@PathVariable int transferId) {
-        return transferDao.getTransferById(transferId);
+        Transfer transfer = transferDao.getTransferById(transferId);
+        if (transfer == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No transfer could be found.");
+        } else {
+            return transfer;
+        }
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -67,13 +72,19 @@ public class TransferController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @RequestMapping(path = "/update", method = RequestMethod.PUT)
-    public String updateTransfer(@Valid @PathVariable Transfer transfer, @PathVariable int statusId) {
+    @RequestMapping(path = "/update/{statusId}", method = RequestMethod.PUT)
+    public String updateTransfer(@Valid @RequestBody Transfer transfer, @PathVariable int statusId) {
         return transferDao.updateTransferRequest(transfer, statusId);
     }
 
+
 //----------------------------------------------------------------------------------------------------------------------
 
+//    @PreAuthorize("hasRole('ROLE_USER')")
+//    @RequestMapping(path = "/update/{statusId}", method = RequestMethod.PUT)
+//    public String updateTransfer(@Valid @PathVariable Transfer transfer, @PathVariable int statusId) {
+//        return transferDao.updateTransferRequest(transfer, statusId);
+//    }
 //
 //    @PreAuthorize("hasRole('ROLE_USER')")
 //    @RequestMapping (path = "/create", method = RequestMethod.POST)

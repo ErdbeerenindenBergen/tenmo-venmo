@@ -11,9 +11,6 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.List;
-
 
 public class TransferService {
 
@@ -64,6 +61,9 @@ public class TransferService {
 
 
     public void printTransfers(Transfer[] transfers){
+        if (transfers.length == 0) {
+            System.out.println("There are no transfers to display.");
+        }
         for (Transfer transfer : transfers) {
             System.out.println(transfer.transferDetailsPrintOut());
         }
@@ -155,7 +155,10 @@ public class TransferService {
 
 //----------------------------------------------------------------------------------------------------------------------
 
-    //METHOD BELOW WORKS
+//BUILT TWO METHODS BELOW BEFORE REALIZING THE PROBLEM WAS NOT IN SERVICES... (:
+//SAVING IN CASE SOMETHING GOES WRONG WITH SHORTER, MORE EFFICIENT METHOD ABOVE
+
+    //METHOD BELOW NOW WORKS
 //    public void sendBucks(AuthenticatedUser user) {
 //            accountService.setUser(user);
 //            Scanner scanner = new Scanner(System.in);
@@ -180,8 +183,7 @@ public class TransferService {
 //            }
 //    }
 
-////    BELOW
-    //METHOD BELOW WORKS
+    //METHOD BELOW NOW WORKS
 //    public void sendBucks(AuthenticatedUser user) {
 //        accountService.setUser(user);
 //        userService.setUser(user);
