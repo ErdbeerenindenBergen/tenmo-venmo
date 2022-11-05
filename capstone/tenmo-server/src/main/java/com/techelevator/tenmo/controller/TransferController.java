@@ -2,8 +2,6 @@ package com.techelevator.tenmo.controller;
 
 import com.techelevator.tenmo.dao.AccountDao;
 import com.techelevator.tenmo.dao.TransferDao;
-import com.techelevator.tenmo.dao.UserDao;
-import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Transfer;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,12 +9,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
-import java.math.BigDecimal;
-import java.security.Principal;
 import java.util.List;
 
 @RestController
 @PreAuthorize("isAuthenticated()")
+//"transfer" is added to BASE_API_URL
 @RequestMapping("transfer")
 public class TransferController {
 
@@ -36,8 +33,13 @@ public class TransferController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(path = "/user/{userId}", method = RequestMethod.GET)
-    public List<Transfer> getAllTransfersByUserId(@PathVariable int userId) {
-        return transferDao.getAllTransfersByUserId(userId);
+    public List<Transfer> allTransfersByUserId(@PathVariable int userId) {
+        List<Transfer> allTransfersByUserId = transferDao.getAllTransfersByUserId(userId);
+        if (allTransfersByUserId == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No transfers were found.");
+        } else {
+            return allTransfersByUserId;
+        }
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -45,17 +47,11 @@ public class TransferController {
     public List<Transfer> getPendingTransfers(@PathVariable int userId) {
         List<Transfer> pendingTransfers = transferDao.getPendingRequests(userId);
         if (pendingTransfers == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Transfers not found.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No transfers were found.");
         } else {
             return pendingTransfers;
         }
     }
-
-//    @PreAuthorize("hasRole('ROLE_USER')")
-//    @RequestMapping(path = "/user/{userId}/pending", method = RequestMethod.GET)
-//    public List<Transfer> getPendingTransfers(@PathVariable int userId) {
-//        return transferDao.getPendingRequests(userId);
-//    }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @ResponseStatus(HttpStatus.CREATED)
@@ -76,6 +72,7 @@ public class TransferController {
         return transferDao.updateTransferRequest(transfer, statusId);
     }
 
+//----------------------------------------------------------------------------------------------------------------------
 
 //
 //    @PreAuthorize("hasRole('ROLE_USER')")

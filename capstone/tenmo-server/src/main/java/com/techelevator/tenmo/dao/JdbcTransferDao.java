@@ -27,15 +27,12 @@ public class JdbcTransferDao implements TransferDao {
         jdbcTemplate.update(sql, transfer.getTransferTypeId(), transfer.getTransferStatusId(), transfer.getAccountFrom(), transfer.getAccountTo(), transfer.getAmount());
     }
 
+    //I accidentally edited the method below "getAllTransfersByUserId" without saving the original dao method.
     @Override
     public List<Transfer> getAllTransfersByUserId(int userId) {
         List<Transfer> transferList = new ArrayList<>();
-        String sql = "SELECT transfer.*, s.username AS userFrom, r.username AS userTo FROM transfer " +
-                     "JOIN account a ON transfer.account_from = a.account_id " +
-                     "JOIN account b ON transfer.account_to = b.account_id " +
-                     "JOIN tenmo_user s ON a.user_id = s.user_id " +
-                     "JOIN tenmo_user r ON b.user_id = r.user_id" +
-                     "WHERE a.user_id = ? OR b.user_id = ?;";
+        String sql = "SELECT transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount\n" +
+                "FROM transfer JOIN account ON account_from = account_id OR account_to = account_id WHERE user_id = ?;";;
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
         while (results.next()) {
             Transfer transfer = mapRowToTransfer(results);
@@ -58,6 +55,8 @@ public class JdbcTransferDao implements TransferDao {
     }
 
     @Override
+    //refactored userFromId and userToId to userFromAccountId and userToAccountId because these were confusing all of us
+    //(the reason accountDao wasn't updating was because we were calling methods by userId instead of accountId)
     public String sendTransfer(int userFromAccountId, int userToAccountId, BigDecimal amount) {
         if (userFromAccountId == userToAccountId) {
             return "You can't send yourself money!";
@@ -119,24 +118,6 @@ public class JdbcTransferDao implements TransferDao {
         }
         return pendingRequests;
     }
-
-//    @Override
-//    public List<Transfer> getPendingRequests (int userId){
-//        List<Transfer> pendingRequests = new ArrayList<>();
-//        int userToId = userId;
-//        String sql = "SELECT transfer.*, s.username AS userFrom, r.username AS userTo FROM transfer " +
-//                "JOIN account a ON transfer.account_from = a.account_id " +
-//                "JOIN account b ON transfer.account_to = b.account_id " +
-//                "JOIN tenmo_user s ON a.user_id = s.user_id " +
-//                "JOIN tenmo_user r ON b.user_id = r.user_id" +
-//                "WHERE transfer_status_id = 1 AND (account_from = ? OR account_to = ?);";
-//        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId, userToId);
-//        while (results.next()) {
-//            Transfer transfer = mapRowToTransfer(results);
-//            pendingRequests.add(transfer);
-//        }
-//        return pendingRequests;
-//    }
 
 // ORIGINAL METHOD BELOW
 //        @Override

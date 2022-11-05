@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 
 @RestController
 @PreAuthorize("isAuthenticated()")
+//"transfer" is added to BASE_API_URL
 @RequestMapping("account")
 public class AccountController {
 
@@ -34,6 +35,8 @@ public class AccountController {
     public Account findAccountById(@PathVariable int accountId) {
         return accountDao.findAccountByAccountId(accountId);
     }
+
+//----------------------------------------------------------------------------------------------------------------------
 
     //FOR BELOW: NEED accountDao.create/update/delete method to create account
     //Not sure if we need these yet

@@ -65,7 +65,7 @@ public class TransferService {
 
     public void printTransfers(Transfer[] transfers){
         for (Transfer transfer : transfers) {
-            transfer.transferDetailsPrintOut();
+            System.out.println(transfer.transferDetailsPrintOut());
         }
     }
 
