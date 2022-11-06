@@ -93,12 +93,14 @@ public class TransferService {
     public void updatePendingTransferStatus(Transfer[] pendingTransfersList, int userSelection) {
         accountService.setUser(user);
         Account userAccount = accountService.findAccountByUserId(user.getUser().getId());
+        boolean matchFound = false;
         for (Transfer transfer : pendingTransfersList) {
             if (userSelection == 0) {
                 break;
             }
             if (transfer.getAccountTo() != userAccount.getAccountId()) {
                 if (transfer.getTransferId() == userSelection) {
+                    matchFound = true;
                     System.out.println("-------------------------------------------------------------\r\n");
                     System.out.println("You have selected the following transfer: \r\n");
                     System.out.println(transfer.transferDetailsPrintOut());
@@ -117,13 +119,17 @@ public class TransferService {
                     } else {
                         System.out.println("You have entered an invalid option.");
                     }
-                } else {
-                    System.out.println("No transfer matching the ID you entered could be found.");
                 }
+//                else {
+//                    //THIS PRINTS EVERY TIME
+//                    System.out.println("No transfer matching the ID you entered could be found.");
+//                }
             } else {
                     System.out.println("You can't approve or reject your own requested transfer, but nice try! :)");
                     break;
             }
+        } if (matchFound == false) {
+            System.out.println("The transfer ID you entered was invalid.");
         }
     }
 
