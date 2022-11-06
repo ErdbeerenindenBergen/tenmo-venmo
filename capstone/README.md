@@ -42,12 +42,12 @@ If you complete all of the required use cases and are looking for additional cha
    6. **[Need to make the updateTransfer function work.]** No account balance changes until the request is approved.
    7. **[COMPLETE]** The transfer request should appear in both users' list of transfers (use case #5).
 8. **[COMPLETE]** As an authenticated user of the system, I need to be able to see my *Pending* transfers.
-9. **[Need to make the updateTransfer function work.]** As an authenticated user of the system, I need to be able to either approve or reject a Request Transfer.
-   1. **[Need to make the updateTransfer function work.]** I can't "approve" a given Request Transfer for more TE Bucks than I have in my account.
-   2. **[Need to make the updateTransfer function work.]** The Request Transfer status is *Approved* if I approve, or *Rejected* if I reject the request.
-   3. **[Need to make the updateTransfer function work.]** If the transfer is approved, the requester's account balance is increased by the amount of the request.
-   4. **[Need to make the updateTransfer function work.]** If the transfer is approved, the requestee's account balance is decreased by the amount of the request.
-   5. **[Need to make the updateTransfer function work.]** If the transfer is rejected, no account balance changes.
+9. **[COMPLETE]** As an authenticated user of the system, I need to be able to either approve or reject a Request Transfer.
+   1. **[COMPLETE]** I can't "approve" a given Request Transfer for more TE Bucks than I have in my account.
+   2. **[COMPLETE]** The Request Transfer status is *Approved* if I approve, or *Rejected* if I reject the request.
+   3. **[COMPLETE]** If the transfer is approved, the requester's account balance is increased by the amount of the request.
+   4. **[COMPLETE]** If the transfer is approved, the requestee's account balance is decreased by the amount of the request.
+   5. **[COMPLETE]** If the transfer is rejected, no account balance changes.
 
 ## Sample screens
 

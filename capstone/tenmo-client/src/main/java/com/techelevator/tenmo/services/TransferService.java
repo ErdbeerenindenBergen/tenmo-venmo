@@ -80,23 +80,32 @@ public class TransferService {
         return pendingTransfersList;
     }
 
-    public boolean updateTransfer(Transfer transfer) {
-        HttpEntity<Transfer> entity = makeTransferEntity(transfer);
-        boolean isSuccessful = false;
+    public String updateTransfer(Transfer transfer, int statusId) {
+        String transferSuccessReport = "";
         try {
-            restTemplate.put(BASE_URL + "/update" + transfer.getTransferId(), entity);
-            isSuccessful = true;
+           transferSuccessReport = restTemplate.exchange(BASE_URL + "/update/" + statusId, HttpMethod.PUT, makeTransferEntity(transfer), String.class).getBody();
         } catch (RestClientResponseException | ResourceAccessException e) {
-            System.out.println("Your transfer could not be updated.");
+            transferSuccessReport = "Your transfer could not be updated.";
         }
-        return isSuccessful;
+        return transferSuccessReport;
     }
+
+//    public boolean updateTransfer(Transfer transfer, int statusId) {
+//        boolean isSuccessful = false;
+//        try {
+//            restTemplate.put(BASE_URL + "/update/" + statusId, makeTransferEntity(transfer));
+//            isSuccessful = true;
+//        } catch (RestClientResponseException | ResourceAccessException e) {
+//            System.out.println("Your transfer could not be updated.");
+//        }
+//        return isSuccessful;
+//    }
 
     public void requestBucks() {
         accountService.setUser(user);
         Transfer transfer = new Transfer();
         try {
-            Integer userSelection = consoleService.promptForInt("------------------------------------------------\r\n" +
+            int userSelection = consoleService.promptForInt("------------------------------------------------\r\n" +
                     "Enter the user ID of the user you are requesting from (or enter 0 to cancel): ");
             Account requestAccount = accountService.findAccountByUserId(userSelection);
             transfer.setAccountFrom(requestAccount.getAccountId());
@@ -121,7 +130,7 @@ public class TransferService {
         accountService.setUser(user);
         Transfer transfer = new Transfer();
         try {
-            Integer userSelection = consoleService.promptForInt("-----------------------------------------------------\r\n" +
+            int userSelection = consoleService.promptForInt("-----------------------------------------------------\r\n" +
                     "Enter the user ID of the user you are sending to (or enter 0 to cancel): ");
             transfer.setUserFrom(user.getUser().getId() + "");
             transfer.setUserTo(userSelection + "");
@@ -155,6 +164,44 @@ public class TransferService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(user.getToken());
         return new HttpEntity<>(transfer, headers);
+    }
+
+    public void updatePendingTransferStatus(Transfer[] pendingTransfersList, int userSelection) {
+        for (Transfer transfer : pendingTransfersList) {
+            if (transfer.getTransferId() != userSelection) {
+                continue;
+            } else if (transfer.getAccountTo() == user.getUser().getId()) {
+                System.out.println("You can't approve or reject your own requested transfer, but nice try! :)");
+                break;
+            } else if (transfer.getTransferId() == userSelection) {
+                System.out.println("-------------------------------------------------------------\r\n");
+                System.out.println("You have selected the following transfer: \r\n");
+                System.out.println(transfer.transferDetailsPrintOut());
+                int userChoice = consoleService.promptForInt(
+                                "1: Approve\r\n" +
+                                "2: Reject\r\n" +
+                                "0: Don't approve or reject\r\n" +
+                                "-------------------------------------------------------------\r\n" +
+                                "Please enter a number to choose the corresponding option: ");
+                if (userChoice == 1 || userChoice == 2) {
+                    int newTransferStatusId = userChoice + 1;
+                    System.out.println(updateTransfer(transfer, newTransferStatusId));
+
+//                    if (transfer.getTransferStatusId() == 2) {
+//
+//                    } else if (transfer.getTransferStatusId() == 3) {
+//                        System.out.println("Transaction " + transfer.getTransferId() + " has been rejected.");
+//                    }
+                } else if (userChoice == 0) {
+                    System.out.println("You have elected not to update this transfer.");
+                    break;
+                } else {
+                    System.out.println("You have entered an invalid option.");
+                }
+            } else {
+                System.out.println("No transfer matching the ID you entered could be found.");
+            }
+        }
     }
 }
 

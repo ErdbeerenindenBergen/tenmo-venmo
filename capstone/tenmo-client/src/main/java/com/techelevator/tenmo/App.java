@@ -113,6 +113,10 @@ public class App {
 	private void viewPendingRequests() {
         Transfer[] pendingTransfersList = transferService.getPendingRequests();
         transferService.printTransfers(pendingTransfersList);
+        if (pendingTransfersList.length != 0) {
+            int userSelection = consoleService.promptForInt("Enter the transfer ID for the transfer you would like to approve or reject: ");
+            transferService.updatePendingTransferStatus(pendingTransfersList, userSelection);
+        }
 	}
 
 	private void sendBucks() {
@@ -127,7 +131,7 @@ public class App {
 
     private void viewTransferByTransferId() {
         Transfer transfer = transferService.findTransferByTransferId();
-        System.out.println(transfer.transferDetailsPrintOut()); 
+        System.out.println(transfer.transferDetailsPrintOut());
     }
 
 }

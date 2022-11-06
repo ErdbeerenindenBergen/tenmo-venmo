@@ -141,15 +141,16 @@ public class JdbcTransferDao implements TransferDao {
         if (statusId == 3) {
             String sql = "UPDATE transfer SET transfer_status_id = ? WHERE transfer_id = ?;";
             jdbcTemplate.update(sql, statusId, transfer.getTransferId());
-            return "Update successful!";
-        }
+            return "Update successful! This transfer has been rejected.";
+        } else
         //If they do not have a negative balance, update the request
-        if (!(accountDao.getBalance(transfer.getAccountFrom()).compareTo(transfer.getAmount()) == -1)) {
-            String sql = "UPDATE transfers SET transfer_status_id = ? WHERE transfer_id = ?;";
+        //updated method below to fix getBalance issue (called new method in accountDao to find balance by accountId) -kassi
+        if (!(accountDao.getBalanceByAccountId(transfer.getAccountFrom()).compareTo(transfer.getAmount()) < 0)) {
+            String sql = "UPDATE transfer SET transfer_status_id = ? WHERE transfer_id = ?;";
             jdbcTemplate.update(sql, statusId, transfer.getTransferId());
             accountDao.addToBalance(transfer.getAmount(), transfer.getAccountTo());
             accountDao.subtractFromBalance(transfer.getAmount(), transfer.getAccountFrom());
-            return "Update successful!";
+            return "Update successful! This transfer has been approved and the requested TEbucks have been sent!";
         } else {
             return "You don't have enough funds for this transfer.";
         }
@@ -166,8 +167,8 @@ public class JdbcTransferDao implements TransferDao {
         transfer.setAccountTo(results.getInt("account_to"));
         transfer.setAmount(results.getBigDecimal("amount"));
         try {
-            transfer.setUserTo(results.getString("userTo"));
             transfer.setUserFrom(results.getString("userFrom"));
+            transfer.setUserTo(results.getString("userTo"));
         } catch (Exception e) {
             e.getMessage();
         }
