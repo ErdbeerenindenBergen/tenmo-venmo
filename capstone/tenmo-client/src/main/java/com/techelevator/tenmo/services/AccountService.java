@@ -14,20 +14,16 @@ public class AccountService {
 
     private final String BASE_URL;
     private final RestTemplate restTemplate = new RestTemplate();
-//    private String token;
     public AuthenticatedUser user;
 
     public AccountService(String url) {
         BASE_URL = url;
     }
 
-//    public void setToken(String token) {
-//        this.token = token;
-//    }
-//
     public void setUser(AuthenticatedUser user) {
         this.user = user;
     }
+
 
     public BigDecimal getBalance(AuthenticatedUser user) {
         BigDecimal balance = new BigDecimal(0);
@@ -41,10 +37,9 @@ public class AccountService {
     }
 
     public Account findAccountByUserId(int userId) {
-        Account account = new Account();
+        Account account = null;
         try {
-            ResponseEntity<Account> response = restTemplate.exchange(BASE_URL + "/user/" + userId, HttpMethod.GET, makeAuthEntity(), Account.class);
-            account = response.getBody();
+            account = restTemplate.exchange(BASE_URL + "/user/" + userId, HttpMethod.GET, makeAuthEntity(), Account.class).getBody();
         } catch (RestClientException e) {
             System.out.println("This account could not be found.");
         }

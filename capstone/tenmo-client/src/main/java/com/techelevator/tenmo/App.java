@@ -1,5 +1,6 @@
 package com.techelevator.tenmo;
 
+import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.UserCredentials;
@@ -104,7 +105,6 @@ public class App {
 		accountService.getBalance(currentUser);
 	}
 
-
 	private void viewTransferHistory() {
 		Transfer[] transfers = transferService.findAllTransfersForCurrentUser(currentUser);
         transferService.printTransfers(transfers);
@@ -131,7 +131,13 @@ public class App {
 
     private void viewTransferByTransferId() {
         Transfer transfer = transferService.findTransferByTransferId();
-        System.out.println(transfer.transferDetailsPrintOut());
+        int userId = currentUser.getUser().getId();
+        Account userAccount = accountService.findAccountByUserId(userId);
+        if (transfer.getAccountTo() == userAccount.getAccountId() || transfer.getAccountFrom() == userAccount.getAccountId()) {
+            System.out.println(transfer.transferDetailsPrintOut());
+        } else {
+            System.out.println("Either this transaction could not be located, or you are not authorized to view it.");
+        }
     }
 
 }
