@@ -37,26 +37,5 @@ public class AccountController {
         return accountDao.findAccountByAccountId(accountId);
     }
 
-//----------------------------------------------------------------------------------------------------------------------
-
-    //FOR BELOW: NEED accountDao.create/update/delete method to create account
-    //Not sure if we need these yet
-
-//    @ResponseStatus(HttpStatus.CREATED)
-//    @RequestMapping(path = "/", method = RequestMethod.POST)
-//    public boolean create(@Valid @RequestBody Account account) {
-//        return accountDao.create(account);
-//    }
-
-//    @RequestMapping(path = "/{accountId}", method = RequestMethod.PUT)
-//    public boolean update(@Valid @PathVariable int accountId, @RequestBody Account account) {
-//        return accountDao.update(accountId, account);
-//    }
-//
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    @RequestMapping(path = "/{accountId}", method = RequestMethod.DELETE)
-//    public boolean delete(@Valid @PathVariable int id) {
-//        return accountDao.delete(accountId);
-//    }
 
 }

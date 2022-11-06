@@ -93,15 +93,10 @@ public class TransferService {
     public void updatePendingTransferStatus(Transfer[] pendingTransfersList, int userSelection) {
         accountService.setUser(user);
         Account userAccount = accountService.findAccountByUserId(user.getUser().getId());
-//        if (userSelection != 0) {
-//            boolean isUserSelectionValid = false;
         for (Transfer transfer : pendingTransfersList) {
-//            if (transfer.getTransferId() != userSelection) {
-//                continue;
-//            } else
-//                if (transfer.getTransferId() == userSelection && transfer.getAccountTo() == userAccount.getAccountId()) {
-//                    System.out.println("You can't approve or reject your own requested transfer, but nice try! :)");
-//                    break;
+            if (userSelection == 0) {
+                break;
+            }
             if (transfer.getAccountTo() != userAccount.getAccountId()) {
                 if (transfer.getTransferId() == userSelection) {
                     System.out.println("-------------------------------------------------------------\r\n");
@@ -141,8 +136,8 @@ public class TransferService {
             Account requestAccount = accountService.findAccountByUserId(userSelection);
             transfer.setAccountFrom(requestAccount.getAccountId());
             transfer.setAccountTo((accountService.findAccountByUserId(user.getUser().getId())).getAccountId());
-            transfer.setUserTo(user.getUser().getId() + "");
-            transfer.setUserFrom(userSelection + "");
+            transfer.setUserTo(user.getUser().getId());
+            transfer.setUserFrom(userSelection);
             if (transfer.getAccountTo() != 0) {
                 try {
                     transfer.setAmount(consoleService.promptForBigDecimal("Enter amount you'd like to request: "));
@@ -163,8 +158,8 @@ public class TransferService {
         try {
             int userSelection = consoleService.promptForInt("-----------------------------------------------------\r\n" +
                     "Enter the user ID of the user you are sending to (or enter 0 to cancel): ");
-            transfer.setUserFrom(user.getUser().getId() + "");
-            transfer.setUserTo(userSelection + "");
+            transfer.setUserFrom(user.getUser().getId());
+            transfer.setUserTo(userSelection);
             Account recipientAccount = accountService.findAccountByUserId(userSelection);
             transfer.setAccountTo(recipientAccount.getAccountId());
             transfer.setAccountFrom((accountService.findAccountByUserId(user.getUser().getId())).getAccountId());
@@ -293,15 +288,3 @@ public class TransferService {
 //            System.out.println(transferSuccessReport);
 //            accountService.getBalance(user);
 //        }
-
-
-//    public boolean updateTransfer(Transfer transfer, int statusId) {
-//        boolean isSuccessful = false;
-//        try {
-//            restTemplate.put(BASE_URL + "/update/" + statusId, makeTransferEntity(transfer));
-//            isSuccessful = true;
-//        } catch (RestClientResponseException | ResourceAccessException e) {
-//            System.out.println("Your transfer could not be updated.");
-//        }
-//        return isSuccessful;
-//    }

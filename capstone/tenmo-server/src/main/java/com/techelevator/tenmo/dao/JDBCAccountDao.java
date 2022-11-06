@@ -12,14 +12,12 @@ import javax.sql.DataSource;
 @Component
 public class JdbcAccountDao implements AccountDao{
 
-    //@Autowired
     private JdbcTemplate jdbcTemplate;
     public JdbcAccountDao(DataSource ds){
         this.jdbcTemplate = new JdbcTemplate(ds);
     }
-   // public JdbcAccountDao (JdbcTemplate jdbcTemplate) {
-      // this.jdbcTemplate = jdbcTemplate;
-   // }
+
+
     @Override
     public BigDecimal getBalance(int userId) {
         String sql = "SELECT balance FROM account WHERE user_id = ?;";

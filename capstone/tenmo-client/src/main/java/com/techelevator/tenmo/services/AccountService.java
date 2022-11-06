@@ -60,17 +60,3 @@ public class AccountService {
     }
 }
 
-//_____________________________________________________________________________________________________________________
-
-
-//    public void addToBalance(int userId, BigDecimal amount) {
-//        Account account = new Account();
-//        int accountId = restTemplate.exchange(BASE_URL + "account/user/" + userId, HttpMethod.GET, makeAuthEntity(), int.class).getBody();
-//        account.setAccountId(accountId);
-//        BigDecimal balance;
-//        balance = restTemplate.exchange(BASE_URL + "account/balance" + userId, HttpMethod.GET, makeAuthEntity(), BigDecimal.class).getBody();
-//        account.setBalance(balance.subtract(amount));
-//        account.setUserId(userId);
-//        restTemplate.exchange(BASE_URL + "account/" + userId, HttpMethod.PUT, makeAccountEntity(account), Account.class);
-//    }
-

@@ -114,7 +114,7 @@ public class App {
         Transfer[] pendingTransfersList = transferService.getPendingRequests();
         transferService.printTransfers(pendingTransfersList);
         if (pendingTransfersList.length != 0) {
-            int userSelection = consoleService.promptForInt("Enter the transfer ID for the transfer you would like to approve or reject: ");
+            int userSelection = consoleService.promptForInt("Enter the transfer ID for the transfer you would like to approve or reject (or 0 to cancel): ");
             transferService.updatePendingTransferStatus(pendingTransfersList, userSelection);
         }
 	}
@@ -133,10 +133,14 @@ public class App {
         Transfer transfer = transferService.findTransferByTransferId();
         int userId = currentUser.getUser().getId();
         Account userAccount = accountService.findAccountByUserId(userId);
-        if (transfer.getAccountTo() == userAccount.getAccountId() || transfer.getAccountFrom() == userAccount.getAccountId()) {
-            System.out.println(transfer.transferDetailsPrintOut());
+        if (transfer != null) {
+                if (transfer.getAccountTo() == userAccount.getAccountId() || transfer.getAccountFrom() == userAccount.getAccountId()) {
+                    System.out.println(transfer.transferDetailsPrintOut());
+                } else {
+                    System.out.println("Either your transfer was not found, or you are not authorized to view it.");
+                }
         } else {
-            System.out.println("Either this transaction could not be located, or you are not authorized to view it.");
+            System.out.println("...or maybe you are not authorized to view it.");
         }
     }
 

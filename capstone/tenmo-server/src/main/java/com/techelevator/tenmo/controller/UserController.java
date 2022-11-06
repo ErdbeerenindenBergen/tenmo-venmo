@@ -55,29 +55,4 @@ public class UserController {
         return userDao.findIdByUsername(username);
     }
 
-//----------------------------------------------------------------------------------------------------------------------
-
-    //simplified methods without "if statements" below
-
-//    @RequestMapping(path = "s", method = RequestMethod.GET)
-//    public List<User> findAll() {
-//        return userDao.findAll();
-//    }
-//
-//    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
-//    public User getUserById(@PathVariable int id) {
-//        return userDao.getUserById(id);
-//    }
-//
-//    @RequestMapping(path = "/{username}", method = RequestMethod.GET)
-//    public User findByUsername(String username) {
-//        return userDao.findByUsername(username);
-//    }
-//
-//    @RequestMapping(path = "/userId/{username}", method = RequestMethod.GET)
-//    public int findIdByUsername(String username) {
-//        return userDao.findIdByUsername(username);
-//    }
-
-
 }

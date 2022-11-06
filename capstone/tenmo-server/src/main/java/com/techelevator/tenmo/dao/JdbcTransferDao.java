@@ -31,9 +31,13 @@ public class JdbcTransferDao implements TransferDao {
     @Override
     public List<Transfer> getAllTransfersByUserId(int userId) {
         List<Transfer> transferList = new ArrayList<>();
-        String sql = "SELECT transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount\n" +
-                "FROM transfer JOIN account ON account_from = account_id OR account_to = account_id WHERE user_id = ?;";;
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
+        String sql = "SELECT t.*, u.user_id AS userFrom, v.user_id AS userTo, u.username AS userFromUsername, v.username AS userToUsername FROM transfer t\n" +
+                "JOIN account a ON t.account_from = a.account_id\n" +
+                "JOIN account b ON t.account_to = b.account_id\n" +
+                "JOIN tenmo_user u ON a.user_id = u.user_id\n" +
+                "JOIN tenmo_user v ON b.user_id = v.user_id\n" +
+                "WHERE a.user_id = ? OR b.user_id = ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId, userId);
         while (results.next()) {
             Transfer transfer = mapRowToTransfer(results);
             transferList.add(transfer);
@@ -44,7 +48,12 @@ public class JdbcTransferDao implements TransferDao {
     @Override
     public Transfer getTransferById(int transferId) {
         Transfer transfer;
-        String sql = "SELECT * FROM transfer WHERE transfer_id = ?;";
+        String sql = "SELECT t.*, u.user_id AS userFrom, v.user_id AS userTo, u.username AS userFromUsername, v.username AS userToUsername FROM transfer t\n" +
+                "JOIN account a ON t.account_from = a.account_id\n" +
+                "JOIN account b ON t.account_to = b.account_id\n" +
+                "JOIN tenmo_user u ON a.user_id = u.user_id\n" +
+                "JOIN tenmo_user v ON b.user_id = v.user_id\n" +
+                "WHERE transfer_id = ?;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, transferId);
         if (results.next()) {
             transfer = mapRowToTransfer(results);
@@ -110,9 +119,13 @@ public class JdbcTransferDao implements TransferDao {
 
     public List<Transfer> getPendingRequests (int userId){
         List<Transfer> pendingRequests = new ArrayList<>();
-        String sql = "SELECT transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount\n" +
-                "FROM transfer JOIN account ON account_from = account_id OR account_to = account_id WHERE user_id = ? AND transfer_status_id = 1;";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
+        String sql = "SELECT t.*, u.user_id AS userFrom, v.user_id AS userTo, u.username AS userFromUsername, v.username AS userToUsername FROM transfer t\n" +
+                "JOIN account a ON t.account_from = a.account_id\n" +
+                "JOIN account b ON t.account_to = b.account_id\n" +
+                "JOIN tenmo_user u ON a.user_id = u.user_id\n" +
+                "JOIN tenmo_user v ON b.user_id = v.user_id\n" +
+                "WHERE a.user_id = ? OR b.user_id = ? AND transfer_status_id = 1;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId, userId);
         while (results.next()) {
             Transfer transfer = mapRowToTransfer(results);
             pendingRequests.add(transfer);
@@ -167,8 +180,10 @@ public class JdbcTransferDao implements TransferDao {
         transfer.setAccountTo(results.getInt("account_to"));
         transfer.setAmount(results.getBigDecimal("amount"));
         try {
-            transfer.setUserFrom(results.getString("userFrom"));
-            transfer.setUserTo(results.getString("userTo"));
+            transfer.setUserFrom(results.getInt("userFrom"));
+            transfer.setUserTo(results.getInt("userTo"));
+            transfer.setUserFromUsername(results.getString("userFromUsername"));
+            transfer.setUserToUsername(results.getString("userToUsername"));
         } catch (Exception e) {
             e.getMessage();
         }

@@ -10,93 +10,114 @@ public class Transfer {
     private int accountFrom;
     private int accountTo;
     private BigDecimal amount;
+
+    private int userFrom;
+    private int userTo;
+    private String userFromUsername;
+    private String userToUsername;
+
     private String transferType;
     private String transferStatus;
-    private String userFrom;
-    private String userTo;
+
 
     public Transfer(){
     }
 
-        public int getTransferId() {
+    public int getTransferId() {
             return transferId;
         }
 
-        public void setTransferId(int transferId) {
+    public void setTransferId(int transferId) {
             this.transferId = transferId;
         }
 
-        public int getTransferTypeId() {
+    public int getTransferTypeId() {
             return transferTypeId;
         }
 
-        public void setTransferTypeId(int transferTypeId) {
+    public void setTransferTypeId(int transferTypeId) {
             this.transferTypeId = transferTypeId;
         }
 
-        public int getTransferStatusId() {
+    public int getTransferStatusId() {
             return transferStatusId;
         }
 
-        public void setTransferStatusId(int transferStatusId) {
+    public void setTransferStatusId(int transferStatusId) {
             this.transferStatusId = transferStatusId;
         }
 
-        public int getAccountFrom() {
+    public int getAccountFrom() {
             return accountFrom;
         }
 
-        public void setAccountFrom(int accountFrom) {
+    public void setAccountFrom(int accountFrom) {
             this.accountFrom = accountFrom;
         }
 
-        public int getAccountTo() {
+    public int getAccountTo() {
             return accountTo;
         }
 
-        public void setAccountTo(int accountTo) {
+    public void setAccountTo(int accountTo) {
             this.accountTo = accountTo;
         }
 
-        public BigDecimal getAmount() {
+    public BigDecimal getAmount() {
             return amount;
         }
 
-        public void setAmount(BigDecimal amount) {
+    public void setAmount(BigDecimal amount) {
             this.amount = amount;
         }
 
-        public String getTransferType() {
+    public String getTransferType() {
             return transferType;
         }
 
-        public void setTransferType(String transferType) {
+    public void setTransferType(String transferType) {
             this.transferType = transferType;
         }
 
-        public String getTransferStatus() {
+    public String getTransferStatus() {
             return transferStatus;
         }
 
-        public void setTransferStatus(String transferStatus) {
+    public void setTransferStatus(String transferStatus) {
             this.transferStatus = transferStatus;
         }
 
-        public String getUserFrom() {
+    public int getUserFrom() {
             return userFrom;
         }
 
-        public void setUserFrom(String userFrom) {
+    public void setUserFrom(int userFrom) {
             this.userFrom = userFrom;
         }
 
-        public String getUserTo() {
+    public int getUserTo() {
             return userTo;
         }
 
-        public void setUserTo(String userTo) {
+    public void setUserTo(int userTo) {
             this.userTo = userTo;
         }
+
+    public String getUserFromUsername() {
+        return userFromUsername;
+    }
+
+    public void setUserFromUsername(String userFromUsername) {
+        this.userFromUsername = userFromUsername;
+    }
+
+    public String getUserToUsername() {
+        return userToUsername;
+    }
+
+    public void setUserToUsername(String userToUsername) {
+        this.userToUsername = userToUsername;
+    }
 
     public String displayTransferType(Integer transferTypeId) {
         if (transferTypeId == 1) {
@@ -124,16 +145,20 @@ public class Transfer {
         return formatter.format(bigDecimal);
     }
 
+
+
     public String transferDetailsPrintOut() {
 
         return  "\n-------------------------------------------------------------" +
                 "\n Transfer Details: " +
                 "\n-------------------------------------------------------------" +
                 "\n Transfer ID:    " + transferId +
-                "\n From Account:   " + accountFrom +
-                "\n To Account:     " + accountTo +
+//                "\n From Account:   " + accountFrom +
+//                "\n To Account:     " + accountTo +
                 "\n From User ID:   " + userFrom +
                 "\n To User ID:     " + userTo +
+                "\n From User:      " + userFromUsername +
+                "\n To User:        " + userToUsername +
                 "\n Type:           " + displayTransferType(transferTypeId) +
                 "\n Status:         " + displayTransferStatus(transferStatusId) +
                 "\n Amount:         " + displayAsCurrency(amount) +

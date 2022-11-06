@@ -18,8 +18,7 @@ You should attempt to complete all of the following required use cases.
 4. **[COMPLETE]** As an authenticated user of the system, I need to be able to *send* a transfer of a specific amount of TE Bucks to a registered user.
    1. **[COMPLETE]** I should be able to choose from a list of users to send TE Bucks to.
    2. **[COMPLETE]** I must not be allowed to send money to myself.
-   3. **[We need to change either the Dao or the services (not sure which yet) to address the following task. Currently displays as null]** 
-   A transfer includes the User IDs of the from and to users and the amount of TE Bucks.
+   3. **[COMPLETE]** A transfer includes the User IDs of the from and to users and the amount of TE Bucks.
    4. **[COMPLETE]** The receiver's account balance is increased by the amount of the transfer.
    5. **[COMPLETE]** The sender's account balance is decreased by the amount of the transfer.
    6. **[COMPLETE: though -- error message could be more specific.]** I can't send more TE Bucks than I have in my account.
@@ -36,10 +35,9 @@ If you complete all of the required use cases and are looking for additional cha
    1. **[COMPLETE]** I should be able to choose from a list of users to request TE Bucks from.
    2. **[COMPLETE]** I must not be allowed to request money from myself.
    3. **[COMPLETE: though -- error message could by more specific.]** I can't request a zero or negative amount.
-   4. **[Same as above. We need to change either the Dao or the services (not sure which yet) to address the following task. Currently displays as null.]** A transfer 
-   includes the User IDs of the from and to users and the amount of TE Bucks.
+   4. **[COMPLETE]** A transfer includes the User IDs of the from and to users and the amount of TE Bucks.
    5. **[COMPLETE]** A Request Transfer has an initial status of *Pending*.
-   6. **[Need to make the updateTransfer function work.]** No account balance changes until the request is approved.
+   6. **[COMPLETE]** No account balance changes until the request is approved.
    7. **[COMPLETE]** The transfer request should appear in both users' list of transfers (use case #5).
 8. **[COMPLETE]** As an authenticated user of the system, I need to be able to see my *Pending* transfers.
 9. **[COMPLETE]** As an authenticated user of the system, I need to be able to either approve or reject a Request Transfer.
