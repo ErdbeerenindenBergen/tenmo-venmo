@@ -48,7 +48,7 @@ public class JdbcAccountDaoTest extends BaseDaoTests{
         }
         @Test
     public void getAccountByAccountId_returns_null_when_id_not_found() {
-        Account account = sut.findAccountByAccountId(0);
+        Account account = sut.findAccountByAccountId(5000);
         Assert.assertNull(account);
     }
         @Test

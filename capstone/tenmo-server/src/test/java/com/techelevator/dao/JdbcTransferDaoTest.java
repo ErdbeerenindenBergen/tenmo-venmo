@@ -22,8 +22,8 @@ public class JdbcTransferDaoTest extends BaseDaoTests {
     @Before
     public void setup() {
         sut = new JdbcTransferDao(new JdbcTemplate(dataSource));
-        testTransfer = new Transfer(3001, 1, 1, 2001, 2002, new BigDecimal("300.00"));
-        testTransfer2 = new Transfer(3002, 1, 1, 2002, 2001, new BigDecimal("50.00"));
+        testTransfer = new Transfer( 2, 2, 2001, 2002, new BigDecimal("300.00"));
+        testTransfer2 = new Transfer( 2, 2, 2002, 2001, new BigDecimal("50.00"));
     }
     //getAllTransfersById
     //getTransferById
