@@ -4,10 +4,7 @@ import com.techelevator.tenmo.App;
 import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.Transfer;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -17,20 +14,16 @@ public class AccountService {
 
     private final String BASE_URL;
     private final RestTemplate restTemplate = new RestTemplate();
-//    private String token;
     public AuthenticatedUser user;
 
     public AccountService(String url) {
         BASE_URL = url;
     }
 
-//    public void setToken(String token) {
-//        this.token = token;
-//    }
-//
     public void setUser(AuthenticatedUser user) {
         this.user = user;
     }
+
 
     public BigDecimal getBalance(AuthenticatedUser user) {
         BigDecimal balance = new BigDecimal(0);
@@ -43,10 +36,10 @@ public class AccountService {
         return balance;
     }
 
-    public Account findAccountByUserId(int accountId) {
-        Account account = new Account();
+    public Account findAccountByUserId(int userId) {
+        Account account = null;
         try {
-            account = restTemplate.exchange(BASE_URL + "/user" + accountId, HttpMethod.GET, makeAuthEntity(), Account.class).getBody();
+            account = restTemplate.exchange(BASE_URL + "/user/" + userId, HttpMethod.GET, makeAuthEntity(), Account.class).getBody();
         } catch (RestClientException e) {
             System.out.println("This account could not be found.");
         }
@@ -66,18 +59,4 @@ public class AccountService {
         return new HttpEntity<>(account, headers);
     }
 }
-
-//_____________________________________________________________________________________________________________________
-
-
-//    public void addToBalance(int userId, BigDecimal amount) {
-//        Account account = new Account();
-//        int accountId = restTemplate.exchange(BASE_URL + "account/user/" + userId, HttpMethod.GET, makeAuthEntity(), int.class).getBody();
-//        account.setAccountId(accountId);
-//        BigDecimal balance;
-//        balance = restTemplate.exchange(BASE_URL + "account/balance" + userId, HttpMethod.GET, makeAuthEntity(), BigDecimal.class).getBody();
-//        account.setBalance(balance.subtract(amount));
-//        account.setUserId(userId);
-//        restTemplate.exchange(BASE_URL + "account/" + userId, HttpMethod.PUT, makeAccountEntity(account), Account.class);
-//    }
 

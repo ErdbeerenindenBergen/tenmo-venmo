@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @PreAuthorize("isAuthenticated()")
+//"user" is added to BASE_API_URL
 @RequestMapping("user")
 public class UserController {
 
@@ -20,17 +21,12 @@ public class UserController {
         this.userDao = userDao;
     }
 
-    //make sure "user" is added to BASE_API_URL
-
-    //UserDao
-    //completed
     @PreAuthorize("hasRole('ROLE_USER')")
-    @RequestMapping(path = "s", method = RequestMethod.GET)
+    @RequestMapping(path = "", method = RequestMethod.GET)
     public List<User> listAllUsers() {
         return userDao.findAll();
     }
 
-    //the following methods may be overkill with the "if null" statements if they have already been coded in the JdbcUserDao with exceptions
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping (path = "/{userId}", method = RequestMethod.GET)
     public User getUserByUserId(@PathVariable int userId) {
@@ -58,28 +54,5 @@ public class UserController {
     public int findIdByUsername(String username) {
         return userDao.findIdByUsername(username);
     }
-
-        //simplified methods without "if statements" below
-
-//    @RequestMapping(path = "s", method = RequestMethod.GET)
-//    public List<User> findAll() {
-//        return userDao.findAll();
-//    }
-//
-//    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
-//    public User getUserById(@PathVariable int id) {
-//        return userDao.getUserById(id);
-//    }
-//
-//    @RequestMapping(path = "/{username}", method = RequestMethod.GET)
-//    public User findByUsername(String username) {
-//        return userDao.findByUsername(username);
-//    }
-//
-//    @RequestMapping(path = "/userId/{username}", method = RequestMethod.GET)
-//    public int findIdByUsername(String username) {
-//        return userDao.findIdByUsername(username);
-//    }
-
 
 }

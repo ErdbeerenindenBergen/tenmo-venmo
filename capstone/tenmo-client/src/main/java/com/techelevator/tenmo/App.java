@@ -1,9 +1,12 @@
 package com.techelevator.tenmo;
 
+import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.*;
+
+import java.util.List;
 
 public class App {
 
@@ -34,6 +37,7 @@ public class App {
             mainMenu();
         }
     }
+
     private void loginMenu() {
         int menuSelection = -1;
         while (menuSelection != 0 && currentUser == null) {
@@ -86,6 +90,8 @@ public class App {
                 sendBucks();
             } else if (menuSelection == 5) {
                 requestBucks();
+            } else if (menuSelection == 6) {
+                viewTransferByTransferId();
             } else if (menuSelection == 0) {
                 continue;
             } else {
@@ -101,29 +107,41 @@ public class App {
 
 	private void viewTransferHistory() {
 		Transfer[] transfers = transferService.findAllTransfersForCurrentUser(currentUser);
-        transferService.printTransactions(transfers);
+        transferService.printTransfers(transfers);
 	}
 
 	private void viewPendingRequests() {
-        Transfer[] transfers = transferService.getPendingRequests(currentUser);
-        transferService.printTransactions(transfers);
+        Transfer[] pendingTransfersList = transferService.getPendingRequests();
+        transferService.printTransfers(pendingTransfersList);
+        if (pendingTransfersList.length != 0) {
+            int userSelection = consoleService.promptForInt("Enter the transfer ID for the transfer you would like to approve or reject (or 0 to cancel): ");
+            transferService.updatePendingTransferStatus(pendingTransfersList, userSelection);
+        }
 	}
 
 	private void sendBucks() {
-        transferService.sendBucks(currentUser);
-
-//      Started writing some things we don't need...I believe...
-//      Transfer transfer = new Transfer();
-//		transferService.createTransfer(transfer);
-
-//      userService.listAllUsers(currentUser);
+        userService.listAllUsers();
+        transferService.sendBucks();
 	}
 
 	private void requestBucks() {
-        //ONE MORE METHOD TO GO!
-		// TODO Auto-generated method stub
+        userService.listAllUsers();
+        transferService.requestBucks();
 	}
 
-
+    private void viewTransferByTransferId() {
+        Transfer transfer = transferService.findTransferByTransferId();
+        int userId = currentUser.getUser().getId();
+        Account userAccount = accountService.findAccountByUserId(userId);
+        if (transfer != null) {
+                if (transfer.getAccountTo() == userAccount.getAccountId() || transfer.getAccountFrom() == userAccount.getAccountId()) {
+                    System.out.println(transfer.transferDetailsPrintOut());
+                } else {
+                    System.out.println("Either no transfer was found, or you are not authorized to view the matching transfer.");
+                }
+        } else {
+            System.out.println("...or maybe you are not authorized to view said transfer.");
+        }
+    }
 
 }

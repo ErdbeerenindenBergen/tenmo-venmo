@@ -19,6 +19,10 @@ public class UserService {
         BASE_URL = url;
     }
 
+    public void setUser(AuthenticatedUser user) {
+        this.user = user;
+    }
+
     public User findUserById(int id) {
         User user = null;
         try {
@@ -32,14 +36,27 @@ public class UserService {
     public User[] findAllUsers() {
         User[] allUsers = null;
         try {
-            allUsers = restTemplate.exchange(BASE_URL + "s", HttpMethod.GET, makeAuthEntity(), User[].class).getBody();
+            allUsers = restTemplate.exchange(BASE_URL, HttpMethod.GET, makeAuthEntity(), User[].class).getBody();
         } catch (RestClientResponseException | ResourceAccessException e) {
             System.out.println("Users not found.");
         } return allUsers;
     }
 
-    public void setUser(AuthenticatedUser currentUser) {
-        this.user = user;
+    public void listAllUsers() {
+        User[] allUsers = findAllUsers();
+        System.out.println("-------------------------------------------------------------------------------------------");
+        System.out.println("LIST OF AVAILABLE USERS");
+        System.out.println("-------------------------------------------------------------------------------------------");
+        System.out.println("USERS");
+        System.out.println("ID\t\t\t\tNAME");
+        System.out.println("-------------------------------------------------------------------------------------------");
+        for (User u : allUsers) {
+            if (u.getId() != user.getUser().getId()){
+                System.out.println(u.getId() + "\t\t\t" + u.getUsername());
+            }
+        }
+        System.out.println("-------------------------------------------------------------------------------------------");
+        System.out.println();
     }
 
     //not working for some reason
@@ -56,24 +73,5 @@ public class UserService {
         return new HttpEntity<>(headers);
     }
 
+
 }
-
-//_____________________________________________________________________________________________________________________
-
-//    public void listAllUsers(AuthenticatedUser currentUser) {
-//        User[] allUsers = findAllUsers();
-//        System.out.println("-----------------------------------------------------");
-//        System.out.println("LIST OF AVAILABLE USERS");
-//        System.out.println("-----------------------------------------------------");
-//        System.out.println("USERS");
-//        System.out.println("ID\t\t\tNAME");
-//        System.out.println("-----------------------------------------------------");
-//        for (User user : allUsers) {
-//            if (user.getUserId().equals(currentUser.getUser().getUserId())){
-//                continue;
-//            }
-//            System.out.println(user.getUserId() + "\t\t" + user.getUsername());
-//        }
-//        System.out.println("-----------------------------------------------------");
-//        System.out.println();
-//    }

@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 
 @RestController
 @PreAuthorize("isAuthenticated()")
+//"transfer" is added to BASE_API_URL
 @RequestMapping("account")
 public class AccountController {
 
@@ -20,7 +21,6 @@ public class AccountController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(path = "/user/{userId}/balance", method = RequestMethod.GET)
-    //wondering if we should use @PathVariable Principal principal?
     public BigDecimal getBalance(@PathVariable int userId) {
         return accountDao.getBalance(userId);
     }
@@ -33,30 +33,9 @@ public class AccountController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(path = "/{accountId}", method = RequestMethod.GET)
-    //could rename method below in AccountDao to make it clearer to: findAccountByAccountId
     public Account findAccountById(@PathVariable int accountId) {
         return accountDao.findAccountByAccountId(accountId);
     }
 
-
-    //FOR BELOW: NEED accountDao.create/update/delete method to create account
-    //Not sure if we need these yet
-
-//    @ResponseStatus(HttpStatus.CREATED)
-//    @RequestMapping(path = "/", method = RequestMethod.POST)
-//    public boolean create(@Valid @RequestBody Account account) {
-//        return accountDao.create(account);
-//    }
-
-//    @RequestMapping(path = "/{accountId}", method = RequestMethod.PUT)
-//    public boolean update(@Valid @PathVariable int accountId, @RequestBody Account account) {
-//        return accountDao.update(accountId, account);
-//    }
-//
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    @RequestMapping(path = "/{accountId}", method = RequestMethod.DELETE)
-//    public boolean delete(@Valid @PathVariable int id) {
-//        return accountDao.delete(accountId);
-//    }
 
 }
