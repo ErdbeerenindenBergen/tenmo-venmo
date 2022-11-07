@@ -40,6 +40,16 @@ public class TransferService {
         return transferHistory;
     }
 
+    public Transfer[] seeAllTransfers() {
+        Transfer[] transfers = null;
+        try {
+            transfers = restTemplate.exchange(BASE_URL + "/all", HttpMethod.GET, makeAuthEntity(), Transfer[].class).getBody();
+        } catch (RestClientResponseException | ResourceAccessException e) {
+            System.out.println("Transfers cannot be displayed.");
+        }
+        return transfers;
+    }
+
     public Transfer findTransferByTransferId() {
         Transfer transfer = null;
         int transferId = consoleService.promptForInt("Please enter the transfer ID for the transfer you'd like to view: ");
@@ -59,7 +69,6 @@ public class TransferService {
             System.out.println("Transfer failed. Try again.");
         } return transferSuccessReport;
     }
-
 
     public void printTransfers(Transfer[] transfers){
         if (transfers.length == 0) {

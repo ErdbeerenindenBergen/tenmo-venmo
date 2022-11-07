@@ -97,6 +97,7 @@ public class JdbcAccountDao implements AccountDao{
         }
         return account;
     }
+
     private Account mapRowToAccount(SqlRowSet result) {
         Account account = new Account();
         account.setBalance(result.getBigDecimal("balance"));

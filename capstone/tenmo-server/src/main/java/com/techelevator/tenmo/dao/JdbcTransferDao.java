@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.techelevator.tenmo.model.NoTransferFound;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.SqlInOutParameter;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 import com.techelevator.tenmo.model.Transfer;
@@ -17,6 +15,7 @@ public class JdbcTransferDao implements TransferDao {
 
     AccountDao accountDao;
     private JdbcTemplate jdbcTemplate;
+
     public JdbcTransferDao(JdbcTemplate jdbcTemplate, AccountDao accountDao) {
         this.jdbcTemplate = jdbcTemplate;
         this.accountDao = accountDao;
@@ -38,6 +37,22 @@ public class JdbcTransferDao implements TransferDao {
                 "JOIN tenmo_user v ON b.user_id = v.user_id\n" +
                 "WHERE a.user_id = ? OR b.user_id = ?;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId, userId);
+        while (results.next()) {
+            Transfer transfer = mapRowToTransfer(results);
+            transferList.add(transfer);
+        }
+        return transferList;
+    }
+
+    @Override
+    public List<Transfer> seeAllTransfers() {
+        List<Transfer> transferList = new ArrayList<>();
+        String sql = "SELECT t.*, u.user_id AS userFrom, v.user_id AS userTo, u.username AS userFromUsername, v.username AS userToUsername FROM transfer t\n" +
+                "JOIN account a ON t.account_from = a.account_id\n" +
+                "JOIN account b ON t.account_to = b.account_id\n" +
+                "JOIN tenmo_user u ON a.user_id = u.user_id\n" +
+                "JOIN tenmo_user v ON b.user_id = v.user_id\n";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
         while (results.next()) {
             Transfer transfer = mapRowToTransfer(results);
             transferList.add(transfer);
@@ -80,7 +95,7 @@ public class JdbcTransferDao implements TransferDao {
             accountDao.subtractFromBalance(amount, userFromAccountId);
             return "Transfer processed successfully!";
         } else {
-            return "There was a problem processing your transfer.";
+            return "There was a problem processing your transfer. You may have entered zero or a negative number.";
         }
     }
 
@@ -113,7 +128,7 @@ public class JdbcTransferDao implements TransferDao {
             jdbcTemplate.update(sql, userFromId, userToId, amount);
             return "Request has been sent!";
         } else {
-            return "There was a problem processing your request.";
+            return "There was a problem processing your request. You may have entered zero or a negative number.";
         }
     }
 
@@ -169,7 +184,6 @@ public class JdbcTransferDao implements TransferDao {
         }
 
     }
-
 
     private Transfer mapRowToTransfer (SqlRowSet results) {
         Transfer transfer = new Transfer();

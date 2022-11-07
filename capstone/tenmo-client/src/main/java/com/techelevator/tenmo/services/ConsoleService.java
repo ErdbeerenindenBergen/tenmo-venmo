@@ -54,6 +54,7 @@ public class ConsoleService {
         return new UserCredentials(username, password);
     }
 
+
     public String promptForString(String prompt) {
         System.out.print(prompt);
         return scanner.nextLine();

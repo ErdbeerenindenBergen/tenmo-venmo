@@ -46,7 +46,7 @@ public class AuthenticationController {
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = tokenProvider.createToken(authentication, false);
-        
+
         User user = userDao.findByUsername(loginDto.getUsername());
 
         return new LoginResponseDTO(jwt, user);
@@ -60,5 +60,12 @@ public class AuthenticationController {
         }
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(value = "/register-admin", method = RequestMethod.POST)
+    public void registerAsAdmin(@Valid @RequestBody RegisterUserDTO newAdmin) {
+        if (!userDao.createAdmin(newAdmin.getUsername(), newAdmin.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Admin registration failed.");
+        }
+    }
 }
 

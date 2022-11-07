@@ -47,9 +47,22 @@ public class AuthenticationService {
         return success;
     }
 
+    public boolean registerAsAdmin(UserCredentials credentials) {
+        HttpEntity<UserCredentials> entity = createCredentialsEntity(credentials);
+        boolean success = false;
+        try {
+            restTemplate.exchange(baseUrl + "register-admin", HttpMethod.POST, entity, Void.class);
+            success = true;
+        } catch (RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
+        return success;
+    }
+
     private HttpEntity<UserCredentials> createCredentialsEntity(UserCredentials credentials) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         return new HttpEntity<>(credentials, headers);
     }
+
 }

@@ -71,8 +71,11 @@ INSERT INTO transfer_status (transfer_status_desc) VALUES ('Rejected');
 INSERT INTO transfer_type (transfer_type_desc) VALUES ('Request');
 INSERT INTO transfer_type (transfer_type_desc) VALUES ('Send');
 
+--I think there is an error below in the insert statement because passwords are not inserted hashed.
 INSERT INTO tenmo_user (username,password_hash,role) VALUES ('user1','user1','ROLE_USER'); -- 1001
 INSERT INTO tenmo_user (username,password_hash,role) VALUES ('user2','user2','ROLE_USER'); -- 1002
 INSERT INTO tenmo_user (username,password_hash,role) VALUES ('user3','user3','ROLE_USER');
+INSERT INTO tenmo_user (username,password_hash,role) VALUES ('admin','$2a$10$NFs.x0OBy0HKlegMqkGgBO58ZxZJj1a99k0xs/RQcRVd3dQ3gdmNC','ROLE_ADMIN');
+
 
 COMMIT TRANSACTION;

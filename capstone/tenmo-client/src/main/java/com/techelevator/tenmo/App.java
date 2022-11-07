@@ -1,12 +1,10 @@
 package com.techelevator.tenmo;
 
-import com.techelevator.tenmo.model.Account;
-import com.techelevator.tenmo.model.AuthenticatedUser;
-import com.techelevator.tenmo.model.Transfer;
-import com.techelevator.tenmo.model.UserCredentials;
+import com.techelevator.tenmo.model.*;
 import com.techelevator.tenmo.services.*;
 
 import java.util.List;
+import java.util.Objects;
 
 public class App {
 
@@ -45,9 +43,11 @@ public class App {
             menuSelection = consoleService.promptForMenuSelection("Please choose an option: ");
             if (menuSelection == 1) {
                 handleRegister();
-            } else if (menuSelection == 2) {
+            } else if (menuSelection == 7) {
+                handleRegisterAsAdmin();
+            }else if (menuSelection == 2) {
                 handleLogin();
-            } else if (menuSelection != 0) {
+            }  else if (menuSelection != 0) {
                 System.out.println("Invalid Selection");
                 consoleService.pause();
             }
@@ -61,6 +61,21 @@ public class App {
             System.out.println("Registration successful. You can now login.");
         } else {
             consoleService.printErrorMessage();
+        }
+    }
+
+    private void handleRegisterAsAdmin() {
+        String companyPassword = consoleService.promptForString("You know what to do: ");
+        if (Objects.equals(companyPassword, "OneDoesNotSimplyWalkIntoThisApp")) {
+            System.out.println("Please register your account.");
+            UserCredentials credentials = consoleService.promptForCredentials();
+            if (authenticationService.registerAsAdmin(credentials)) {
+                System.out.println("Registration successful. You can now login.");
+            } else {
+                consoleService.printErrorMessage();
+            }
+        } else {
+            System.out.println("Or maybe you don't...");
         }
     }
 

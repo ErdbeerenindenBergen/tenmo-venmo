@@ -36,6 +36,18 @@ public class TransferController {
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping (path = "/all", method = RequestMethod.GET)
+    public List<Transfer> getAllTransfers() {
+        List<Transfer> transfers = transferDao.seeAllTransfers();
+
+        if (transfers == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No transfers could be found.");
+        } else {
+            return transfers;
+        }
+    }
+
     @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(path = "/user/{userId}", method = RequestMethod.GET)
     public List<Transfer> allTransfersByUserId(@PathVariable int userId) {
@@ -76,6 +88,7 @@ public class TransferController {
     public String updateTransfer(@Valid @RequestBody Transfer transfer, @PathVariable int statusId) {
         return transferDao.updateTransferRequest(transfer, statusId);
     }
+
 
 
 }

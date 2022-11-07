@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class JdbcUserDao implements UserDao {
@@ -78,7 +79,7 @@ public class JdbcUserDao implements UserDao {
     public boolean create(String username, String password) {
 
         // create user
-        String sql = "INSERT INTO tenmo_user (username, password_hash) VALUES (?, ?) RETURNING user_id;";
+        String sql = "INSERT INTO tenmo_user (username, password_hash, role) VALUES (?, ?, 'USER') RETURNING user_id;";
         String password_hash = new BCryptPasswordEncoder().encode(password);
         Integer newUserId;
         newUserId = jdbcTemplate.queryForObject(sql, Integer.class, username, password_hash);
@@ -96,12 +97,59 @@ public class JdbcUserDao implements UserDao {
         return true;
     }
 
+    @Override
+    public boolean createAdmin(String username, String password) {
+
+        // create user
+        String sql = "INSERT INTO tenmo_user (username, password_hash, role) VALUES (?, ?, 'ADMIN') RETURNING user_id;";
+        String password_hash = new BCryptPasswordEncoder().encode(password);
+        Integer newUserId;
+        newUserId = jdbcTemplate.queryForObject(sql, Integer.class, username, password_hash);
+
+        if (newUserId == null) return false;
+
+        //probably don't need an account generated (below) for admin functionality
+        // create account
+        sql = "INSERT INTO account (user_id, balance) values(?, ?);";
+        try {
+            jdbcTemplate.update(sql, newUserId, STARTING_BALANCE);
+        } catch (DataAccessException e) {
+            return false;
+        }
+
+        return true;
+    }
+
+//    @Override
+//    public boolean create(String username, String password) {
+//
+//        // create user
+//        String sql = "INSERT INTO tenmo_user (username, password_hash) VALUES (?, ?) RETURNING user_id;";
+//        String password_hash = new BCryptPasswordEncoder().encode(password);
+//        Integer newUserId;
+//        newUserId = jdbcTemplate.queryForObject(sql, Integer.class, username, password_hash);
+//
+//        if (newUserId == null) return false;
+//
+//        // create account
+//        sql = "INSERT INTO account (user_id, balance) values(?, ?);";
+//        try {
+//            jdbcTemplate.update(sql, newUserId, STARTING_BALANCE);
+//        } catch (DataAccessException e) {
+//            return false;
+//        }
+//
+//        return true;
+//    }
+
     private User mapRowToUser(SqlRowSet rs) {
         User user = new User();
         user.setId(rs.getInt("user_id"));
         user.setUsername(rs.getString("username"));
         user.setPassword(rs.getString("password_hash"));
         user.setActivated(true);
+//        user.setAuthorities(Objects.requireNonNull(rs.getString("role")));
+        //going to need rs.getString("");
         user.setAuthorities("USER");
         return user;
     }
