@@ -137,10 +137,10 @@ public class App {
                 if (transfer.getAccountTo() == userAccount.getAccountId() || transfer.getAccountFrom() == userAccount.getAccountId()) {
                     System.out.println(transfer.transferDetailsPrintOut());
                 } else {
-                    System.out.println("Either your transfer was not found, or you are not authorized to view it.");
+                    System.out.println("Either no transfer was found, or you are not authorized to view the matching transfer.");
                 }
         } else {
-            System.out.println("...or maybe you are not authorized to view it.");
+            System.out.println("...or maybe you are not authorized to view said transfer.");
         }
     }
 

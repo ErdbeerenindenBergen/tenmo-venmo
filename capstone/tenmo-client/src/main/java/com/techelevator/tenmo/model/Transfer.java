@@ -145,13 +145,11 @@ public class Transfer {
         return formatter.format(bigDecimal);
     }
 
-
-
     public String transferDetailsPrintOut() {
 
-        return  "\n-------------------------------------------------------------" +
+        return  "\n-------------------------------------------------------------------------------------------" +
                 "\n Transfer Details: " +
-                "\n-------------------------------------------------------------" +
+                "\n-------------------------------------------------------------------------------------------" +
                 "\n Transfer ID:    " + transferId +
 //                "\n From Account:   " + accountFrom +
 //                "\n To Account:     " + accountTo +
@@ -162,7 +160,7 @@ public class Transfer {
                 "\n Type:           " + displayTransferType(transferTypeId) +
                 "\n Status:         " + displayTransferStatus(transferStatusId) +
                 "\n Amount:         " + displayAsCurrency(amount) +
-                "\n-------------------------------------------------------------";
+                "\n-------------------------------------------------------------------------------------------";
     }
 
 }

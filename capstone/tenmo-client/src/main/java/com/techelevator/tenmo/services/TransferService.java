@@ -96,19 +96,20 @@ public class TransferService {
         boolean matchFound = false;
         for (Transfer transfer : pendingTransfersList) {
             if (userSelection == 0) {
+                System.out.println("You have opted not to update any pending transfers.");
                 break;
             }
             if (transfer.getAccountTo() != userAccount.getAccountId()) {
                 if (transfer.getTransferId() == userSelection) {
                     matchFound = true;
-                    System.out.println("-------------------------------------------------------------\r\n");
+                    System.out.println("-------------------------------------------------------------------------------------------\r\n");
                     System.out.println("You have selected the following transfer: \r\n");
                     System.out.println(transfer.transferDetailsPrintOut());
                     int userChoice = consoleService.promptForInt(
                             "1: Approve\r\n" +
                             "2: Reject\r\n" +
                             "0: Don't approve or reject\r\n" +
-                            "-------------------------------------------------------------\r\n" +
+                            "-------------------------------------------------------------------------------------------\r\n" +
                             "Please enter a number to choose the corresponding option: ");
                     if (userChoice == 1 || userChoice == 2) {
                         int newTransferStatusId = userChoice + 1;
@@ -120,15 +121,12 @@ public class TransferService {
                         System.out.println("You have entered an invalid option.");
                     }
                 }
-//                else {
-//                    //THIS PRINTS EVERY TIME
-//                    System.out.println("No transfer matching the ID you entered could be found.");
-//                }
-            } else {
+            } else if (transfer.getTransferId() == userSelection && transfer.getAccountTo() == userAccount.getAccountId()){
                     System.out.println("You can't approve or reject your own requested transfer, but nice try! :)");
+                    matchFound = true;
                     break;
             }
-        } if (matchFound == false) {
+        } if (!matchFound && userSelection != 0) {
             System.out.println("The transfer ID you entered was invalid.");
         }
     }
@@ -137,7 +135,7 @@ public class TransferService {
         accountService.setUser(user);
         Transfer transfer = new Transfer();
         try {
-            int userSelection = consoleService.promptForInt("------------------------------------------------\r\n" +
+            int userSelection = consoleService.promptForInt("------------------------------------------------------------------------------\r\n" +
                     "Enter the user ID of the user you are requesting from (or enter 0 to cancel): ");
             Account requestAccount = accountService.findAccountByUserId(userSelection);
             transfer.setAccountFrom(requestAccount.getAccountId());
@@ -162,7 +160,7 @@ public class TransferService {
         accountService.setUser(user);
         Transfer transfer = new Transfer();
         try {
-            int userSelection = consoleService.promptForInt("-----------------------------------------------------\r\n" +
+            int userSelection = consoleService.promptForInt("-----------------------------------------------------------------------------------\r\n" +
                     "Enter the user ID of the user you are sending to (or enter 0 to cancel): ");
             transfer.setUserFrom(user.getUser().getId());
             transfer.setUserTo(userSelection);

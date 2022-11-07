@@ -44,18 +44,18 @@ public class UserService {
 
     public void listAllUsers() {
         User[] allUsers = findAllUsers();
-        System.out.println("-----------------------------------------------------");
+        System.out.println("-----------------------------------------------------------------------------------");
         System.out.println("LIST OF AVAILABLE USERS");
-        System.out.println("-----------------------------------------------------");
+        System.out.println("-----------------------------------------------------------------------------------");
         System.out.println("USERS");
         System.out.println("ID\t\t\t\tNAME");
-        System.out.println("-----------------------------------------------------");
+        System.out.println("-----------------------------------------------------------------------------------");
         for (User u : allUsers) {
             if (u.getId() != user.getUser().getId()){
                 System.out.println(u.getId() + "\t\t\t" + u.getUsername());
             }
         }
-        System.out.println("-----------------------------------------------------");
+        System.out.println("-----------------------------------------------------------------------------------");
         System.out.println();
     }
 
