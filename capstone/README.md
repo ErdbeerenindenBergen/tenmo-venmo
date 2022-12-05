@@ -1,3 +1,9 @@
+# TEnmo - A Venmo Application in Java
+
+This project was completed as a second capstone project for Tech Elevator's Java Bootcamp. It is a command line interface program that works like Venmo -- users can send "bucks" to each other.
+
+All requirements and all optional requirements were met.
+
 # Module 2 Capstone - TEnmo
 
 Congratulations—you've landed a job with TEnmo, whose product is an online payment service for transferring "TE bucks" between friends. However, they don't have a product yet. You've been tasked with writing a RESTful API server and command-line application.
