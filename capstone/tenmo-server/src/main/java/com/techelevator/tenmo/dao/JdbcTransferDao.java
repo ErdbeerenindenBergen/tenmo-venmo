@@ -26,7 +26,6 @@ public class JdbcTransferDao implements TransferDao {
         jdbcTemplate.update(sql, transfer.getTransferTypeId(), transfer.getTransferStatusId(), transfer.getAccountFrom(), transfer.getAccountTo(), transfer.getAmount());
     }
 
-    //I accidentally edited the method below "getAllTransfersByUserId" without saving the original dao method.
     @Override
     public List<Transfer> getAllTransfersByUserId(int userId) {
         List<Transfer> transferList = new ArrayList<>();
@@ -79,17 +78,12 @@ public class JdbcTransferDao implements TransferDao {
     }
 
     @Override
-    //refactored userFromId and userToId to userFromAccountId and userToAccountId because these were confusing all of us
-    //(the reason accountDao wasn't updating was because we were calling methods by userId instead of accountId)
     public String sendTransfer(int userFromAccountId, int userToAccountId, BigDecimal amount) {
         if (userFromAccountId == userToAccountId) {
             return "You can't send yourself money!";
-            //had to create new method in AccountDao that would search by accountId and implement below
-            //had to google .compareTo method below to make sure I'm using it correctly
         } else if (amount.compareTo(accountDao.getBalanceByAccountId(userFromAccountId)) == -1 && amount.compareTo(new BigDecimal(0)) == 1) {
             String sql = "INSERT INTO transfer (transfer_type_id, transfer_status_id, account_from, account_to, amount) " +
                          "VALUES (2,2,?,?,?);";
-            //amount was missing as an input variable below
             jdbcTemplate.update(sql, userFromAccountId, userToAccountId, amount);
             accountDao.addToBalance(amount, userToAccountId);
             accountDao.subtractFromBalance(amount, userFromAccountId);
@@ -98,24 +92,6 @@ public class JdbcTransferDao implements TransferDao {
             return "There was a problem processing your transfer. You may have entered zero or a negative number.";
         }
     }
-
-//ORIGINAL METHOD BELOW
-//    @Override
-//    public String sendTransfer(int userFromId, int userToId, BigDecimal amount) {
-//        if (userFromId == userToId) {
-//            return "You can't send yourself money!";
-//        }
-//        if (amount.compareTo(accountDao.getBalance(userFromId)) <= 0) {
-//            return "There was a problem processing your transfer.";
-//        } else {
-//            String sql = "INSERT INTO transfer (transfer_type_id, transfer_status_id, account_from, account_to, amount) " +
-//                         "VALUES (2,2,?,?,?);";
-//            jdbcTemplate.update(sql, userFromId, userToId);
-//            accountDao.addToBalance(amount, userToId);
-//            accountDao.subtractFromBalance(amount, userFromId);
-//            return "Transfer processed successfully!";
-//        }
-//    }
 
     @Override
     public String requestTransfer(int userFromId, int userToId, BigDecimal amount) {
@@ -148,22 +124,6 @@ public class JdbcTransferDao implements TransferDao {
         return pendingRequests;
     }
 
-// ORIGINAL METHOD BELOW
-//        @Override
-//        public List<Transfer> getPendingRequests ( int userId){
-//            List<Transfer> pendingRequests = new ArrayList<>();
-//            String sql = "SELECT transfer.* FROM transfer " +
-//                    "JOIN account ON transfer.account_from = account.account_id OR transfer.account_to = account.account_id " +
-//                    "JOIN tenmo_user ON account.user_id = tenmo_user.user_id " +
-//                    "WHERE transfer_status_id = 1 AND (account_from = ? OR account_to = ?);";
-//            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId, userId);
-//            while (results.next()) {
-//                Transfer transfer = mapRowToTransfer(results);
-//                pendingRequests.add(transfer);
-//            }
-//            return pendingRequests;
-//        }
-
     @Override
     public String updateTransferRequest(Transfer transfer, int statusId) {
         if (statusId == 3) {
@@ -171,8 +131,6 @@ public class JdbcTransferDao implements TransferDao {
             jdbcTemplate.update(sql, statusId, transfer.getTransferId());
             return "Update successful! This transfer has been rejected.";
         } else
-        //If they do not have a negative balance, update the request
-        //updated method below to fix getBalance issue (called new method in accountDao to find balance by accountId) -kassi
         if (!(accountDao.getBalanceByAccountId(transfer.getAccountFrom()).compareTo(transfer.getAmount()) < 0)) {
             String sql = "UPDATE transfer SET transfer_status_id = ? WHERE transfer_id = ?;";
             jdbcTemplate.update(sql, statusId, transfer.getTransferId());
@@ -182,7 +140,6 @@ public class JdbcTransferDao implements TransferDao {
         } else {
             return "You don't have enough funds for this transfer.";
         }
-
     }
 
     private Transfer mapRowToTransfer (SqlRowSet results) {

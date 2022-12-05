@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1098a074-8c9c-4d78-8763-5c7589339574" name="Changes" comment="" />
+    <list default="true" id="1098a074-8c9c-4d78-8763-5c7589339574" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tenmo-server/src/main/java/com/techelevator/tenmo/dao/JDBCAccountDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/tenmo-server/src/main/java/com/techelevator/tenmo/dao/JdbcAccountDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tenmo-server/src/main/java/com/techelevator/tenmo/dao/JdbcTransferDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/tenmo-server/src/main/java/com/techelevator/tenmo/dao/JdbcTransferDao.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -18,6 +22,9 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -29,15 +36,21 @@
     </option>
   </component>
   <component name="ProjectId" id="2Gzg31rLPgJIP8fyW72E5NgGfNn" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../kevin-apolinario-student-code/module-2/08_DAO_Testing" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/Users/kassiburnett/IdeaProjects/tenmo-venmo/capstone",
+    "nodejs_package_manager_path": "npm",
+    "spring.configuration.checksum": "476420089fa251b7bf8a12492c0a1fa5"
+  }
+}]]></component>
   <component name="RunManager" selected="JUnit.JdbcTransferDaoTest.getAllTransfersById_returns_correct_transfers">
     <configuration name="JdbcAccountDaoTest.getAccountByUserId_returns_correct_account_id" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="m02-capstone-server" />
@@ -136,8 +149,23 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1667396623332</updated>
+      <workItem from="1670201580101" duration="456000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
